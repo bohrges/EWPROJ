@@ -19,7 +19,6 @@ var datasetRouter = require('./routes/index');
 
 var app = express();
 
-app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());

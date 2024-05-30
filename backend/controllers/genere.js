@@ -1,14 +1,43 @@
 const mongoose = require("mongoose");
 const Genere = require("../models/genere"); // Ensure the correct path to your model file
 
-module.exports.list = () => {
-    return Genere
-        .find() // Retrieves all documents from the 'generes' collection
-        .sort({_id : 1}) // Sorts the results by the 'nome' field in ascending order
-        .exec(); // Executes the query
+// Return a promise that resolves with both totalCount and the paginated results
+module.exports.getGeneresPaginated = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments()
+        .then(totalCount => 
+            Genere.find()
+                .sort({_id: 1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
 };
 
-/*
+module.exports.findByName = name => {
+    return Genere
+        .find({UnitTitle : name}) // Finds all documents that contain the specified 'name' in the 'nome' field
+        .sort({UnitTitle : 1}) // Sorts the results by the 'nome' field in ascending order
+        .exec(); // Executes the query
+}
+
+module.exports.findByPlace = place => {
+    return Genere
+        .find({local : place}) // Finds all documents that contain the specified 'place' in the 'local' field
+        .sort({nome : 1}) // Sorts the results by the 'nome' field in ascending order
+        .exec(); // Executes the query
+}
+
+module.exports.findByDate = date => {
+    return Genere
+        .find({data : date}) // Finds all documents that contain the specified 'date' in the 'data' field
+        .sort({nome : 1}) // Sorts the results by the 'nome' field in ascending order
+        .exec(); // Executes the query
+}
+
 module.exports.listModalidades = () => {
     return Genere
     .distinct('desportos')
@@ -45,5 +74,4 @@ module.exports.findAtletasByModalidade = modalidade => {
         .exec(); // Executes the query
 }
 
-*/
 

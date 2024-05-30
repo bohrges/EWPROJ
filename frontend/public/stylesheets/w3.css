@@ -230,3 +230,25 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-border-dark-grey,.w3-hover-border-dark-grey:hover,.w3-border-dark-gray,.w3-hover-border-dark-gray:hover{border-color:#616161!important}
 .w3-border-pale-red,.w3-hover-border-pale-red:hover{border-color:#ffe7e7!important}.w3-border-pale-green,.w3-hover-border-pale-green:hover{border-color:#e7ffe7!important}
 .w3-border-pale-yellow,.w3-hover-border-pale-yellow:hover{border-color:#ffffcc!important}.w3-border-pale-blue,.w3-hover-border-pale-blue:hover{border-color:#e7ffff!important}
+/* Ensures scrollbars are visible when content overflows */
+.table-responsive {
+    overflow-x: auto;
+    scrollbar-width: auto; /* for Firefox */
+    -ms-overflow-style: scrollbar; /* for Internet Explorer and Edge */
+  }
+  
+  /* For WebKit browsers */
+  .table-responsive::-webkit-scrollbar {
+    height: 16px; /* height of horizontal scrollbar */
+    background-color: #f5f5f5; /* scrollbar track color */
+  }
+  
+  .table-responsive::-webkit-scrollbar-thumb {
+    background-color: #888; /* scrollbar handle color */
+  }
+  
+  .table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555; /* scrollbar handle color on hover */
+  }
+  
+  
