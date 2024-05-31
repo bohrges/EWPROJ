@@ -14,22 +14,101 @@ block content
       p Title Type: #{genere.UnitTitleType}
       p Title: #{genere.UnitTitle}
       p Alternative Title: #{genere.AlternativeTitle}
+      p Normalized Forms Name: #{genere.NormalizedFormsName}
+      p Other Forms Name: #{genere.OtherFormsName}
       p Initial Date: #{genere.UnitDateInitial}
       p Final Date: #{genere.UnitDateFinal}
-      p Author: #{genere.Author}
-      p Contributor: #{genere.Contributor}
+      p Initial Date Certainty: #{genere.UnitDateInitialCertainty}
+      p Final Date Certainty: #{genere.UnitDateFinalCertainty}
+      p Allow Unit Dates Inference: #{genere.AllowUnitDatesInference}
+      p Accumulation Dates: #{genere.AccumulationDates}
+      p Unit Date Bulk: #{genere.UnitDateBulk}
+      p Unit Date Notes: #{genere.UnitDateNotes}
       p Dimensions: #{genere.Dimensions}
+      p Allow Extents Inference: #{genere.AllowExtentsInference}
       p Repository: #{genere.Repository}
       p Producer: #{genere.Producer}
-      p Scope Content: #{genere.ScopeContent}
+      p Author: #{genere.Author}
+      p Material Author: #{genere.MaterialAuthor}
+      p Contributor: #{genere.Contributor}
+      p Recipient: #{genere.Recipient}
+      p Biographical History: #{genere.BiogHist}
+      p Legal Status: #{genere.LegalStatus}
+      p Functions: #{genere.Functions}
+      p Authorities: #{genere.Authorities}
+      p Internal Structure: #{genere.InternalStructure}
+      p General Context: #{genere.GeneralContext}
+      p Custodial History: #{genere.CustodHist}
+      p Acquisition Information: #{genere.AcqInfo}
+      p Classifier: #{genere.Classifier}
+      p Scope and Content: #{genere.ScopeContent}
+      p Terms: #{genere.Terms}
+      p Documental Tradition: #{genere.DocumentalTradition}
+      p Documental Typology: #{genere.DocumentalTypology}
+      p Marks: #{genere.Marks}
+      p Monograms: #{genere.Monograms}
+      p Stamps: #{genere.Stamps}
+      p Inscriptions: #{genere.Inscriptions}
+      p Signatures: #{genere.Signatures}
+      p Appraisal: #{genere.Appraisal}
+      p Appraisal Elimination: #{genere.AppraisalElimination}
+      p Appraisal Elimination Date: #{genere.AppraisalEliminationDate}
+      p Accruals: #{genere.Accruals}
+      p Arrangement: #{genere.Arrangement}
       p Access Restrictions: #{genere.AccessRestrict}
       p Use Restrictions: #{genere.UseRestrict}
       p Physical Location: #{genere.PhysLoc}
-      p Status: #{genere.Status}
-      p Retention Disposal: #{genere.RetentionDisposalDocumentState}
-      // Include other fields as necessary
+      p Original Numbering: #{genere.OriginalNumbering}
+      p Previous Location: #{genere.PreviousLoc}
+      p Language of Material: #{genere.LangMaterial}
+      p Physical Technical: #{genere.PhysTech}
+      p Other Finding Aid: #{genere.OtherFindAid}
+      p Container Type Term: #{genere.ContainerTypeTerm}
+      p Originals Location: #{genere.OriginalsLoc}
+      p Alternative Form Available: #{genere.AltFormAvail}
+      p Related Material: #{genere.RelatedMaterial}
+      p Note: #{genere.Note}
+      p Allow Textual Content Inference: #{genere.AllowTextualContentInference}
+      p Textual Content: #{genere.TextualContent}
+      p Retention Disposal Document State: #{genere.RetentionDisposalDocumentState}
+      p Apply Selection Table: #{genere.ApplySelectionTable}
+      p Retention Disposal Policy: #{genere.RetentionDisposalPolicy}
+      p Retention Disposal Reference: #{genere.RetentionDisposalReference}
+      p Retention Disposal Classification: #{genere.RetentionDisposalClassification}
+      p Retention Disposal Period: #{genere.RetentionDisposalPeriod}
+      p Retention Disposal Apply Date: #{genere.RetentionDisposalApplyDate}
+      p Retention Disposal Final Destination: #{genere.RetentionDisposalFinalDestination}
+      p Retention Disposal Observations: #{genere.RetentionDisposalObservations}
+      p Description Rules: #{genere.DescRules}
+      p Revised: #{genere.Revised}
+      p Published: #{genere.Published}
+      p Available: #{genere.Available}
+      p Highlighted: #{genere.Highlighted}
+      p Creator: #{genere.Creator}
+      p Created: #{genere.Created}
+      p Username: #{genere.Username}
+      p Process Information Date: #{genere.ProcessInfoDate}
+      p Other Descriptive Data: #{genere.OtherDescriptiveData}
+      p Process Information: #{genere.ProcessInfo}
+      p Father: #{genere.Father}
+      p Mother: #{genere.Mother}
+      p Name: #{genere.Name}
+      p Location: #{genere.Lugar}
+      p County: #{genere.Concelho}
+      p District: #{genere.Distrito}
+
+
+      if genere.Relationships && genere.Relationships.length > 0
+        h2 Relationships
+        each rel in genere.Relationships
+          div.w3-panel.w3-border
+            p ID: 
+              a(href=`/${rel._id}`) #{rel._id}
+            p Relation: #{rel.Relationship}
 
     a.w3-button.w3-blue(href="/") Return to Main Page
 
-  footer.w3-container.w3-green 
+  footer.w3-container.w3-green
     address Generated by Grupo12::EngWeb2024 on #{data}
+
+

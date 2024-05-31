@@ -3,72 +3,92 @@ import json
 import re
 
 def get_relationships(row):
-    relationships = [] #(proc, kinship)
+    relationships = []
     kinship = re.compile(r"([\wãẽô\s]+)\.\s*Proc\.(\d+)")
-    
     kinship_matches = kinship.findall(row)
-
     for match in kinship_matches:
         relationships.append((match[1], match[0]))
-    
-
-    #if relationships:
-    #    print(relationships)
-    
     return relationships
 
 def get_parents(row):
     parent = re.compile(r"Filiação:\s([^.]+)\se\s*([^.]+)")
     father = ""
     mother = ""
-
     for match in parent.findall(row):
         father = match[0]
         mother = match[1]
-
-        # print(father)
-        # print(mother)
-
     return father, mother
 
-# Function to convert a CSV to JSON and encapsulate the students in a dataset list
+def get_name(row):
+    name = re.compile(r'Inquirição de genere de (.+)$')
+    for match in name.findall(row):
+        return match
+
+def get_lugar(row):
+    lugar = re.compile(r'em ([\w\s\-,éãç]+), a(?:c*)tual')
+    for match in lugar.findall(row):
+        return match
+
+def get_concelho(row):
+    concelho = re.compile(r'concelho de ([\w\s\-,éãç]+)(?:\.| e dist)')
+    for match in concelho.findall(row):
+        return match
+
+def get_distrito(row):
+    distrito = re.compile(r'distrito (?:de|\(ou país\)) ([\w\s\-,éãç]+)')
+    for match in distrito.findall(row):
+        return match
+
+
 def csv_to_json(csvFilePath, jsonFilePath):
-    
-    # Initialize a list to hold all student records
     inqs = []
-    
-    # Open a csv reader called DictReader
     with open(csvFilePath, encoding='utf-8') as csvf:
         csvReader = csv.DictReader(csvf, delimiter=';')
-
-        #print(csvReader.fieldnames)  # This will show all column names
-        
-        # Convert each row into a dictionary and add it to the list alunos
-        for row in csvReader:
-            # Handle the Byte Order Mark (BOM) if present in the 'ID' key
+        # Deleting the first row
+        next(csvReader)
+        for row in csvReader:  
+                    
+            # Deleting the 'ID' column
             if '\ufeffID' in row:
-                row['_id'] = row.pop('\ufeffID')
+                row.pop('\ufeffID')
             else:
-                row['_id'] = row.pop('ID')
+                row.pop('ID')
+            
+            # Renaming the 'UnitId' column to '_id'
+            row['_id'] = row.pop('UnitId')
 
-            # Handle familiar relations
-            row['relationships'] = get_relationships(row['RelatedMaterial'])
-            row['father'] = (get_parents(row['ScopeContent']))[0]
-            row['mother'] = (get_parents(row['ScopeContent']))[1]
+            # Getting the name of the person
+            row['Name'] = get_name(row['UnitTitle'])
+
+            # Getting the familiar relationships
+            relationships = get_relationships(row['RelatedMaterial'])
+            row['Relationships'] = []
+            for r in relationships:
+                # Might need to add 0s
+                if len(r[0]) < 5:   
+                    new_id = '0'*(5-len(r[0])) + r[0]
+                row['Relationships'].append({'_id': new_id, 'Relationship': r[1]})
+
+            # Changing stuff on the ScopeContent column
+            row['ScopeContent'] = row['ScopeContent'].replace(';', ',')
+
+            # Getting the parents
+            parents = get_parents(row['ScopeContent'])
+            row['Father'] = parents[0]
+            row['Mother'] = parents[1]
+
+            # Getting the location
+            row['Lugar'] = get_lugar(row['ScopeContent'])
+            row['Concelho'] = get_concelho(row['ScopeContent'])
+            row['Distrito'] = get_distrito(row['ScopeContent'])
 
             inqs.append(row)
 
-        print(row)  # This will show all column names
-
-    # Open a json writer, and use the json.dumps() function to dump the list of students
     with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
         json.dump(inqs, jsonf, ensure_ascii=False)
-        
-# Driver Code
 
-# Decide the two file paths according to your computer system
+    print("Conversion completed!")
+
 csvFilePath = r'PT-UM-ADB-DIO-MAB-006.CSV'
 jsonFilePath = r'db.json'
-
-# Call the make_json function
 csv_to_json(csvFilePath, jsonFilePath)

@@ -21,6 +21,84 @@ router.get('/', function(req, res, next) {
       });
 });
 
+/* GET search by name */
+router.get('/search', function(req, res, next) {
+  const limit = 500;
+  const page = parseInt(req.query.page) || 0;
+  const type = req.query.searchType;
+  const val = req.query.searchValue;
+  var tmp = "";
+
+  if (type == "name") {
+    tmp = Genere.findByName(page, limit, val) 
+  }
+  else if (type == "date") {
+    tmp = Genere.findByDate(page, limit, val)
+  }
+  else if (type == "location") {
+    tmp = Genere.findByLocation(page, limit, val)
+  }
+  else if (type == "county") {
+    tmp = Genere.findByCounty(page, limit, val)
+  }
+  else if (type == "district") {
+    tmp = Genere.findByDistrict(page, limit, val)
+  }
+
+  tmp
+    .then((data) => {
+      const totalPages = Math.ceil(data.totalCount/limit); 
+      res.jsonp({
+          generes: data.generes,
+          totalPages: totalPages
+      });
+  })
+  .catch(error => {
+      console.error("Failed to fetch generes:", error);
+      res.status(500).render('error', { message: "Error retrieving data", error: error });
+  });
+});
+
+
+/* GET sort */
+router.get('/sort', function(req, res, next) {
+  const limit = 500;
+  const page = parseInt(req.query.page) || 0;
+  const sortType = req.query.sortType;
+  var tmp = "";
+
+  if (sortType == "name") {
+    tmp = Genere.sortByName(page, limit, sortType)
+  }
+  else if (sortType == "nameDesc") {
+    tmp = Genere.sortByNameDesc(page, limit, sortType)
+  }
+  else if (sortType == "year") {
+    tmp = Genere.sortByDate(page, limit, sortType)
+  }
+  else if (sortType == "yearDesc") {
+    tmp = Genere.sortByDateDesc(page, limit, sortType)
+  }
+  else if (sortType == "location") {
+    tmp = Genere.sortByLocation(page, limit, sortType)
+  }
+  else if (sortType == "locationDesc") {
+    tmp = Genere.sortByLocationDesc(page, limit, sortType)
+  }
+
+  tmp
+    .then((data) => {
+      const totalPages = Math.ceil(data.totalCount/limit); 
+      res.jsonp({
+          generes: data.generes,
+          totalPages: totalPages
+      });
+  })
+  .catch(error => {
+      console.error("Failed to fetch generes:", error);
+      res.status(500).render('error', { message: "Error retrieving data", error: error });
+  });
+});     
 
 /* GET dataset page. */
 router.get('/:id', function(req, res, next) {
@@ -33,7 +111,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 
-/* GET search by name. */
+/*
 router.get('/search/name/:name', function(req, res, next) {
   Genere.findByName(req.params.name)
   .then((data) => {
@@ -43,7 +121,6 @@ router.get('/search/name/:name', function(req, res, next) {
   });
 });
 
-/* GET search by place. */
 router.get('/search/place/:place', function(req, res, next) {
   Genere.findByPlace(req.params.place)
   .then((data) => {
@@ -53,7 +130,6 @@ router.get('/search/place/:place', function(req, res, next) {
   });
 });
 
-/* GET search by date. */
 router.get('/search/date/:date', function(req, res, next) {
   Genere.findByDate(req.params.date)
   .then((data) => {
@@ -62,5 +138,6 @@ router.get('/search/date/:date', function(req, res, next) {
     res.jsonp(erro)
   });
 });
+*/
 
 module.exports = router;

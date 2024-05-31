@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 // Define nested schema for 'relationships'
 const relationshipSchema = new Schema({
-  id: String,
-  relation: String
-});
-
-// Define nested schema for 'parents'
-const parentsSchema = new Schema({
-  father: String,
-  mother: String
+  _id: String,
+  Relationship: String
 });
 
 // Main schema for the inquiry record
@@ -20,7 +13,6 @@ const genereSchema = new Schema({
   DescriptionLevel: String,
   EntityType: String,
   CompleteUnitId: String,
-  UnitId: String,
   RepositoryCode: String,
   CountryCode: String,
   UnitTitleType: String,
@@ -28,8 +20,8 @@ const genereSchema = new Schema({
   AlternativeTitle: String,
   NormalizedFormsName: String,
   OtherFormsName: String,
-  UnitDateInitial: Date,
-  UnitDateFinal: Date,
+  UnitDateInitial: String,
+  UnitDateFinal: String,
   UnitDateInitialCertainty: Boolean,
   UnitDateFinalCertainty: Boolean,
   AllowUnitDatesInference: Boolean,
@@ -97,15 +89,19 @@ const genereSchema = new Schema({
   Available: Boolean,
   Highlighted: Boolean,
   Creator: String,
-  Created: Date,
+  Created: String,
   Username: String,
-  ProcessInfoDate: Date,
+  ProcessInfoDate: String,
   OtherDescriptiveData: String,
   ProcessInfo: String,
-  relationships: [relationshipSchema],
-  parents: parentsSchema
+  Relationships: [relationshipSchema],
+  father: String,
+  mother: String,
+  lugar: String,
+  concelho: String,
+  distrito: String,
+  name: String
 });
-
 
 const Genere = mongoose.model('genere', genereSchema, 'genere');
 
