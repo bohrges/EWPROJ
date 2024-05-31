@@ -114,6 +114,7 @@ module.exports.sortByName = (page, limit) => {
     return Genere.countDocuments() 
         .then(totalCount =>
             Genere.find()
+                .collation({ locale: 'pt', strength: 2 }) // case-insensitive
                 .sort({Name: 1})
                 .limit(limit)
                 .skip(skip)
@@ -130,6 +131,7 @@ module.exports.sortByNameDesc = (page, limit) => {
     return Genere.countDocuments() 
         .then(totalCount =>
             Genere.find()
+                .collation({ locale: 'pt', strength: 2 })
                 .sort({Name: -1})
                 .limit(limit)
                 .skip(skip)
@@ -179,6 +181,7 @@ module.exports.sortByLocation = (page, limit) => {
     return Genere.countDocuments() 
         .then(totalCount =>
             Genere.find()
+                .collation({ locale: 'pt', strength: 2 })
                 .sort({Lugar: 1})
                 .limit(limit)
                 .skip(skip)
@@ -195,6 +198,7 @@ module.exports.sortByLocationDesc = (page, limit) => {
     return Genere.countDocuments() 
         .then(totalCount =>
             Genere.find()
+                .collation({ locale: 'pt', strength: 2 })
                 .sort({Lugar: -1})
                 .limit(limit)
                 .skip(skip)
@@ -205,7 +209,75 @@ module.exports.sortByLocationDesc = (page, limit) => {
         );
 }
 
+// Presenting 500 records for each page, sorted by county (ascending)
+module.exports.sortByCounty = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments() 
+        .then(totalCount =>
+            Genere.find()
+                .collation({ locale: 'pt', strength: 2 })
+                .sort({Concelho: 1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
+}
 
+// Presenting 500 records for each page, sorted by county (descending)
+module.exports.sortByCountyDesc = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments() 
+        .then(totalCount =>
+            Genere.find()
+                .collation({ locale: 'pt', strength: 2 }) 
+                .sort({Concelho: -1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
+}
+
+// Presenting 500 records for each page, sorted by district (ascending)
+module.exports.sortByDistrict = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments() 
+        .then(totalCount =>
+            Genere.find()
+                .collation({ locale: 'pt', strength: 2 }) 
+                .sort({Distrito: 1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
+}
+
+// Presenting 500 records for each page, sorted by district (descending)
+module.exports.sortByDistrictDesc = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments() 
+        .then(totalCount =>
+            Genere.find()
+                .collation({ locale: 'pt', strength: 2 })
+                .sort({Distrito: -1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
+}
+
+// Record by ID
 module.exports.findById = id => {
     return Genere
         .findOne({_id : id}) 

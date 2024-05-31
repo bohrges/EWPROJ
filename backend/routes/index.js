@@ -85,6 +85,18 @@ router.get('/sort', function(req, res, next) {
   else if (sortType == "locationDesc") {
     tmp = Genere.sortByLocationDesc(page, limit, sortType)
   }
+  else if (sortType == "county") {
+    tmp = Genere.sortByCounty(page, limit, sortType)
+  }
+  else if (sortType == "countyDesc") {
+    tmp = Genere.sortByCountyDesc(page, limit, sortType)
+  }
+  else if (sortType == "district") {
+    tmp = Genere.sortByDistrict(page, limit, sortType)
+  }
+  else if (sortType == "districtDesc") {
+    tmp = Genere.sortByDistrictDesc(page, limit, sortType)
+  }
 
   tmp
     .then((data) => {
