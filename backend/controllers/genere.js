@@ -284,30 +284,21 @@ module.exports.findById = id => {
         .exec(); 
 };
 
-/*
+// Insert a new record
 module.exports.insert = genere => {
-        return Genere.create(genere); // Inserts a new document into the 'generes' collection
+    return Genere.create(genere); 
 };
 
-module.exports.updateGenere = (id, genere) => {
-    return Genere.updateOne({_id : id}, genere); // Updates an existing document in the 'generes' collection
-};
-
+// Delete a record by ID
 module.exports.removeById = id => {
+    console.log("id: " + id);
     return Genere.deleteOne({_id: id});
 }
 
+// Update a record by ID
 module.exports.update = (id, genere) => {
     return Genere.findByIdAndUpdate(id, genere);
 }
 
-module.exports.findAtletasByModalidade = modalidade => {
-    return Genere
-        .find({desportos : modalidade}) // Finds all documents that contain the specified 'modalidade' in the 'desportos' array
-        .sort({nome : 1}) // Sorts the results by the 'nome' field in ascending order
-        // .distinct("_id")
-        .exec(); // Executes the query
-}
 
-*/
 

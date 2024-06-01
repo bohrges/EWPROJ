@@ -9,6 +9,7 @@ const relationshipSchema = new Schema({
 
 // Main schema for the inquiry record
 const genereSchema = new Schema({
+  Id: String, // this one is not used but must be here for exporting
   _id: String,
   DescriptionLevel: String,
   EntityType: String,
@@ -22,14 +23,14 @@ const genereSchema = new Schema({
   OtherFormsName: String,
   UnitDateInitial: String,
   UnitDateFinal: String,
-  UnitDateInitialCertainty: Boolean,
-  UnitDateFinalCertainty: Boolean,
-  AllowUnitDatesInference: Boolean,
+  UnitDateInitialCertainty: String,
+  UnitDateFinalCertainty: String,
+  AllowUnitDatesInference: String,
   AccumulationDates: String,
   UnitDateBulk: String,
   UnitDateNotes: String,
   Dimensions: String,
-  AllowExtentsInference: Boolean,
+  AllowExtentsInference: String,
   Repository: String,
   Producer: String,
   Author: String,
@@ -72,10 +73,10 @@ const genereSchema = new Schema({
   AltFormAvail: String,
   RelatedMaterial: String,
   Note: String,
-  AllowTextualContentInference: Boolean,
+  AllowTextualContentInference: String,
   TextualContent: String,
   RetentionDisposalDocumentState: String,
-  ApplySelectionTable: Boolean,
+  ApplySelectionTable: String,
   RetentionDisposalPolicy: String,
   RetentionDisposalReference: String,
   RetentionDisposalClassification: String,
@@ -84,10 +85,10 @@ const genereSchema = new Schema({
   RetentionDisposalFinalDestination: String,
   RetentionDisposalObservations: String,
   DescRules: String,
-  Revised: Boolean,
-  Published: Boolean,
-  Available: Boolean,
-  Highlighted: Boolean,
+  Revised: String,
+  Published: String,
+  Available: String,
+  Highlighted: String,
   Creator: String,
   Created: String,
   Username: String,
@@ -95,12 +96,12 @@ const genereSchema = new Schema({
   OtherDescriptiveData: String,
   ProcessInfo: String,
   Relationships: [relationshipSchema],
-  father: String,
-  mother: String,
-  lugar: String,
-  concelho: String,
-  distrito: String,
-  name: String
+  Father: String,
+  Mother: String,
+  Lugar: String,
+  Concelho: String,
+  Distrito: String,
+  Name: String
 });
 
 const Genere = mongoose.model('genere', genereSchema, 'genere');

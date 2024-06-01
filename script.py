@@ -47,12 +47,6 @@ def csv_to_json(csvFilePath, jsonFilePath):
         # Deleting the first row
         next(csvReader)
         for row in csvReader:  
-                    
-            # Deleting the 'ID' column
-            if '\ufeffID' in row:
-                row.pop('\ufeffID')
-            else:
-                row.pop('ID')
             
             # Renaming the 'UnitId' column to '_id'
             row['_id'] = row.pop('UnitId')

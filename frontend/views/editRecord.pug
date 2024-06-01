@@ -1,0 +1,204 @@
+extends layout
+
+block content
+  .w3-card-4 
+    header.w3-container.w3-light-grey
+      h1= titulo 
+    .w3-container
+        form.w3-container(method="POST")
+            fieldset
+                legend Metadata
+                label ID
+                input.w3-input.w3-round(type="text" name="Id" value=genere.Id)
+                label UnitId
+                input.w3-input.w3-round(type="text" name="_id" value=genere._id)
+                label DescriptionLevel
+                input.w3-input.w3-round(type="text" name="DescriptionLevel" value=genere.DescriptionLevel)
+                label EntityType
+                input.w3-input.w3-round(type="text" name="EntityType" value=genere.EntityType)
+                label CompleteUnitId
+                input.w3-input.w3-round(type="text" name="CompleteUnitId" value=genere.CompleteUnitId)
+                label RepositoryCode
+                input.w3-input.w3-round(type="text" name="RepositoryCode" value=genere.RepositoryCode)
+                label CountryCode
+                input.w3-input.w3-round(type="text" name="CountryCode" value=genere.CountryCode)
+                label UnitTitleType
+                input.w3-input.w3-round(type="text" name="UnitTitleType" value=genere.UnitTitleType)
+                label UnitTitle
+                input.w3-input.w3-round(type="text" name="UnitTitle" value=genere.UnitTitle)
+                label AlternativeTitle
+                input.w3-input.w3-round(type="text" name="AlternativeTitle" value=genere.AlternativeTitle)
+                label NormalizedFormsName
+                input.w3-input.w3-round(type="text" name="NormalizedFormsName" value=genere.NormalizedFormsName)
+                label OtherFormsName
+                input.w3-input.w3-round(type="text" name="OtherFormsName" value=genere.OtherFormsName)
+                label UnitDateInitial
+                input.w3-input.w3-round(type="text" name="UnitDateInitial" placeholder="YYYY-MM-DD" value=genere.UnitDateInitial)
+                label UnitDateFinal
+                input.w3-input.w3-round(type="text" name="UnitDateFinal" placeholder="YYYY-MM-DD" value=genere.UnitDateFinal)
+                label UnitDateInitialCertainty
+                input.w3-input.w3-round(type="text" name="UnitDateInitialCertainty" value=genere.UnitDateInitialCertainty)
+                label UnitDateFinalCertainty
+                input.w3-input.w3-round(type="text" name="UnitDateFinalCertainty" value=genere.UnitDateFinalCertainty)
+                label AllowUnitDatesInference
+                input.w3-input.w3-round(type="text" name="AllowUnitDatesInference" value=genere.AllowUnitDatesInference)
+                label AccumulationDates
+                input.w3-input.w3-round(type="text" name="AccumulationDates" value=genere.AccumulationDates)
+                label UnitDateBulk
+                input.w3-input.w3-round(type="text" name="UnitDateBulk" value=genere.UnitDateBulk)
+                label UnitDateNotes
+                input.w3-input.w3-round(type="text" name="UnitDateNotes" value=genere.UnitDateNotes)
+                label Dimensions
+                input.w3-input.w3-round(type="text" name="Dimensions" value=genere.Dimensions)
+                label AllowExtentsInference
+                input.w3-input.w3-round(type="text" name="AllowExtentsInference" value=genere.AllowExtentsInference)
+                label Repository
+                input.w3-input.w3-round(type="text" name="Repository" value=genere.Repository)
+                label Producer
+                input.w3-input.w3-round(type="text" name="Producer" value=genere.Producer)
+                label Author
+                input.w3-input.w3-round(type="text" name="Author" value=genere.Author)
+                label MaterialAuthor
+                input.w3-input.w3-round(type="text" name="MaterialAuthor" value=genere.MaterialAuthor)
+                label Contributor
+                input.w3-input.w3-round(type="text" name="Contributor" value=genere.Contributor)
+                label Recipient
+                input.w3-input.w3-round(type="text" name="Recipient" value=genere.Recipient)
+                label BiogHist
+                input.w3-input.w3-round(type="text" name="BiogHist" value=genere.BiogHist)
+                label LegalStatus
+                input.w3-input.w3-round(type="text" name="LegalStatus" value=genere.LegalStatus)
+                label Functions
+                input.w3-input.w3-round(type="text" name="Functions" value=genere.Functions)
+                label Authorities
+                input.w3-input.w3-round(type="text" name="Authorities" value=genere.Authorities)
+                label InternalStructure
+                input.w3-input.w3-round(type="text" name="InternalStructure" value=genere.InternalStructure)
+                label GeneralContext
+                input.w3-input.w3-round(type="text" name="GeneralContext" value=genere.GeneralContext)
+                label CustodHist
+                input.w3-input.w3-round(type="text" name="CustodHist" value=genere.CustodHist)
+                label AcqInfo
+                input.w3-input.w3-round(type="text" name="AcqInfo" value=genere.AcqInfo)
+                label Classifier
+                input.w3-input.w3-round(type="text" name="Classifier" value=genere.Classifier)
+                label ScopeContent 
+                input.w3-input.w3-round(type="text" name="ScopeContent" value=genere.ScopeContent)
+                label Terms
+                input.w3-input.w3-round(type="text" name="Terms" value=genere.Terms)
+                label DocumentalTradition
+                input.w3-input.w3-round(type="text" name="DocumentalTradition" value=genere.DocumentalTradition)
+                label DocumentalTypology
+                input.w3-input.w3-round(type="text" name="DocumentalTypology" value=genere.DocumentalTypology)
+                label Marks
+                input.w3-input.w3-round(type="text" name="Marks" value=genere.Marks)
+                label Monograms
+                input.w3-input.w3-round(type="text" name="Monograms" value=genere.Monograms)
+                label Stamps
+                input.w3-input.w3-round(type="text" name="Stamps" value=genere.Stamps)
+                label Inscriptions
+                input.w3-input.w3-round(type="text" name="Inscriptions" value=genere.Inscriptions)
+                label Signatures
+                input.w3-input.w3-round(type="text" name="Signatures" value=genere.Signatures)
+                label Appraisal
+                input.w3-input.w3-round(type="text" name="Appraisal" value=genere.Appraisal)
+                label AppraisalElimination
+                input.w3-input.w3-round(type="text" name="AppraisalElimination" value=genere.AppraisalElimination)
+                label AppraisalEliminationDate
+                input.w3-input.w3-round(type="text" name="AppraisalEliminationDate" value=genere.AppraisalEliminationDate)
+                label Accruals
+                input.w3-input.w3-round(type="text" name="Accruals" value=genere.Accruals)
+                label Arrangement
+                input.w3-input.w3-round(type="text" name="Arrangement" value=genere.Arrangement)
+                label AccessRestrict
+                input.w3-input.w3-round(type="text" name="AccessRestrict" value=genere.AccessRestrict)
+                label UseRestrict
+                input.w3-input.w3-round(type="text" name="UseRestrict" value=genere.UseRestrict)
+                label PhysLoc
+                input.w3-input.w3-round(type="text" name="PhysLoc" value=genere.PhysLoc)
+                label OriginalNumbering
+                input.w3-input.w3-round(type="text" name="OriginalNumbering" value=genere.OriginalNumbering)
+                label PreviousLoc
+                input.w3-input.w3-round(type="text" name="PreviousLoc" value=genere.PreviousLoc)
+                label LangMaterial
+                input.w3-input.w3-round(type="text" name="LangMaterial" value=genere.LangMaterial)
+                label PhysTech
+                input.w3-input.w3-round(type="text" name="PhysTech" value=genere.PhysTech)
+                label OtherFindAid
+                input.w3-input.w3-round(type="text" name="OtherFindAid" value=genere.OtherFindAid)
+                label ContainerTypeTerm
+                input.w3-input.w3-round(type="text" name="ContainerTypeTerm" value=genere.ContainerTypeTerm)
+                label OriginalsLoc
+                input.w3-input.w3-round(type="text" name="OriginalsLoc" value=genere.OriginalsLoc)
+                label AltFormAvail
+                input.w3-input.w3-round(type="text" name="AltFormAvail" value=genere.AltFormAvail)
+                label RelatedMaterial
+                input.w3-input.w3-round(type="text" name="RelatedMaterial" value=genere.RelatedMaterial)
+                label Note
+                input.w3-input.w3-round(type="text" name="Note" value=genere.Note)
+                label AllowTextualContentInference
+                input.w3-input.w3-round(type="text" name="AllowTextualContentInference" value=genere.AllowTextualContentInference)
+                label TextualContent
+                input.w3-input.w3-round(type="text" name="TextualContent" value=genere.TextualContent)
+                label RetentionDisposalDocumentState
+                input.w3-input.w3-round(type="text" name="RetentionDisposalDocumentState" value=genere.RetentionDisposalDocumentState)
+                label ApplySelectionTable
+                input.w3-input.w3-round(type="text" name="ApplySelectionTable" value=genere.ApplySelectionTable)
+                label RetentionDisposalPolicy
+                input.w3-input.w3-round(type="text" name="RetentionDisposalPolicy" value=genere.RetentionDisposalPolicy)
+                label RetentionDisposalReference
+                input.w3-input.w3-round(type="text" name="RetentionDisposalReference" value=genere.RetentionDisposalReference)
+                label RetentionDisposalClassification
+                input.w3-input.w3-round(type="text" name="RetentionDisposalClassification" value=genere.RetentionDisposalClassification)
+                label RetentionDisposalPeriod
+                input.w3-input.w3-round(type="text" name="RetentionDisposalPeriod" value=genere.RetentionDisposalPeriod)
+                label RetentionDisposalApplyDate
+                input.w3-input.w3-round(type="text" name="RetentionDisposalApplyDate" value=genere.RetentionDisposalApplyDate)
+                label RetentionDisposalFinalDestination
+                input.w3-input.w3-round(type="text" name="RetentionDisposalFinalDestination" value=genere.RetentionDisposalFinalDestination)
+                label RetentionDisposalObservations
+                input.w3-input.w3-round(type="text" name="RetentionDisposalObservations" value=genere.RetentionDisposalObservations)
+                label DescRules
+                input.w3-input.w3-round(type="text" name="DescRules" value=genere.DescRules)
+                label Revised
+                input.w3-input.w3-round(type="text" name="Revised" value=genere.Revised)
+                label Published
+                input.w3-input.w3-round(type="text" name="Published" value=genere.Published)
+                label Available
+                input.w3-input.w3-round(type="text" name="Available" value=genere.Available)
+                label Highlighted
+                input.w3-input.w3-round(type="text" name="Highlighted" value=genere.Highlighted)
+                label Creator
+                input.w3-input.w3-round(type="text" name="Creator" value=genere.Creator)
+                label Created
+                input.w3-input.w3-round(type="text" name="Created" placeholder="DD/MM/YYYY HH:MM:SS" value=genere.Created) 
+                label Username
+                input.w3-input.w3-round(type="text" name="Username" value=genere.Username)
+                label ProcessInfoDate
+                input.w3-input.w3-round(type="text" name="ProcessInfoDate" placeholder="DD/MM/YYYY HH:MM:SS" value=genere.ProcessInfoDate)
+                label OtherDescriptiveData
+                input.w3-input.w3-round(type="text" name="OtherDescriptiveData" value=genere.OtherDescriptiveData)
+                label ProcessInfo
+                input.w3-input.w3-round(type="text" name="ProcessInfo" value=genere.ProcessInfo)
+                label Relationships
+                textarea.w3-input.w3-round(
+                name="Relationships"
+                placeholder='Enter relationships as JSON array, e.g., [{"_id": "001", "Relationship": "Brother"}, {"_id": "002", "Relationship": "Sister"}]'
+                value=genere.Relationships)
+
+                label father
+                input.w3-input.w3-round(type="text" name="Father" value=genere.Father)
+                label mother
+                input.w3-input.w3-round(type="text" name="Mother" value=genere.Mother)
+                label lugar
+                input.w3-input.w3-round(type="text" name="Lugar" value=genere.Lugar)
+                label concelho
+                input.w3-input.w3-round(type="text" name="Concelho" value=genere.Concelho)
+                label distrito
+                input.w3-input.w3-round(type="text" name="Distrito" value=genere.Distrito)
+                label name
+                input.w3-input.w3-round(type="text" name="Name" value=genere.Name)
+            button.w3-btn.w3-green.w3-mb-2(type="submit") Save Changes 
+    footer.w3-container.w3-grey
+        address Generated by Grupo12::EngWeb2024 on #{data}
+

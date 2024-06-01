@@ -122,10 +122,35 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+/* POST new record */
+router.post('/', function(req, res, next) {
+  try {
+    // Assume req.body.Relationships is a string; parse it into an array of objects
+    if (req.body.Relationships) {
+      req.body.Relationships = JSON.parse(req.body.Relationships);
+    }
+    
+    // Additional validation can be done here if needed
 
-/*
-router.get('/search/name/:name', function(req, res, next) {
-  Genere.findByName(req.params.name)
+    // Insert into database (assuming Genere.insert() is correctly set up to handle your data structure)
+    Genere.insert(req.body)
+      .then((data) => {
+        res.json(data); // Using json instead of jsonp unless you specifically need JSONP
+      })
+      .catch((error) => {
+        console.error('Database insertion error:', error);
+        res.status(400).json({ error: 'Database insertion failed', details: error });
+      });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });
+  }
+});
+
+/* DELETE record */
+router.delete('/:id', function(req, res, next) {
+  console.log(req.params.id)
+  Genere.removeById(req.params.id)
   .then((data) => {
     res.jsonp(data)
   }).catch((erro) => {
@@ -133,23 +158,30 @@ router.get('/search/name/:name', function(req, res, next) {
   });
 });
 
-router.get('/search/place/:place', function(req, res, next) {
-  Genere.findByPlace(req.params.place)
-  .then((data) => {
-    res.jsonp(data)
-  }).catch((erro) => {
-    res.jsonp(erro)
-  });
-});
 
-router.get('/search/date/:date', function(req, res, next) {
-  Genere.findByDate(req.params.date)
-  .then((data) => {
-    res.jsonp(data)
-  }).catch((erro) => {
-    res.jsonp(erro)
-  });
+/* PUT update record */
+router.put('/:id', function(req, res, next) {
+  try {
+    // Assume req.body.Relationships is a string; parse it into an array of objects
+    if (req.body.Relationships) {
+      req.body.Relationships = JSON.parse(req.body.Relationships);
+    }
+    
+    // Additional validation can be done here if needed
+
+    // Update database (assuming Genere.update() is correctly set up to handle your data structure)
+    Genere.update(req.params.id, req.body)
+      .then((data) => {
+        res.json(data); // Using json instead of jsonp unless you specifically need JSONP
+      })
+      .catch((error) => {
+        console.error('Database update error:', error);
+        res.status(400).json({ error: 'Database update failed', details: error });
+      });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });
+  }
 });
-*/
 
 module.exports = router;
