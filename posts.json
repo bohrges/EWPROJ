@@ -1,0 +1,21 @@
+[
+    {
+      "_id": "1",
+      "UserId": "1",
+      "InqId": "00001",
+      "PostTitle": "Inquirição de génere insana!!!!",
+      "PostText": "Malta esta inquirição de génere é brilhante!",
+      "Comments": [
+        {
+          "_id": "1",
+          "UserId": "2",
+          "CommentText": "Concordo plenamente!"
+        },
+        {
+          "_id": "2",
+          "UserId": "3",
+          "CommentText": "frfr ongod!"
+        }
+      ]
+    }
+]

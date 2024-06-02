@@ -1,0 +1,42 @@
+extends layout.pug
+
+block content
+  header.fixed-header.w3-container.w3-blue.w3-padding-32
+    h1.w3-center #{titulo}
+
+  // Main Content Area
+  .content.w3-padding-64
+    .w3-row-padding
+      .w3-col.w3-col.m2.w3-l3
+        // Left spacer column
+      .w3-col.w3-col.m8.w3-l6
+        each post in posts
+          .w3-panel.w3-border.w3-round-large.w3-padding-24.w3-white
+            h2.w3-text-teal= post.PostTitle
+            p= post.PostText
+            
+            // Additional inquirição details styled in a light grey box
+            .w3-container.w3-light-grey.w3-padding-small.w3-margin-top
+              h4 Inquirição Details:
+              p ID: #{post.InqId}
+              p Name: #{post.Name}
+              p Date: #{post.Date}
+              p Location: #{post.Location}
+              p= "For more details:"
+              a(href=`/${post.InqId}`) View Inquirição
+
+            // Comments Section
+            if post.Comments.length > 0
+              h3 Comments:
+              each comment in post.Comments
+                .w3-container.w3-light-grey.w3-padding-small.w3-margin-top.w3-round
+                  p.w3-small Comment by User ID #{comment.UserId}: #{comment.CommentText}
+            else
+              .w3-container
+                p No comments yet.
+
+      .w3-col.w3-col.m2.w3-l3
+        // Right spacer column
+
+  footer.fixed-footer.w3-container.w3-blue.w3-padding-16
+    p.w3-center © 2023 Social Media Platform

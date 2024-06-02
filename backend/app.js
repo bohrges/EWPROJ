@@ -16,6 +16,7 @@ db.once('open', () => {
 })
 
 var datasetRouter = require('./routes/index');
+var postsRouter = require('./routes/posts');
 
 var app = express();
 
@@ -24,7 +25,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/posts',postsRouter); 
 app.use('/', datasetRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

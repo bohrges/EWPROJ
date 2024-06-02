@@ -82,13 +82,11 @@ router.get('/sort', function(req, res, next) {
 
 /* GET view to add a new record */
 router.get('/newRecord', function(req, res, next) {
-    console.log("\n\n\n1")
     res.render('newRecord', {data: d, titulo: "Adicionar novo genere"})
   });
 
 /* POST new record */
 router.post('/newRecord', function(req, res, next) {
-    console.log("\n\n\n2")
     axios.post('http://localhost:3000/', req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/')
@@ -100,7 +98,6 @@ router.post('/newRecord', function(req, res, next) {
 
 /* GET view to edit a record */
 router.get('/edit/:id', async function(req, res, next) {
-    console.log("\n\n\n3")
     axios.get('http://localhost:3000/' + req.params.id)
       .then(resposta => {
         res.render('editRecord', {genere : resposta.data, data: d, titulo: "Editar Genere " + resposta.data['UnitTitle']})
@@ -109,7 +106,6 @@ router.get('/edit/:id', async function(req, res, next) {
 
 /* PUT edited record */
 router.post('/edit/:id', function(req, res, next) {
-    console.log("\n\n\n4")
     axios.put('http://localhost:3000/' + req.params.id, req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/')
@@ -118,6 +114,63 @@ router.post('/edit/:id', function(req, res, next) {
         res.render('error', {error: erro, message: "Erro ao editar o genere"})
       })
   });
+
+/* GET posts page */
+/*
+router.get('/posts', function(req, res, next) {
+  axios.get('http://localhost:3000/posts')
+    .then(resposta => {
+      res.render('posts', {posts : resposta.data, data: d, titulo: "Lista de Posts"})
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro ao recuperar os posts"})
+    })
+});
+*/
+
+
+/* GET posts page */
+router.get('/posts', async function(req, res, next) {
+  try {
+    // Fetch all posts
+    let postResponse = await axios.get('http://localhost:3000/posts');
+    let posts = postResponse.data;
+
+    // Fetch additional details for each post using Promise.all to handle multiple requests
+    let detailsPromises = posts.map(post => {
+      return axios.get(`http://localhost:3000/${post.InqId}`);
+    });
+
+    // Resolve all promises to get details
+    let detailsResponses = await Promise.all(detailsPromises);
+
+    // Combine post data with additional details
+    let combinedPosts = posts.map((post, index) => {
+
+      // Assume detailsResponse data includes fields 'Name' and 'UnitDateFinal' and 'Location'
+      let details = detailsResponses[index].data;
+      return {
+        ...post, // spread existing post data
+        Name: details.Name,
+        Date: details.UnitDateFinal,
+        Location: details.Location
+      };
+    });
+
+    // Render the posts template with combined data
+    res.render('posts', {
+      posts: combinedPosts,
+      titulo: "Lista de Posts"
+    });
+  } catch (erro) {
+    // Handle errors such as network issues or missing data
+    res.render('error', {
+      error: erro,
+      message: "Erro ao recuperar os posts ou detalhes das inquirições"
+    });
+  }
+});
+
 
   
 
