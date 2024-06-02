@@ -10,8 +10,15 @@ block content
       .w3-col.w3-col.m2.w3-l3
         // Left spacer column
       .w3-col.w3-col.m8.w3-l6
+
+        // Button to make a new Post
+        div(class="w3-center w3-padding-16")
+          a.w3-button.w3-blue(href="/posts/newPost") New Post
+
+
         each post in posts
           .w3-panel.w3-border.w3-round-large.w3-padding-24.w3-white
+            p User: #{post.UserId}
             h2.w3-text-teal= post.PostTitle
             p= post.PostText
             
@@ -30,13 +37,15 @@ block content
               h3 Comments:
               each comment in post.Comments
                 .w3-container.w3-light-grey.w3-padding-small.w3-margin-top.w3-round
-                  p.w3-small Comment by User ID #{comment.UserId}: #{comment.CommentText}
+                  p.w3-small Comment by User #{comment.UserId}: #{comment.CommentText}
             else
               .w3-container
                 p No comments yet.
 
       .w3-col.w3-col.m2.w3-l3
         // Right spacer column
+  div.navigation.w3-center.w3-padding-16
+    a.w3-button.w3-light-grey(href="/") Return to Main Page
 
   footer.fixed-footer.w3-container.w3-blue.w3-padding-16
     p.w3-center © 2023 Social Media Platform

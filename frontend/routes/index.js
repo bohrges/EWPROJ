@@ -115,21 +115,11 @@ router.post('/edit/:id', function(req, res, next) {
       })
   });
 
+
+
+
 /* GET posts page */
 /*
-router.get('/posts', function(req, res, next) {
-  axios.get('http://localhost:3000/posts')
-    .then(resposta => {
-      res.render('posts', {posts : resposta.data, data: d, titulo: "Lista de Posts"})
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro ao recuperar os posts"})
-    })
-});
-*/
-
-
-/* GET posts page */
 router.get('/posts', async function(req, res, next) {
   try {
     // Fetch all posts
@@ -170,6 +160,7 @@ router.get('/posts', async function(req, res, next) {
     });
   }
 });
+*/
 
 
   

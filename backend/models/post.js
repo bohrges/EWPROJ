@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const commentsSchema = new Schema({
+    _id: String,
+    UserId: String,
+    CommentText: String
+  });
+
 // Main schema for a post
 const postSchema = new Schema({
     _id: String,
@@ -8,11 +14,7 @@ const postSchema = new Schema({
     InqId: String,
     PostTitle: String,
     PostText: String,
-    Comments: [{
-        _id: String,
-        UserId: String,
-        CommentText: String
-    }]
+    Comments: [commentsSchema]
 }, {
     versionKey: false}
 );
