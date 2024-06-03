@@ -110,7 +110,30 @@ router.get('/sort', function(req, res, next) {
       console.error("Failed to fetch generes:", error);
       res.status(500).render('error', { message: "Error retrieving data", error: error });
   });
-});     
+});   
+
+/* GET automated ID before adding a new record */
+router.get('/genereID', function(req, res, next) {
+  Genere.getMaxId()
+  .then((data) => {
+    res.jsonp(data)
+  }).catch((erro) => {
+    res.jsonp(erro)
+  });
+});
+
+/* GET all ids */
+/* This is used on posts creation, to guarantee the post created refers to a valid inquirição */
+router.get('/allids', function(req, res, next) {
+  Genere.getAllIds()
+  .then((data) => {
+    res.jsonp(data)
+  }).catch((erro) => {
+    res.jsonp(erro)
+  });
+});
+
+
 
 /* GET dataset page. */
 router.get('/:id', function(req, res, next) {
@@ -121,6 +144,8 @@ router.get('/:id', function(req, res, next) {
     res.jsonp(erro)
   });
 });
+
+
 
 /* POST new record */
 router.post('/', function(req, res, next) {
@@ -183,5 +208,6 @@ router.put('/:id', function(req, res, next) {
     res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });
   }
 });
+
 
 module.exports = router;

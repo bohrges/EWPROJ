@@ -8,10 +8,8 @@ block content
         form.w3-container(method="POST")
             fieldset
                 legend Metadata
-                label ID
-                input.w3-input.w3-round(type="text" name="Id")
-                label UnitId
-                input.w3-input.w3-round(type="text" name="_id")
+                input.w3-input.w3-round(type="hidden" name="Id" value=uselessID readonly )
+                input.w3-input.w3-round(type="hidden" name="_id" value=genereID readonly) 
                 label DescriptionLevel
                 input.w3-input.w3-round(type="text" name="DescriptionLevel")
                 label EntityType

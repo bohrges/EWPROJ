@@ -82,7 +82,19 @@ router.get('/sort', function(req, res, next) {
 
 /* GET view to add a new record */
 router.get('/newRecord', function(req, res, next) {
-    res.render('newRecord', {data: d, titulo: "Adicionar novo genere"})
+    // Fetching automated ID, which is the max current _id. Then, incrementing it by 1 to guarantee an unique_id
+    axios.get('http://localhost:3000/genereID')
+      .then(resposta => {
+        const id = parseInt(resposta.data.max_Id[0]._id)
+        const newId = (id + 1).toString()
+        const uselessID = parseInt(resposta.data.maxId[0].ID)
+        const newUselessID = (uselessID + 1).toString()
+  
+        console.log(newId)
+        console.log(newUselessID)
+        
+        res.render('newRecord', {data: d, titulo: "Adicionar novo genere", genereID: newId, uselessID: newUselessID})
+      })
   });
 
 /* POST new record */
@@ -115,55 +127,6 @@ router.post('/edit/:id', function(req, res, next) {
       })
   });
 
-
-
-
-/* GET posts page */
-/*
-router.get('/posts', async function(req, res, next) {
-  try {
-    // Fetch all posts
-    let postResponse = await axios.get('http://localhost:3000/posts');
-    let posts = postResponse.data;
-
-    // Fetch additional details for each post using Promise.all to handle multiple requests
-    let detailsPromises = posts.map(post => {
-      return axios.get(`http://localhost:3000/${post.InqId}`);
-    });
-
-    // Resolve all promises to get details
-    let detailsResponses = await Promise.all(detailsPromises);
-
-    // Combine post data with additional details
-    let combinedPosts = posts.map((post, index) => {
-
-      // Assume detailsResponse data includes fields 'Name' and 'UnitDateFinal' and 'Location'
-      let details = detailsResponses[index].data;
-      return {
-        ...post, // spread existing post data
-        Name: details.Name,
-        Date: details.UnitDateFinal,
-        Location: details.Location
-      };
-    });
-
-    // Render the posts template with combined data
-    res.render('posts', {
-      posts: combinedPosts,
-      titulo: "Lista de Posts"
-    });
-  } catch (erro) {
-    // Handle errors such as network issues or missing data
-    res.render('error', {
-      error: erro,
-      message: "Erro ao recuperar os posts ou detalhes das inquirições"
-    });
-  }
-});
-*/
-
-
-  
 
 /* GET records by ID */
 router.get('/:id', function(req, res, next) {

@@ -300,5 +300,20 @@ module.exports.update = (id, genere) => {
     return Genere.findByIdAndUpdate(id, genere);
 }
 
+/* Get the maximum inquirição ID */
+module.exports.getMaxId = async () => {
+    const max_Id = await Genere.find({}, {_id: 1}).sort({_id: -1}).limit(1);
+    const maxId = await Genere.aggregate([{ $match: { '﻿ID': { $exists: true, $ne: "" } } }, { $sort: { '﻿ID': -1 } }, { $limit: 1 }, { $project: { _id: 0, ID: '$﻿ID' } }])
+    // The weird character is a zero-width space, which is not being recognized by the regex, but should stay there
+
+    return {maxId, max_Id};
+}
+
+/* Get all inquirição IDs */
+module.exports.getAllIds = async () => {
+    const docs = await Genere.find({}, '_id').exec(); // Fetch only _id fields
+    return docs.map(doc => doc._id.toString()); // Convert _id to string if necessary
+}
+
 
 

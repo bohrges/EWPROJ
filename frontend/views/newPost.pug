@@ -8,16 +8,15 @@ block content
         form.w3-container(method="POST")
             fieldset
                 legend Metadata
-                label ID
-                input.w3-input.w3-round(type="text" name="_id") 
+                input.w3-input.w3-round(type="hidden" name="_id" value=newId readonly) 
                 label UserID 
                 input.w3-input.w3-round(type="text" name="UserId")
-                label InqId 
+                label Inquirição Id 
                 input.w3-input.w3-round(type="text" name="InqId")
-                label PostTile 
+                label Título 
                 input.w3-input.w3-round(type="text" name="PostTitle")
-                label PostText 
-                input.w3-input.w3-round(type="text" name="PostText")
+                label Conteúdo 
+                input.w3-input.w3-round(type="text" name="PostText" placeholder="Write something about it!")
 
 
             button.w3-btn.w3-green.w3-mb-2(type="submit") Register 
