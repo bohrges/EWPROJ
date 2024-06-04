@@ -277,6 +277,38 @@ module.exports.sortByDistrictDesc = (page, limit) => {
         );
 }
 
+// Presenting 500 records for each page, sorted by ID (ascending)
+module.exports.sortById = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments() 
+        .then(totalCount =>
+            Genere.find()
+                .sort({_id: 1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
+}
+
+// Presenting 500 records for each page, sorted by ID (descending)
+module.exports.sortByIdDesc = (page, limit) => {
+    const skip = page * limit;
+    return Genere.countDocuments() 
+        .then(totalCount =>
+            Genere.find()
+                .sort({_id: -1})
+                .limit(limit)
+                .skip(skip)
+                .then(generes => ({
+                    totalCount,
+                    generes
+                }))
+        );
+}
+
 // Record by ID
 module.exports.findById = id => {
     return Genere

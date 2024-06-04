@@ -6,9 +6,13 @@ block content
 
   main.w3-container(class="w3-light-grey")
 
-    // Posts page button
+    // Buttons
     div(class="w3-center w3-padding-16")
-      a.w3-button.w3-blue(href="/posts") Posts
+      a.w3-button.w3-blue(style="margin-right: 8px;" href="/posts") Posts
+      a.w3-button.w3-red(style="margin-right: 8px;" href="/") Clear
+      a.w3-button.w3-brown(href="/newRecord") New Record
+
+
 
     // Search form
     form.w3-margin.w3-padding.w3-card.w3-white(action="/search", method="get") 
@@ -44,18 +48,9 @@ block content
             option(value="countyDesc") County (Z-A)
             option(value="district") District (A-Z)
             option(value="districtDesc") District (Z-A)
+            option(value="id") ID (Ascending)
+            option(value="idDesc") ID (Descending)
         button.w3-button.w3-green.w3-margin-right(type="submit") Sort
-
-
-    // General clear button, positioned centrally below the first form
-    div(class="w3-center w3-padding-16")
-      a.w3-button.w3-red(href="/") Clear
-
-    // Button to make a new Post
-    div(class="w3-center w3-padding-16")
-      a.w3-button.w3-blue(href="/newRecord") New Record
-
-
 
     // Enhanced Info Section
     div.w3-container.w3-padding-16.w3-card

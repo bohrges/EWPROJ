@@ -97,6 +97,13 @@ router.get('/sort', function(req, res, next) {
   else if (sortType == "districtDesc") {
     tmp = Genere.sortByDistrictDesc(page, limit, sortType)
   }
+  else if (sortType == "id"){
+    tmp = Genere.sortById(page, limit, sortType)
+  }
+  else if (sortType == "idDesc"){
+    tmp = Genere.sortByIdDesc(page, limit, sortType)
+  }
+  
 
   tmp
     .then((data) => {
@@ -150,17 +157,10 @@ router.get('/:id', function(req, res, next) {
 /* POST new record */
 router.post('/', function(req, res, next) {
   try {
-    // Assume req.body.Relationships is a string; parse it into an array of objects
-    if (req.body.Relationships) {
-      req.body.Relationships = JSON.parse(req.body.Relationships);
-    }
-    
-    // Additional validation can be done here if needed
-
-    // Insert into database (assuming Genere.insert() is correctly set up to handle your data structure)
+  
     Genere.insert(req.body)
       .then((data) => {
-        res.json(data); // Using json instead of jsonp unless you specifically need JSONP
+        res.json(data); 
       })
       .catch((error) => {
         console.error('Database insertion error:', error);
@@ -187,12 +187,6 @@ router.delete('/:id', function(req, res, next) {
 /* PUT update record */
 router.put('/:id', function(req, res, next) {
   try {
-    // Assume req.body.Relationships is a string; parse it into an array of objects
-    if (req.body.Relationships) {
-      req.body.Relationships = JSON.parse(req.body.Relationships);
-    }
-    
-    // Additional validation can be done here if needed
 
     // Update database (assuming Genere.update() is correctly set up to handle your data structure)
     Genere.update(req.params.id, req.body)

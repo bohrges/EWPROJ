@@ -99,6 +99,14 @@ router.get('/newRecord', function(req, res, next) {
 
 /* POST new record */
 router.post('/newRecord', function(req, res, next) {
+    let relJson = []
+    relationships = req.body['Relationships'].split('\n')
+    for (let i = 0; i < relationships.length; i++) {
+      id = relationships[i].split(':')[0]
+      rel = relationships[i].split(':')[1]
+      relJson.push({'_id': id, 'Relationship': rel})
+    }
+    req.body['Relationships'] = relJson
     axios.post('http://localhost:3000/', req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/')
@@ -118,6 +126,14 @@ router.get('/edit/:id', async function(req, res, next) {
 
 /* PUT edited record */
 router.post('/edit/:id', function(req, res, next) {
+  let relJson = []
+  relationships = req.body['Relationships'].split('\n')
+  for (let i = 0; i < relationships.length; i++) {
+    id = relationships[i].split(':')[0]
+    rel = relationships[i].split(':')[1]
+    relJson.push({'_id': id, 'Relationship': rel})
+  }
+  req.body['Relationships'] = relJson
     axios.put('http://localhost:3000/' + req.params.id, req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/')
