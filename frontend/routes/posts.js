@@ -48,6 +48,7 @@ router.get('/newPost', function(req, res, next) {
     .then(resposta => {
       const id = parseInt(resposta.data)
       const newId = (id + 1).toString()
+      console.log(newId)
       res.render('newPost', {data: d, titulo: "Adicionar novo Post", postID: newId})
     })
 });
@@ -74,10 +75,10 @@ router.post('/newPost', async (req, res) => {
 
 
 /* POST new comment */
-router.post('/:id/add-comment/', function(req, res, next) {
+router.post('/:id/add-comment', function(req, res, next) {
   console.log(req.params.id)
   console.log(JSON.stringify(req.body))
-  axios.post(`http://localhost:3000/posts/${req.params.id}/add-comment/`, req.body)
+  axios.post(`http://localhost:3000/posts/${req.params.id}/add-comment`, req.body)
     .then(response => {
         res.redirect('http://localhost:3001/posts')
     })
@@ -90,3 +91,4 @@ router.post('/:id/add-comment/', function(req, res, next) {
 
 module.exports = router;
   
+
