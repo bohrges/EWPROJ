@@ -1,0 +1,270 @@
+/* GENERAL */
+
+body {
+  background-color: #FFFBDA;
+  padding: 0px;
+  margin: 0px;
+  font-family: Roboto, sans-serif;
+}
+
+a{
+  color: #000000;
+}
+
+table, th, td {
+  border: 2px solid;
+  padding: 10px;
+  background-color: #FFEC9E;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+select {
+  border: 2px solid #000000; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  background-color: #FFBB70; 
+  padding: 4px; 
+  cursor: pointer;
+}
+
+select:focus{
+  outline: none; 
+  border-color: #000000; 
+}
+
+footer{
+  text-align: center;
+  background-color: #ED9455;
+  color: #000000;
+  padding: 10px;
+  margin: 0px;
+
+}
+
+/* index.pug */
+.title_div {
+  text-align: center;
+  background-color: #ED9455;
+  color: #000000;
+  padding: 10px;
+  margin: 0px;
+}
+
+.button_div {
+  background-color: #ED9455;
+  padding: 20px;
+  margin: 0px;
+  text-align: center;
+}
+
+.button {
+  background-color: #FFBB70;
+  color: #000000;
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.search_form{
+  padding: 20px;
+  margin: 0px;
+  background-color: #FFEC9E;
+}
+
+.sort_form{
+  padding: 20px;
+  margin: 0px;
+  background-color: #FFEC9E;
+}
+
+
+.form_legend{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.search_div{
+  padding: 10px;
+  margin: 0px;
+}
+
+.sort_div{
+  padding: 10px;
+  margin: 0px;
+}
+
+.form_label{
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.search_input{
+  border: 2px solid #000000; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  background-color: #FFBB70; 
+  padding: 4px; 
+  cursor: pointer;
+}
+
+.search_button{
+  background-color: #ED9455;
+  color: #000000;
+  padding: 4px;
+  margin: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sort_button{
+  background-color: #ED9455;
+  color: #000000;
+  padding: 4px;
+  margin: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.info_div{
+  padding: 20px;
+  margin: 0px;
+  background-color: #FFFBDA;
+}
+
+.table_title{
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.info_table{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.genere_edit_button{
+  background-color: #ED9455;
+  color: #000000;
+  padding: 4px;
+  margin: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pagination_div{
+  padding: 20px;
+  margin: 0px;
+  text-align: center;
+}
+
+.change_page_button{
+  background-color: #ED9455;
+  color: #000000;
+  padding: 4px;
+  margin: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* posts.vue */
+.post_div{
+  padding: 20px;
+  margin-top: 75px;
+  margin-bottom: 75px;
+  margin-right: 250px;
+  margin-left: 250px;
+  background-color: #FFEC9E;
+  border: 2px solid #000000;
+  border-radius: 5px;
+}
+
+.p_user{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.post_title{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.post_texts{
+  font-size: 16px;
+}
+
+.post_inq_div{
+  padding: 10px;
+  margin: 0px;
+  background-color: #FFBB70;
+  border: 2px solid #000000;
+  border-radius: 5px;
+}
+
+.comment_div{
+  padding: 2px;
+  margin: 4px;
+  background-color: #FFBB70;
+  border: 2px solid #000000;
+  border-radius: 5px;
+}
+
+.comment{
+  font-size: 16px;
+}
+
+.no_comments{
+  font-size: 16px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.comment_input{
+  border: 2px solid #000000; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  background-color: #FFBB70; 
+  padding: 4px; 
+  cursor: pointer;
+}
+
+.comment_button {
+  background-color: #FFBB70;
+  color: #000000;
+  padding: 4px;
+  margin: 5px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.return_div{
+  padding: 20px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.return_button{
+  background-color: #ED9455;
+  color: #000000;
+  padding: 4px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+

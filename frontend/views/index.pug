@@ -1,98 +1,94 @@
-extends layout
+doctype html
+html
+  head
+    title= titulo
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/custom.css')
 
-block content
-  header.w3-container
-    h1= titulo
+  body
+  div.title_div
+    h1.title_div= titulo
 
-  main.w3-container(class="w3-light-grey")
+  // Buttons
+  div.button_div
+    a.button(style="margin-right: 8px;" href="/posts") Check Posts
+    a.button(style="margin-right: 8px;" href="/") Clear Filters
+    a.button(href="/newRecord") New Record
 
-    // Buttons
-    div(class="w3-center w3-padding-16")
-      a.w3-button.w3-blue(style="margin-right: 8px;" href="/posts") Posts
-      a.w3-button.w3-red(style="margin-right: 8px;" href="/") Clear
-      a.w3-button.w3-brown(href="/newRecord") New Record
-
-
-
-    // Search form
-    form.w3-margin.w3-padding.w3-card.w3-white(action="/search", method="get") 
-      fieldset
-        legend.w3-text-blue Search Records
-        div.w3-margin-bottom
-          label.w3-text-grey(for="searchType") Search by
-          select.w3-select.w3-border(name="searchType")
-            option(value="name", selected) Name
-            option(value="date") Year
-            option(value="location") Location
-            option(value="county") County
-            option(value="district") District
-        div.w3-margin-bottom
-          label.w3-text-grey(for="searchValue") Search Value
-          input.w3-input.w3-border(type="text", name="searchValue", placeholder="Enter search value")
-        button.w3-button.w3-green.w3-margin-right(type="submit") Search
-
-    // New sorting form
-    form.w3-margin.w3-padding.w3-card.w3-white(action="/sort", method="get") 
-      fieldset
-        legend.w3-text-blue Sort Records
-        div.w3-margin-bottom
-          label.w3-text-grey(for="sortBy") Sort by
-          select.w3-select.w3-border(name="sortBy")
-            option(value="name") Name (A-Z)
-            option(value="nameDesc") Name (Z-A)
-            option(value="year") Year (Ascending)
-            option(value="yearDesc") Year (Descending)
-            option(value="location") Location (A-Z)
-            option(value="locationDesc") Location (Z-A)
-            option(value="county") County (A-Z)
-            option(value="countyDesc") County (Z-A)
-            option(value="district") District (A-Z)
-            option(value="districtDesc") District (Z-A)
-            option(value="id") ID (Ascending)
-            option(value="idDesc") ID (Descending)
-        button.w3-button.w3-green.w3-margin-right(type="submit") Sort
-
-    // Enhanced Info Section
-    div.w3-container.w3-padding-16.w3-card
-      // Table with striped, bordered, and responsive style
-      table.w3-table.w3-striped.w3-bordered.w3-responsive
-        thead
+  // Search form
+  form.search_form(action="/search", method="get") 
+    fieldset
+      legend.form_legend Search Records
+      div.search_div
+        label.form_label(for="searchType") Search by
+        select(name="searchType")
+          option(value="name", selected) Name
+          option(value="date") Year
+          option(value="location") Location
+          option(value="county") County
+          option(value="district") District
+      div.search_div
+        label.form_label(for="searchValue") Search Value
+        input.search_input(type="text", name="searchValue", placeholder="Enter search value")
+        button.search_button(type="submit") Search
+  
+  // Sorting form
+  form.sort_form(action="/sort", method="get") 
+    fieldset
+      legend.form_legend Sort Records
+      div.sort_div
+        label.form_label(for="sortBy") Sort by
+        select(name="sortBy")
+          option(value="name") Name (A-Z)
+          option(value="nameDesc") Name (Z-A)
+          option(value="year") Year (Ascending)
+          option(value="yearDesc") Year (Descending)
+          option(value="location") Location (A-Z)
+          option(value="locationDesc") Location (Z-A)
+          option(value="county") County (A-Z)
+          option(value="countyDesc") County (Z-A)
+          option(value="district") District (A-Z)
+          option(value="districtDesc") District (Z-A)
+          option(value="id") ID (Ascending)
+          option(value="idDesc") ID (Descending)
+        button.sort_button(type="submit") Sort
+  
+  // Info Table
+  div.info_div
+    p.table_title Inquirições de Génere
+    table.info_table
+      thead
+        tr
+          th UnitID
+          th Name
+          th Date
+          th Location
+          th County
+          th District
+          th Edit
+      tbody
+        each record in generes
           tr
-            th UnitID
-            th Name
-            th Date
-            th Location
-            th County
-            th District
-            th Edit
-        tbody
-          each record in generes
-            tr
-              td
-                a(href=`/${record._id}`) #{record._id}
-              td #{record.Name}
-              td #{record.UnitDateFinal}
-              td #{record.Lugar}
-              td #{record.Concelho}
-              td #{record.Distrito}
-              td
+            td
+              a(href=`/${record._id}`) #{record._id}
+            td #{record.Name}
+            td #{record.UnitDateFinal}
+            td #{record.Lugar}
+            td #{record.Concelho}
+            td #{record.Distrito}
+            td
+              div
+                a.genere_edit_button(href=`/edit/${record._id}`) Edit
 
-                // Edit button
-                div(class="w3-center w3-padding-16")
-                  a.w3-button.w3-blue(href=`/edit/${record._id}`) Edit
-              
+  // Pagination          
+  if totalPages > 1
+    div.pagination_div
+      p Page #{page + 1} of #{totalPages}
+      if page > 0
+        a.change_page_button(href=previousPageURL) Previous
+      if page < totalPages - 1
+        a.change_page_button(href=nextPageURL) Next
 
-
-      // Pagination Logic
-      if totalPages > 1
-        div.navigation.w3-center.w3-padding-16
-          p Page #{page + 1} of #{totalPages}
-          // Pagination Buttons
-          if page > 0
-            a.w3-button.w3-margin-right(href=previousPageURL) Previous
-          if page < totalPages - 1
-            a.w3-button(href=nextPageURL) Next
-
-
-  footer.w3-container.w3-grey
+  // Footer
+  footer
     address Generated by Grupo12::EngWeb2024 on #{data}

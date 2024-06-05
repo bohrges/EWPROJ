@@ -30,7 +30,8 @@ router.get('/', async function(req, res, next) {
 
     res.render('posts', {
       posts: combinedPosts,
-      titulo: "Lista de Posts"
+      titulo: "Lista de Posts",
+      data: d
     });
   } catch (erro) {
     res.render('error', {
