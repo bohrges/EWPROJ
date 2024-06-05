@@ -41,7 +41,13 @@ footer{
   color: #000000;
   padding: 10px;
   margin: 0px;
+}
 
+fieldset{
+  border: 2px solid #000000;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
 }
 
 /* index.pug */
@@ -68,6 +74,7 @@ footer{
   border: 2px solid #000000;
   border-radius: 5px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .search_form{
@@ -110,7 +117,6 @@ footer{
   box-sizing: border-box; 
   background-color: #FFBB70; 
   padding: 4px; 
-  cursor: pointer;
 }
 
 .search_button{
@@ -180,7 +186,7 @@ footer{
   cursor: pointer;
 }
 
-/* posts.vue */
+/* posts.pug */
 .post_div{
   padding: 20px;
   margin-top: 75px;
@@ -267,4 +273,79 @@ footer{
   cursor: pointer;
 }
 
+/* editRecord */
 
+
+.edit_form{
+  padding: 20px;
+  margin-top: 75px;
+  margin-bottom: 75px;
+  margin-right: 250px;
+  margin-left: 250px;
+  background-color: #FFEC9E;
+  border: 2px solid #000000;
+  border-radius: 5px;
+}
+
+.edit_fieldset{
+  border: 0px solid #000000;
+  padding: 10px;
+  margin: 10px;
+}
+
+
+.edit_div{
+  padding: 10px;
+  margin: 0px;
+}
+
+.input_div{
+  padding: 10px;
+  margin: 0px;
+}
+
+.edit_input{
+  border: 2px solid #000000; 
+  box-sizing: border-box; 
+  background-color: #FFBB70; 
+  padding: 4px; 
+  margin-left: 10px;
+}
+
+.edit_button_div{
+  padding: 10px;
+  margin: 0px;
+  text-align: center;
+}
+
+.inq_info{
+  font-size: 16px;
+  padding: 20px;
+  background-color: #FFFBDA;
+}
+
+.inq_p{
+  font-size: 16px;
+  border: 2px solid #000000;
+  margin: 1px;
+  padding: 5px;
+  background-color: #FFEC9E;
+}
+
+.newpost_div{
+  padding: 5px;
+  margin: 0px;
+}
+
+.post_button_div {
+  background-color: #FFEC9E;
+  padding: 20px;
+  margin: 0px;
+  text-align: center;
+}
+
+.error_div{
+  padding: 20px;
+  margin: 0px;
+  background-color: #FFEC9E;
+}

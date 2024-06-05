@@ -1,200 +1,302 @@
-extends layout
+doctype html
+html
+  head
+    title= titulo
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/custom.css')
 
-block content
-  .w3-card-4 
-    header.w3-container.w3-light-grey
-      h1= titulo 
-    .w3-container
-        form.w3-container(method="POST")
-            fieldset
-                legend Metadata
-                input.w3-input.w3-round(type="hidden" name="Id" value=uselessID readonly )
-                input.w3-input.w3-round(type="hidden" name="_id" value=genereID readonly) 
-                label DescriptionLevel
-                input.w3-input.w3-round(type="text" name="DescriptionLevel")
-                label EntityType
-                input.w3-input.w3-round(type="text" name="EntityType")
-                label CompleteUnitId
-                input.w3-input.w3-round(type="text" name="CompleteUnitId")
-                label RepositoryCode
-                input.w3-input.w3-round(type="text" name="RepositoryCode")
-                label CountryCode
-                input.w3-input.w3-round(type="text" name="CountryCode")
-                label UnitTitleType
-                input.w3-input.w3-round(type="text" name="UnitTitleType")
-                label UnitTitle
-                input.w3-input.w3-round(type="text" name="UnitTitle")
-                label AlternativeTitle
-                input.w3-input.w3-round(type="text" name="AlternativeTitle")
-                label NormalizedFormsName
-                input.w3-input.w3-round(type="text" name="NormalizedFormsName")
-                label OtherFormsName
-                input.w3-input.w3-round(type="text" name="OtherFormsName")
-                label UnitDateInitial
-                input.w3-input.w3-round(type="text" name="UnitDateInitial" placeholder="YYYY-MM-DD")
-                label UnitDateFinal
-                input.w3-input.w3-round(type="text" name="UnitDateFinal" placeholder="YYYY-MM-DD")
-                label UnitDateInitialCertainty
-                input.w3-input.w3-round(type="text" name="UnitDateInitialCertainty")
-                label UnitDateFinalCertainty
-                input.w3-input.w3-round(type="text" name="UnitDateFinalCertainty")
-                label AllowUnitDatesInference
-                input.w3-input.w3-round(type="text" name="AllowUnitDatesInference")
-                label AccumulationDates
-                input.w3-input.w3-round(type="text" name="AccumulationDates")
-                label UnitDateBulk
-                input.w3-input.w3-round(type="text" name="UnitDateBulk")
-                label UnitDateNotes
-                input.w3-input.w3-round(type="text" name="UnitDateNotes")
-                label Dimensions
-                input.w3-input.w3-round(type="text" name="Dimensions")
-                label AllowExtentsInference
-                input.w3-input.w3-round(type="text" name="AllowExtentsInference")
-                label Repository
-                input.w3-input.w3-round(type="text" name="Repository")
-                label Producer
-                input.w3-input.w3-round(type="text" name="Producer")
-                label Author
-                input.w3-input.w3-round(type="text" name="Author")
-                label MaterialAuthor
-                input.w3-input.w3-round(type="text" name="MaterialAuthor")
-                label Contributor
-                input.w3-input.w3-round(type="text" name="Contributor")
-                label Recipient
-                input.w3-input.w3-round(type="text" name="Recipient")
-                label BiogHist
-                input.w3-input.w3-round(type="text" name="BiogHist")
-                label LegalStatus
-                input.w3-input.w3-round(type="text" name="LegalStatus")
-                label Functions
-                input.w3-input.w3-round(type="text" name="Functions")
-                label Authorities
-                input.w3-input.w3-round(type="text" name="Authorities")
-                label InternalStructure
-                input.w3-input.w3-round(type="text" name="InternalStructure")
-                label GeneralContext
-                input.w3-input.w3-round(type="text" name="GeneralContext")
-                label CustodHist
-                input.w3-input.w3-round(type="text" name="CustodHist")
-                label AcqInfo
-                input.w3-input.w3-round(type="text" name="AcqInfo")
-                label Classifier
-                input.w3-input.w3-round(type="text" name="Classifier")
-                label ScopeContent 
-                input.w3-input.w3-round(type="text" name="ScopeContent")
-                label Terms
-                input.w3-input.w3-round(type="text" name="Terms")
-                label DocumentalTradition
-                input.w3-input.w3-round(type="text" name="DocumentalTradition")
-                label DocumentalTypology
-                input.w3-input.w3-round(type="text" name="DocumentalTypology")
-                label Marks
-                input.w3-input.w3-round(type="text" name="Marks")
-                label Monograms
-                input.w3-input.w3-round(type="text" name="Monograms")
-                label Stamps
-                input.w3-input.w3-round(type="text" name="Stamps")
-                label Inscriptions
-                input.w3-input.w3-round(type="text" name="Inscriptions")
-                label Signatures
-                input.w3-input.w3-round(type="text" name="Signatures")
-                label Appraisal
-                input.w3-input.w3-round(type="text" name="Appraisal")
-                label AppraisalElimination
-                input.w3-input.w3-round(type="text" name="AppraisalElimination")
-                label AppraisalEliminationDate
-                input.w3-input.w3-round(type="text" name="AppraisalEliminationDate")
-                label Accruals
-                input.w3-input.w3-round(type="text" name="Accruals")
-                label Arrangement
-                input.w3-input.w3-round(type="text" name="Arrangement")
-                label AccessRestrict
-                input.w3-input.w3-round(type="text" name="AccessRestrict")
-                label UseRestrict
-                input.w3-input.w3-round(type="text" name="UseRestrict")
-                label PhysLoc
-                input.w3-input.w3-round(type="text" name="PhysLoc")
-                label OriginalNumbering
-                input.w3-input.w3-round(type="text" name="OriginalNumbering")
-                label PreviousLoc
-                input.w3-input.w3-round(type="text" name="PreviousLoc")
-                label LangMaterial
-                input.w3-input.w3-round(type="text" name="LangMaterial")
-                label PhysTech
-                input.w3-input.w3-round(type="text" name="PhysTech")
-                label OtherFindAid
-                input.w3-input.w3-round(type="text" name="OtherFindAid")
-                label ContainerTypeTerm
-                input.w3-input.w3-round(type="text" name="ContainerTypeTerm")
-                label OriginalsLoc
-                input.w3-input.w3-round(type="text" name="OriginalsLoc")
-                label AltFormAvail
-                input.w3-input.w3-round(type="text" name="AltFormAvail")
-                label RelatedMaterial
-                input.w3-input.w3-round(type="text" name="RelatedMaterial")
-                label Note
-                input.w3-input.w3-round(type="text" name="Note")
-                label AllowTextualContentInference
-                input.w3-input.w3-round(type="text" name="AllowTextualContentInference")
-                label TextualContent
-                input.w3-input.w3-round(type="text" name="TextualContent")
-                label RetentionDisposalDocumentState
-                input.w3-input.w3-round(type="text" name="RetentionDisposalDocumentState")
-                label ApplySelectionTable
-                input.w3-input.w3-round(type="text" name="ApplySelectionTable")
-                label RetentionDisposalPolicy
-                input.w3-input.w3-round(type="text" name="RetentionDisposalPolicy")
-                label RetentionDisposalReference
-                input.w3-input.w3-round(type="text" name="RetentionDisposalReference")
-                label RetentionDisposalClassification
-                input.w3-input.w3-round(type="text" name="RetentionDisposalClassification")
-                label RetentionDisposalPeriod
-                input.w3-input.w3-round(type="text" name="RetentionDisposalPeriod")
-                label RetentionDisposalApplyDate
-                input.w3-input.w3-round(type="text" name="RetentionDisposalApplyDate")
-                label RetentionDisposalFinalDestination
-                input.w3-input.w3-round(type="text" name="RetentionDisposalFinalDestination")
-                label RetentionDisposalObservations
-                input.w3-input.w3-round(type="text" name="RetentionDisposalObservations")
-                label DescRules
-                input.w3-input.w3-round(type="text" name="DescRules")
-                label Revised
-                input.w3-input.w3-round(type="text" name="Revised")
-                label Published
-                input.w3-input.w3-round(type="text" name="Published")
-                label Available
-                input.w3-input.w3-round(type="text" name="Available")
-                label Highlighted
-                input.w3-input.w3-round(type="text" name="Highlighted")
-                label Creator
-                input.w3-input.w3-round(type="text" name="Creator")
-                label Created
-                input.w3-input.w3-round(type="text" name="Created" placeholder="DD/MM/YYYY HH:MM:SS") 
-                label Username
-                input.w3-input.w3-round(type="text" name="Username")
-                label ProcessInfoDate
-                input.w3-input.w3-round(type="text" name="ProcessInfoDate" placeholder="DD/MM/YYYY HH:MM:SS")
-                label OtherDescriptiveData
-                input.w3-input.w3-round(type="text" name="OtherDescriptiveData")
-                label ProcessInfo
-                input.w3-input.w3-round(type="text" name="ProcessInfo")
-                label Relationships
-                textarea.w3-input.w3-round(
-                name="Relationships"
-                placeholder='Enter relationships in the "ID:Relationship" format (one per line), e.g.:\n00065:Cousin\n00012:Brother')
-                label father
-                input.w3-input.w3-round(type="text" name="Father")
-                label mother
-                input.w3-input.w3-round(type="text" name="Mother")
-                label lugar
-                input.w3-input.w3-round(type="text" name="Lugar")
-                label concelho
-                input.w3-input.w3-round(type="text" name="Concelho")
-                label distrito
-                input.w3-input.w3-round(type="text" name="Distrito")
-                label name
-                input.w3-input.w3-round(type="text" name="Name")
-            button.w3-btn.w3-green.w3-mb-2(type="submit") Register 
-    footer.w3-container.w3-grey
-        address Generated by Grupo12::EngWeb2024 on #{data}
+  body
+  div.title_div
+    h1.title_div= titulo
+
+
+  form.edit_form(method="POST")
+    fieldset.edit_fieldset
+        input.edit_input(type="hidden" name="Id" value=uselessID)
+        input.search_input(type="hidden" name="_id" value=genereID)
+        div.input_div
+        label DescriptionLevel
+        input.edit_input(type="text" name="DescriptionLevel" )
+        div.input_div
+        label EntityType
+        input.edit_input(type="text" name="EntityType" )
+        div.input_div
+        label CompleteUnitId
+        input.edit_input(type="text" name="CompleteUnitId" )
+        div.input_div
+        label RepositoryCode
+        input.edit_input(type="text" name="RepositoryCode" )
+        div.input_div
+        label CountryCode
+        input.edit_input(type="text" name="CountryCode" )
+        div.input_div
+        label UnitTitleType
+        input.edit_input(type="text" name="UnitTitleType" )
+        div.input_div
+        label UnitTitle
+        input.edit_input(type="text" name="UnitTitle" )
+        div.input_div
+        label AlternativeTitle
+        input.edit_input(type="text" name="AlternativeTitle" )
+        div.input_div
+        label NormalizedFormsName
+        input.edit_input(type="text" name="NormalizedFormsName" )
+        div.input_div
+        label OtherFormsName
+        input.edit_input(type="text" name="OtherFormsName" )
+        div.input_div
+        label UnitDateInitial
+        input.edit_input(type="text" name="UnitDateInitial" placeholder="YYYY-MM-DD" )
+        div.input_div
+        label UnitDateFinal
+        input.edit_input(type="text" name="UnitDateFinal" placeholder="YYYY-MM-DD" )
+        div.input_div
+        label UnitDateInitialCertainty
+        input.edit_input(type="text" name="UnitDateInitialCertainty" )
+        div.input_div
+        label UnitDateFinalCertainty
+        input.edit_input(type="text" name="UnitDateFinalCertainty" )
+        div.input_div
+        label AllowUnitDatesInference
+        input.edit_input(type="text" name="AllowUnitDatesInference" )
+        div.input_div
+        label AccumulationDates
+        input.edit_input(type="text" name="AccumulationDates" )
+        div.input_div
+        label UnitDateBulk
+        input.edit_input(type="text" name="UnitDateBulk" )
+        div.input_div
+        label UnitDateNotes
+        input.edit_input(type="text" name="UnitDateNotes" )
+        div.input_div
+        label Dimensions
+        input.edit_input(type="text" name="Dimensions" )
+        div.input_div
+        label AllowExtentsInference
+        input.edit_input(type="text" name="AllowExtentsInference" )
+        div.input_div
+        label Repository
+        input.edit_input(type="text" name="Repository" )
+        div.input_div
+        label Producer
+        input.edit_input(type="text" name="Producer" )
+        div.input_div
+        label Author
+        input.edit_input(type="text" name="Author" )
+        div.input_div
+        label MaterialAuthor
+        input.edit_input(type="text" name="MaterialAuthor" )
+        div.input_div
+        label Contributor
+        input.edit_input(type="text" name="Contributor" )
+        div.input_div
+        label Recipient
+        input.edit_input(type="text" name="Recipient" )
+        div.input_div
+        label BiogHist
+        input.edit_input(type="text" name="BiogHist" )
+        div.input_div
+        label LegalStatus
+        input.edit_input(type="text" name="LegalStatus" )
+        div.input_div
+        label Functions
+        input.edit_input(type="text" name="Functions" )
+        div.input_div
+        label Authorities
+        input.edit_input(type="text" name="Authorities" )
+        div.input_div
+        label InternalStructure
+        input.edit_input(type="text" name="InternalStructure" )
+        div.input_div
+        label GeneralContext
+        input.edit_input(type="text" name="GeneralContext" )
+        div.input_div
+        label CustodHist
+        input.edit_input(type="text" name="CustodHist" )
+        div.input_div
+        label AcqInfo
+        input.edit_input(type="text" name="AcqInfo" )
+        div.input_div
+        label Classifier
+        input.edit_input(type="text" name="Classifier" )
+        div.input_div
+        label ScopeContent 
+        input.edit_input(type="text" name="ScopeContent" )
+        div.input_div
+        label Terms
+        input.edit_input(type="text" name="Terms" )
+        div.input_div
+        label DocumentalTradition
+        input.edit_input(type="text" name="DocumentalTradition" )
+        div.input_div
+        label DocumentalTypology
+        input.edit_input(type="text" name="DocumentalTypology" )
+        div.input_div
+        label Marks
+        input.edit_input(type="text" name="Marks" )
+        div.input_div
+        label Monograms
+        input.edit_input(type="text" name="Monograms" )
+        div.input_div
+        label Stamps
+        input.edit_input(type="text" name="Stamps" )
+        div.input_div
+        label Inscriptions
+        input.edit_input(type="text" name="Inscriptions" )
+        div.input_div
+        label Signatures
+        input.edit_input(type="text" name="Signatures" )
+        div.input_div
+        label Appraisal
+        input.edit_input(type="text" name="Appraisal" )
+        div.input_div
+        label AppraisalElimination
+        input.edit_input(type="text" name="AppraisalElimination" )
+        div.input_div
+        label AppraisalEliminationDate
+        input.edit_input(type="text" name="AppraisalEliminationDate" )
+        div.input_div
+        label Accruals
+        input.edit_input(type="text" name="Accruals" )
+        div.input_div
+        label Arrangement
+        input.edit_input(type="text" name="Arrangement" )
+        div.input_div
+        label AccessRestrict
+        input.edit_input(type="text" name="AccessRestrict" )
+        div.input_div
+        label UseRestrict
+        input.edit_input(type="text" name="UseRestrict" )
+        div.input_div
+        label PhysLoc
+        input.edit_input(type="text" name="PhysLoc" )
+        div.input_div
+        label OriginalNumbering
+        input.edit_input(type="text" name="OriginalNumbering" )
+        div.input_div
+        label PreviousLoc
+        input.edit_input(type="text" name="PreviousLoc" )
+        div.input_div
+        label LangMaterial
+        input.edit_input(type="text" name="LangMaterial" )
+        div.input_div
+        label PhysTech
+        input.edit_input(type="text" name="PhysTech" )
+        div.input_div
+        label OtherFindAid
+        input.edit_input(type="text" name="OtherFindAid" )
+        div.input_div
+        label ContainerTypeTerm
+        input.edit_input(type="text" name="ContainerTypeTerm" )
+        div.input_div
+        label OriginalsLoc
+        input.edit_input(type="text" name="OriginalsLoc" )
+        div.input_div
+        label AltFormAvail
+        input.edit_input(type="text" name="AltFormAvail" )
+        div.input_div
+        label RelatedMaterial
+        input.edit_input(type="text" name="RelatedMaterial" )
+        div.input_div
+        label Note
+        input.edit_input(type="text" name="Note" )
+        div.input_div
+        label AllowTextualContentInference
+        input.edit_input(type="text" name="AllowTextualContentInference" )
+        div.input_div
+        label TextualContent
+        input.edit_input(type="text" name="TextualContent" )
+        div.input_div
+        label RetentionDisposalDocumentState
+        input.edit_input(type="text" name="RetentionDisposalDocumentState" )
+        div.input_div
+        label ApplySelectionTable
+        input.edit_input(type="text" name="ApplySelectionTable" )
+        div.input_div
+        label RetentionDisposalPolicy
+        input.edit_input(type="text" name="RetentionDisposalPolicy" )
+        div.input_div
+        label RetentionDisposalReference
+        input.edit_input(type="text" name="RetentionDisposalReference" )
+        div.input_div
+        label RetentionDisposalClassification
+        input.edit_input(type="text" name="RetentionDisposalClassification" )
+        div.input_div
+        label RetentionDisposalPeriod
+        input.edit_input(type="text" name="RetentionDisposalPeriod" )
+        div.input_div
+        label RetentionDisposalApplyDate
+        input.edit_input(type="text" name="RetentionDisposalApplyDate" )
+        div.input_div
+        label RetentionDisposalFinalDestination
+        input.edit_input(type="text" name="RetentionDisposalFinalDestination" )
+        div.input_div
+        label RetentionDisposalObservations
+        input.edit_input(type="text" name="RetentionDisposalObservations" )
+        div.input_div
+        label DescRules
+        input.edit_input(type="text" name="DescRules" )
+        div.input_div
+        label Revised
+        input.edit_input(type="text" name="Revised" )
+        div.input_div
+        label Published
+        input.edit_input(type="text" name="Published" )
+        div.input_div
+        label Available
+        input.edit_input(type="text" name="Available" )
+        div.input_div
+        label Highlighted
+        input.edit_input(type="text" name="Highlighted" )
+        div.input_div
+        label Creator
+        input.edit_input(type="text" name="Creator" )
+        div.input_div
+        label Created
+        input.edit_input(type="text" name="Created" placeholder="DD/MM/YYYY HH:MM:SS" )
+        div.input_div
+        label Username
+        input.edit_input(type="text" name="Username" )
+        div.input_div
+        label ProcessInfoDate
+        input.edit_input(type="text" name="ProcessInfoDate" placeholder="DD/MM/YYYY HH:MM:SS" )
+        div.input_div
+        label OtherDescriptiveData
+        input.edit_input(type="text" name="OtherDescriptiveData" )
+        div.input_div
+        label ProcessInfo
+        input.edit_input(type="text" name="ProcessInfo" )
+        div.input_div
+        label Relationships
+        textarea.edit_input(
+          name="Relationships"
+          placeholder='Enter relationships in the "ID:Relationship" format (one per line), e.g.:\n00065:Cousin\n00012:Brother')
+        div.input_div
+        label father
+        input.edit_input(type="text" name="Father" )
+        div.input_div
+        label mother
+        input.edit_input(type="text" name="Mother" )
+        div.input_div
+        label lugar
+        input.edit_input(type="text" name="Lugar" )
+        div.input_div
+        label concelho
+        input.edit_input(type="text" name="Concelho" )
+        div.input_div
+        label distrito
+        input.edit_input(type="text" name="Distrito" )
+        div.input_div
+        label name
+        input.edit_input(type="text" name="Name" )
+        div.input_div
+    div.edit_button_div
+      button.button(type="submit") Register 
+  
+  // Right spacer column
+  div.return_div
+    a.return_button(href="/") Return to Main Page
+
+  footer
+    address Generated by Grupo12::EngWeb2024 on #{data}
 
