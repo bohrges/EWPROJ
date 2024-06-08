@@ -145,17 +145,23 @@ router.post('/edit/:id', function(req, res, next) {
 
 
 /* GET records by ID */
-router.get('/:id', function(req, res, next) {
-  axios.get('http://localhost:3000/' + req.params.id)
-    .then(resposta => {
-      res.render('genere', {genere : resposta.data, data: d, titulo: "Genere " + resposta.data['UnitTitle']})
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro ao recuperar as pessoas"})
-    })
+router.get('/:id', async function(req, res, next) {
+  try{
+    let recordResponse = await axios.get('http://localhost:3000/' + req.params.id)
+    let record = recordResponse.data
+    let recordPostsResponse = await axios.get('http://localhost:3000/posts?inqid=' + req.params.id) // change url
+    let recordPosts = recordPostsResponse.data
+    
+    let combinedData = {
+      ...record,
+      posts: recordPosts
+    }
+  res.render('genere', {genere : combinedData, data: d, titulo: "Genere " + combinedData['UnitTitle']})
+  } catch (error) {
+    res.render('error', {error: error, message: "Erro ao recuperar o genere"})
+  }
 });
 
-
-
-
 module.exports = router;
+
+

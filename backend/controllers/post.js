@@ -51,6 +51,11 @@ module.exports.getMaxId = async () => {
     return max_Id[0]._id
 }
 
+module.exports.getPostsByInqId = inqId => { 
+    return Post
+        .find({InqId: inqId})
+        .exec()
+}
 
 
 

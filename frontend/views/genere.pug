@@ -108,6 +108,35 @@ html
           p.inq_p UnitID: 
             a(href=`/${rel._id}`) #{rel._id}
           p.inq_p Relation: #{rel.Relationship}
+
+  // Posts
+  if genere.posts && genere.posts.length > 0
+    each post in genere.posts
+      div.post_div
+        p.p_user User #{post.UserId} just posted:
+        h2.post_title= post.PostTitle
+        p.post_text= post.PostText
+        
+        // Comments Section
+        if post.Comments.length > 0
+          h3 Comments:
+          each comment in post.Comments
+            div.comment_div
+              p.comment User #{comment.UserId}: #{comment.CommentText}
+        else
+          .w3-container
+            p.no_comments No comments yet
+
+        // Form to add a new comment
+        form(action=`/posts/${post._id}/add-comment`, method="POST")
+          input.comment_input(type="text", name="CommentText", required=true, placeholder="Write your comment here...")
+          input(type="hidden", name="_id", value="defaultCommentId")  
+          input(type="hidden", name="UserId", value="defaultUserId")  
+          input.comment_button(type="submit", value="Add Comment")
+          // CHANGE REDIRECT
+          
+          
+
   // Right spacer column
   div.return_div
     a.return_button(href="/") Return to Main Page

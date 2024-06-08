@@ -5,10 +5,18 @@ var Post = require("../controllers/post")
 
 /* GET all posts */
 router.get('/', function(req, res, next) {
-    Post.getPosts()
-    .then(posts => {
-        res.jsonp(posts);
-    })
+    if (req.query.inqid) {
+        Post.getPostsByInqId(req.query.inqid)
+        .then(posts => {
+            res.jsonp(posts);
+        })
+    }
+    else {
+        Post.getPosts()
+        .then(posts => {
+            res.jsonp(posts);
+        })
+    }
     }
 );
 
