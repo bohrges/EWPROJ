@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Genere = require("../controllers/genere")
 
+
 /* GET paginated list of generes. */
 router.get('/', function(req, res, next) {
   const page = parseInt(req.query.page) || 0;
   const limit = 500; // Number of items per page
-
   Genere.getGeneresPaginated(page, limit)
       .then((data) => {
           const totalPages = Math.ceil(data.totalCount / limit); // Calculate the total number of pages
@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
       });
 });
 
+
 /* GET search by name */
 router.get('/search', function(req, res, next) {
   const limit = 500;
@@ -28,7 +29,6 @@ router.get('/search', function(req, res, next) {
   const type = req.query.searchType;
   const val = req.query.searchValue;
   var tmp = "";
-
   if (type == "name") {
     tmp = Genere.findByName(page, limit, val) 
   }
@@ -44,7 +44,6 @@ router.get('/search', function(req, res, next) {
   else if (type == "district") {
     tmp = Genere.findByDistrict(page, limit, val)
   }
-
   tmp
     .then((data) => {
       const totalPages = Math.ceil(data.totalCount/limit); 
@@ -66,7 +65,6 @@ router.get('/sort', function(req, res, next) {
   const page = parseInt(req.query.page) || 0;
   const sortType = req.query.sortType;
   var tmp = "";
-
   if (sortType == "name") {
     tmp = Genere.sortByName(page, limit, sortType)
   }
@@ -103,8 +101,6 @@ router.get('/sort', function(req, res, next) {
   else if (sortType == "idDesc"){
     tmp = Genere.sortByIdDesc(page, limit, sortType)
   }
-  
-
   tmp
     .then((data) => {
       const totalPages = Math.ceil(data.totalCount/limit); 
@@ -119,7 +115,9 @@ router.get('/sort', function(req, res, next) {
   });
 });   
 
+
 /* GET automated ID before adding a new record */
+/* This is used to get the next ID to be used when adding a new record */
 router.get('/genereID', function(req, res, next) {
   Genere.getMaxId()
   .then((data) => {
@@ -128,6 +126,7 @@ router.get('/genereID', function(req, res, next) {
     res.jsonp(erro)
   });
 });
+
 
 /* GET all ids */
 /* This is used on posts creation, to guarantee the post created refers to a valid inquirição */
@@ -141,9 +140,7 @@ router.get('/allids', function(req, res, next) {
 });
 
 
-
-
-/* GET dataset page. */
+/* GET single record. */
 router.get('/:id', function(req, res, next) {
   Genere.findById(req.params.id)
   .then((data) => {
@@ -152,7 +149,6 @@ router.get('/:id', function(req, res, next) {
     res.jsonp(erro)
   });
 });
-
 
 
 /* POST new record */
@@ -173,7 +169,8 @@ router.post('/', function(req, res, next) {
   }
 });
 
-/* DELETE record */
+
+/* DELETE single record */
 router.delete('/:id', function(req, res, next) {
   console.log(req.params.id)
   Genere.removeById(req.params.id)
@@ -188,11 +185,9 @@ router.delete('/:id', function(req, res, next) {
 /* PUT update record */
 router.put('/:id', function(req, res, next) {
   try {
-
-    // Update database (assuming Genere.update() is correctly set up to handle your data structure)
     Genere.update(req.params.id, req.body)
       .then((data) => {
-        res.json(data); // Using json instead of jsonp unless you specifically need JSONP
+        res.json(data); 
       })
       .catch((error) => {
         console.error('Database update error:', error);

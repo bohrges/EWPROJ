@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Genere = require("../models/genere"); 
 
+
 // Presenting 500 records for each page
 module.exports.getGeneresPaginated = (page, limit) => {
     const skip = page * limit;
@@ -17,8 +18,8 @@ module.exports.getGeneresPaginated = (page, limit) => {
         );
 };
 
-/* ----- SEARCH MOTOR ----- */
 
+/* ----- SEARCH MOTOR ----- */
 // Presenting 500 records for each page, filtered by name
 module.exports.findByName = (page, limit, val) => {
     const skip = page * limit;
@@ -26,7 +27,7 @@ module.exports.findByName = (page, limit, val) => {
     const regex = new RegExp(val, 'i');
     return Genere.countDocuments({Name: regex})
         .then(totalCount =>
-            Genere.find({Name: regex}) // Not 100% correct !!!
+            Genere.find({Name: regex}) 
                 .sort({_id: 1})
                 .limit(limit)
                 .skip(skip)
@@ -36,6 +37,7 @@ module.exports.findByName = (page, limit, val) => {
                 }))
         );
 };
+
 
 // Presenting 500 records for each page, filtered by date
 module.exports.findByDate = (page, limit, val) => {
@@ -53,6 +55,7 @@ module.exports.findByDate = (page, limit, val) => {
                 }))
         );
 };
+
 
 // Presenting 500 records for each page, filtered by location
 module.exports.findByLocation = (page, limit, val) => {
@@ -72,6 +75,7 @@ module.exports.findByLocation = (page, limit, val) => {
         );
 };
 
+
 // Presenting 500 records for each page, filtered by county
 module.exports.findByCounty = (page, limit, val) => {
     const skip = page * limit;
@@ -88,6 +92,7 @@ module.exports.findByCounty = (page, limit, val) => {
                 }))
         );
 };
+
 
 // Presenting 500 records for each page, filtered by district
 module.exports.findByDistrict = (page, limit, val) => {
@@ -106,8 +111,8 @@ module.exports.findByDistrict = (page, limit, val) => {
         );
 };
 
-/* ----- SORT MOTOR ----- */
 
+/* ----- SORT MOTOR ----- */
 // Presenting 500 records for each page, sorted by name (a-z)
 module.exports.sortByName = (page, limit) => {
     const skip = page * limit;
@@ -124,6 +129,7 @@ module.exports.sortByName = (page, limit) => {
                 }))
         );
 }
+
 
 // Presenting 500 records for each page, sorted by name (z-a)
 module.exports.sortByNameDesc = (page, limit) => {
@@ -142,6 +148,7 @@ module.exports.sortByNameDesc = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by date (ascending)
 module.exports.sortByDate = (page, limit) => {
     console.log("sortByDate");
@@ -159,6 +166,7 @@ module.exports.sortByDate = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by date (descending)
 module.exports.sortByDateDesc = (page, limit) => {
     const skip = page * limit;
@@ -174,6 +182,7 @@ module.exports.sortByDateDesc = (page, limit) => {
                 }))
         );
 }
+
 
 // Presenting 500 records for each page, sorted by location (ascending)
 module.exports.sortByLocation = (page, limit) => {
@@ -192,6 +201,7 @@ module.exports.sortByLocation = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by location (descending)
 module.exports.sortByLocationDesc = (page, limit) => {
     const skip = page * limit;
@@ -208,6 +218,7 @@ module.exports.sortByLocationDesc = (page, limit) => {
                 }))
         );
 }
+
 
 // Presenting 500 records for each page, sorted by county (ascending)
 module.exports.sortByCounty = (page, limit) => {
@@ -226,6 +237,7 @@ module.exports.sortByCounty = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by county (descending)
 module.exports.sortByCountyDesc = (page, limit) => {
     const skip = page * limit;
@@ -242,6 +254,7 @@ module.exports.sortByCountyDesc = (page, limit) => {
                 }))
         );
 }
+
 
 // Presenting 500 records for each page, sorted by district (ascending)
 module.exports.sortByDistrict = (page, limit) => {
@@ -260,6 +273,7 @@ module.exports.sortByDistrict = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by district (descending)
 module.exports.sortByDistrictDesc = (page, limit) => {
     const skip = page * limit;
@@ -277,6 +291,7 @@ module.exports.sortByDistrictDesc = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by ID (ascending)
 module.exports.sortById = (page, limit) => {
     const skip = page * limit;
@@ -293,6 +308,7 @@ module.exports.sortById = (page, limit) => {
         );
 }
 
+
 // Presenting 500 records for each page, sorted by ID (descending)
 module.exports.sortByIdDesc = (page, limit) => {
     const skip = page * limit;
@@ -308,6 +324,7 @@ module.exports.sortByIdDesc = (page, limit) => {
                 }))
         );
 }
+
 
 // Record by ID
 module.exports.findById = id => {
@@ -343,8 +360,8 @@ module.exports.getMaxId = async () => {
 
 /* Get all inquirição IDs */
 module.exports.getAllIds = async () => {
-    const docs = await Genere.find({}, '_id').exec(); // Fetch only _id fields
-    return docs.map(doc => doc._id.toString()); // Convert _id to string if necessary
+    const docs = await Genere.find({}, '_id').exec();
+    return docs.map(doc => doc._id.toString());
 }
 
 

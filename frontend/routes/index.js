@@ -55,6 +55,7 @@ router.get('/search', function(req, res, next) {
       });
 });
 
+
 // Sort motor
 router.get('/sort', function(req, res, next) {
     const sortType = req.query.sortBy;
@@ -80,6 +81,7 @@ router.get('/sort', function(req, res, next) {
         });
 });
 
+
 /* GET view to add a new record */
 router.get('/newRecord', function(req, res, next) {
     // Fetching automated ID, which is the max current _id. Then, incrementing it by 1 to guarantee an unique_id
@@ -96,6 +98,7 @@ router.get('/newRecord', function(req, res, next) {
         res.render('newRecord', {data: d, titulo: "Adicionar novo genere", genereID: newId, uselessID: newUselessID})
       })
   });
+
 
 /* POST new record */
 router.post('/newRecord', function(req, res, next) {
@@ -116,6 +119,7 @@ router.post('/newRecord', function(req, res, next) {
       })
   });
 
+
 /* GET view to edit a record */
 router.get('/edit/:id', async function(req, res, next) {
     axios.get('http://localhost:3000/' + req.params.id)
@@ -124,7 +128,8 @@ router.get('/edit/:id', async function(req, res, next) {
       })
 });
 
-/* PUT edited record */
+
+/* POST edited record */
 router.post('/edit/:id', function(req, res, next) {
   let relJson = []
   relationships = req.body['Relationships'].split('\n')
@@ -144,14 +149,16 @@ router.post('/edit/:id', function(req, res, next) {
   });
 
 
-/* GET records by ID */
+/* GET a single record by ID */
 router.get('/:id', async function(req, res, next) {
   try{
+    // Fetch the record by ID
     let recordResponse = await axios.get('http://localhost:3000/' + req.params.id)
     let record = recordResponse.data
-    let recordPostsResponse = await axios.get('http://localhost:3000/posts?inqid=' + req.params.id) // change url
+    // Fetch all the posts made about the record
+    let recordPostsResponse = await axios.get('http://localhost:3000/posts?inqid=' + req.params.id) 
     let recordPosts = recordPostsResponse.data
-    
+    // Combine the data
     let combinedData = {
       ...record,
       posts: recordPosts

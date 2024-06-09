@@ -46,11 +46,13 @@ module.exports.deletePost = id => {
         .exec()
 }
 
+/* Function to get the maximum post id */
 module.exports.getMaxId = async () => {
     const max_Id = await Post.find({}, {_id: 1}).sort({_id: -1}).limit(1);
     return max_Id[0]._id
 }
 
+/* Function to get all posts related to a specific record */
 module.exports.getPostsByInqId = inqId => { 
     return Post
         .find({InqId: inqId})

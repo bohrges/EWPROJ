@@ -4,30 +4,28 @@ var axios = require('axios')
 
 var d = new Date().toISOString().substring(0, 16)
 
+
 /* GET posts page */
 router.get('/', async function(req, res, next) {
   try {
     // Fetch all posts
     let postResponse = await axios.get('http://localhost:3000/posts');
     let posts = postResponse.data;
-
     // For each post, fetch info about the corresponding inquiry 
     let detailsPromises = posts.map(post => {
       return axios.get(`http://localhost:3000/${post.InqId}`);
     });
     let detailsResponses = await Promise.all(detailsPromises);
-
     // Combine the data
     let combinedPosts = posts.map((post, index) => {
       let details = detailsResponses[index].data;
       return {
-        ...post, // spread existing post data
+        ...post, 
         Name: details.Name,
         Date: details.UnitDateFinal,
         Location: details.Location
       };
     });
-
     res.render('posts', {
       posts: combinedPosts,
       titulo: "Lista de Posts",
@@ -55,6 +53,7 @@ router.get('/newPost', function(req, res, next) {
 });
 
 
+/* POST a new post  */
 router.post('/newPost', async (req, res) => {
   try {
     // Fetch the list of all InqIds
@@ -74,6 +73,7 @@ router.post('/newPost', async (req, res) => {
   }
 });
 
+
 /* POST new comment from the record page*/
 router.post('/:post_id/add-comment-genere/:record_id', function(req, res, next) {
   console.log(JSON.stringify(req.body))
@@ -88,6 +88,7 @@ router.post('/:post_id/add-comment-genere/:record_id', function(req, res, next) 
         res.render('error', {error: error, message: "Erro ao adicionar o comentário"})
     });
 });
+
 
 /* POST new comment from the Posts page*/
 router.post('/:id/add-comment', function(req, res, next) {

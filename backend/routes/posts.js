@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
 
 
 /* GET automated ID before adding a new post */
+/* This is used to get the next ID to be used when adding a new post */
 router.get('/postID', function(req, res, next) {
     Post.getMaxId()
     .then((data) => {
@@ -31,7 +32,6 @@ router.get('/postID', function(req, res, next) {
     });
   });
 
-  
 
 /* GET a single post */
 router.get('/:id', function(req, res, next) {
@@ -53,9 +53,6 @@ router.post('/', function(req, res, next) {
 
 /* POST a single comment on a post */
 router.post('/:id/add-comment/', function(req, res, next) {
-    console.log("aqui")
-    console.log(req.params.id)
-    console.log(req.body)
     Post.addComment(req.params.id, req.body)
     .then(post => {
         res.jsonp(post);
