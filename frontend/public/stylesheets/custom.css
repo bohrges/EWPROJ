@@ -244,7 +244,6 @@ fieldset{
   box-sizing: border-box; 
   background-color: #FFBB70; 
   padding: 4px; 
-  cursor: pointer;
 }
 
 .comment_button {
@@ -255,6 +254,7 @@ fieldset{
   border: 2px solid #000000;
   border-radius: 5px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .return_div{
@@ -319,15 +319,15 @@ fieldset{
 }
 
 .inq_info{
-  font-size: 16px;
+  font-size: 20px;
   padding: 20px;
   background-color: #FFFBDA;
 }
 
 .inq_p{
-  font-size: 16px;
-  border: 2px solid #000000;
-  margin: 1px;
+  font-size: 20px;
+  border: 1px solid #000000;
+  margin: 0px;
   padding: 5px;
   background-color: #FFEC9E;
 }

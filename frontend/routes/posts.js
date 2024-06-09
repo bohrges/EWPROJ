@@ -74,8 +74,22 @@ router.post('/newPost', async (req, res) => {
   }
 });
 
+/* POST new comment from the record page*/
+router.post('/:post_id/add-comment-genere/:record_id', function(req, res, next) {
+  console.log(JSON.stringify(req.body))
+  console.log("abcd")
+  console.log(req.params.post_id)
+  console.log(req.params.record_id)
+  axios.post(`http://localhost:3000/posts/${req.params.post_id}/add-comment`, req.body)
+    .then(response => {
+        res.redirect(`http://localhost:3001/${req.params.record_id}`) // need second parameter to redirect to the correct page
+    })
+    .catch(error => {
+        res.render('error', {error: error, message: "Erro ao adicionar o comentário"})
+    });
+});
 
-/* POST new comment */
+/* POST new comment from the Posts page*/
 router.post('/:id/add-comment', function(req, res, next) {
   console.log(req.params.id)
   console.log(JSON.stringify(req.body))
