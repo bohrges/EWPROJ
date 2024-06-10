@@ -1,0 +1,28 @@
+[
+  {
+    "username": "user1",
+    "password": "pass1",
+    "accountId": "acc123",
+    "name": "John Doe",
+    "provider": "local",
+    "email": "johndoe@example.com",
+    "filiacao": "Parent Names",
+    "level": "admin",
+    "active": true,
+    "dateCreated": "2022-01-01",
+    "dateLastAccess": "2024-06-09"
+  },
+  {
+    "username": "user2",
+    "password": "pass2",
+    "accountId": "acc456",
+    "name": "Jane Smith",
+    "provider": "local",
+    "email": "janesmith@example.com",
+    "filiacao": "Parent Names",
+    "level": "user",
+    "active": true,
+    "dateCreated": "2022-01-02",
+    "dateLastAccess": "2024-06-09"
+  }
+]

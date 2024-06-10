@@ -12,11 +12,12 @@ html
   // Buttons
   div.button_div
     a.button(style="margin-right: 8px;" href="/posts") Check Posts
-    a.button(style="margin-right: 8px;" href="/") Clear Filters
-    a.button(href="/newRecord") New Record
+    a.button(style="margin-right: 8px;" href="/home") Clear Filters
+    a.button(style="margin-right: 8px;" href="/newRecord") New Record
+    a.button(href="/logout") Disconnect
 
   // Search form
-  form.search_form(action="/search", method="get") 
+  form.search_form(action="/home/search", method="get") 
     fieldset
       legend.form_legend Search Records
       div.search_div
@@ -33,7 +34,7 @@ html
         button.search_button(type="submit") Search
   
   // Sorting form
-  form.sort_form(action="/sort", method="get") 
+  form.sort_form(action="/home/sort", method="get") 
     fieldset
       legend.form_legend Sort Records
       div.sort_div

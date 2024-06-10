@@ -1,0 +1,42 @@
+doctype html
+html(lang='en')
+  head
+    title Register
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1 Register
+    form(method='POST', action='/register')
+      div
+        label(for='username') Username:
+        input(type='text', name='username', required=true)
+      div
+        label(for='password') Password:
+        input(type='password', name='password', required=true)
+      div
+        label(for='accountId') Account ID:
+        input(type='text', name='accountId', required=true)
+      div
+        label(for='name') Name:
+        input(type='text', name='name', required=true)
+      div
+        label(for='provider') Provider:
+        select(name='provider')
+          option(value='local') Local
+          option(value='google') Google
+          option(value='facebook') Facebook
+      div
+        label(for='email') Email:
+        input(type='email', name='email', required=true)
+      div
+        label(for='filiacao') Filiacao:
+        input(type='text', name='filiacao', required=true)
+      div
+        label(for='level') Level:
+        select(name='level')
+          option(value='user') User
+          option(value='admin') Admin
+      div
+        label(for='active') Active:
+        input(type='checkbox', name='active', checked=true)
+      div
+        button(type='submit') Register

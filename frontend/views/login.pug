@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Login Page
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    .login-container
+      h1 Login
+      form(action='/login', method='POST')
+        .form-group
+          label(for='username') Username
+          input#username(type='text', name='username', required=true)
+        .form-group
+          label(for='password') Password
+          input#password(type='password', name='password', required=true)
+        button(type='submit') Log In
+
+      h2 Don't have an account?
+      a(href='/register') Register here
