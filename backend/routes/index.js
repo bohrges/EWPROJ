@@ -172,7 +172,6 @@ router.post('/', function(req, res, next) {
 
 /* DELETE single record */
 router.delete('/:id', function(req, res, next) {
-  console.log(req.params.id)
   Genere.removeById(req.params.id)
   .then((data) => {
     res.jsonp(data)

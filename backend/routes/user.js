@@ -8,9 +8,20 @@ var auth = require('../auth/auth')
 var User = require('../controllers/user')
 
 router.get('/', auth.verificaAcesso, function(req, res){
+  if (req.body.token) {
+    jwt.verify(req.body.token, "EngWeb2024", function(e, payload) {
+      if (e) res.status(500).jsonp({error: "Erro na verificação do token: " + e})
+      else{
+        User.list()
+          .then(dados => res.status(200).jsonp({dados: dados}))
+          .catch(e => res.status(500).jsonp({error: e}))
+      }
+    })
+  } else{
   User.list()
     .then(dados => res.status(200).jsonp({dados: dados}))
     .catch(e => res.status(500).jsonp({error: e}))
+  }
 })
 
 router.get('/:id', auth.verificaAcesso, function(req, res){
@@ -30,21 +41,24 @@ router.post('/register', function(req, res) {
   userModel.register(new userModel({ email: req.body.email,
                                      username: req.body.username, 
                                      name: req.body.name, 
-                                     filiacao: req.body.filiacao,
                                      level: req.body.level, 
                                      active: true, 
                                      dateLastAccess: d,
-                                     dateCreated: d
+                                     dateCreated: d,
+                                     _id: req.body.username
                                    }), 
                                   req.body.password, 
                                   function(err, user) {
-                                    if (err) 
+                                    if (err) {
+                                      console.log(err)
                                       res.jsonp({error: err, message: "Register error: " + err})
+                                    }
+
                                     else{
                                       passport.authenticate("local")(req,res,function(){
-                                        jwt.sign({ username: req.user.username, level: req.user.level, 
+                                        jwt.sign({ username: req.user._id, level: req.user.level, 
                                           sub: 'aula de EngWeb2023'}, 
-                                          "EngWeb2023",
+                                          "EngWeb2024",
                                           {expiresIn: 3600},
                                           function(e, token) {
                                             if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
@@ -73,8 +87,6 @@ router.post('/login', passport.authenticate('local'),  function(req, res){
 })*/
 
 router.post('/login', function(req, res, next) {
-  console.log(req.body);  // First log the incoming credentials
-
   passport.authenticate('local', function(err, user, info) {
     if (err) {
       console.error(err);

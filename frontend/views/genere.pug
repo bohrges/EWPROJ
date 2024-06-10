@@ -308,7 +308,7 @@ html
           h3 Comments:
           each comment in post.Comments
             div.comment_div
-              p.comment User #{comment.UserId}: #{comment.CommentText}
+              p.comment #{comment.UserId}: #{comment.CommentText}
         else
           .w3-container
             p.no_comments No comments yet

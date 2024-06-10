@@ -23,7 +23,6 @@ module.exports.getGeneresPaginated = (page, limit) => {
 // Presenting 500 records for each page, filtered by name
 module.exports.findByName = (page, limit, val) => {
     const skip = page * limit;
-    console.log("val: " + val);
     const regex = new RegExp(val, 'i');
     return Genere.countDocuments({Name: regex})
         .then(totalCount =>
@@ -61,7 +60,6 @@ module.exports.findByDate = (page, limit, val) => {
 module.exports.findByLocation = (page, limit, val) => {
     const skip = page * limit;
     const regex = new RegExp(val, 'i');
-    console.log("val: " + val);
     return Genere.countDocuments({PhysLoc: regex})
         .then(totalCount =>
             Genere.find({Lugar: regex}) 
@@ -151,7 +149,6 @@ module.exports.sortByNameDesc = (page, limit) => {
 
 // Presenting 500 records for each page, sorted by date (ascending)
 module.exports.sortByDate = (page, limit) => {
-    console.log("sortByDate");
     const skip = page * limit;
     return Genere.countDocuments() 
         .then(totalCount =>
@@ -340,7 +337,6 @@ module.exports.insert = genere => {
 
 // Delete a record by ID
 module.exports.removeById = id => {
-    console.log("id: " + id);
     return Genere.deleteOne({_id: id});
 }
 

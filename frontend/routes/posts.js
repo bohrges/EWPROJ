@@ -6,7 +6,6 @@ var d = new Date().toISOString().substring(0, 16)
 
 // aux function to check if user is logged in
 async function checkLogin(req, res) {
-  console.log("aux function to check if user is logged in");
   if (req.cookies && req.cookies.token) {
     const token = req.cookies.token;
     try {
@@ -70,7 +69,6 @@ router.get('/newPost', async function(req, res, next) {
       .then(resposta => {
         const id = parseInt(resposta.data)
         const newId = (id + 1).toString()
-        console.log(newId)
         res.render('newPost', {data: d, titulo: "Adicionar novo Post", postID: newId})
       })
       .catch(erro => {
@@ -117,10 +115,13 @@ router.post('/newPost', async (req, res) => {
 router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
-    console.log(JSON.stringify(req.body))
-    console.log("abcd")
-    console.log(req.params.post_id)
-    console.log(req.params.record_id)
+    // Getting the current user using the token
+    const token = req.cookies.token;
+    // Fetching the username from the token
+    const response = await axios.get(`http://localhost:3000/users?token=${token}`);
+    const user = response.data.dados[0];
+    req.body.UserId = user.username
+    
     axios.post(`http://localhost:3000/posts/${req.params.post_id}/add-comment`, req.body)
       .then(response => {
           res.redirect(`http://localhost:3001/${req.params.record_id}`) // need second parameter to redirect to the correct page
@@ -140,8 +141,13 @@ router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, 
 router.post('/:id/add-comment', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
-    console.log(req.params.id)
-    console.log(JSON.stringify(req.body))
+    // Getting the current user using the token
+    const token = req.cookies.token;
+    // Fetching the username from the token
+    const response = await axios.get(`http://localhost:3000/users?token=${token}`);
+    const user = response.data.dados[0];
+    req.body.UserId = user.username
+
     axios.post(`http://localhost:3000/posts/${req.params.id}/add-comment`, req.body)
       .then(response => {
           res.redirect('http://localhost:3001/posts')

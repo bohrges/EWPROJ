@@ -1,28 +1,14 @@
 [
   {
+    "_id": "user1",
     "username": "user1",
-    "password": "pass1",
-    "accountId": "acc123",
-    "name": "John Doe",
-    "provider": "local",
-    "email": "johndoe@example.com",
-    "filiacao": "Parent Names",
-    "level": "admin",
-    "active": true,
-    "dateCreated": "2022-01-01",
-    "dateLastAccess": "2024-06-09"
-  },
-  {
-    "username": "user2",
-    "password": "pass2",
-    "accountId": "acc456",
-    "name": "Jane Smith",
-    "provider": "local",
-    "email": "janesmith@example.com",
-    "filiacao": "Parent Names",
+    "name": "Luís Borges",
+    "email": "tiagoborgeslllf@hotmail.com",
     "level": "user",
     "active": true,
-    "dateCreated": "2022-01-02",
-    "dateLastAccess": "2024-06-09"
+    "dateCreated": "2024-06-10T21:40:24",
+    "dateLastAccess": "2024-06-10T21:40:24",
+    "salt": "93aaae1b8a5aabb4df4a75ca2daface20b2c1580d15ddffca1bd0c342c2e0308",
+    "hash": "f342a56d78bac5ebb9b65a014ff0183997ec625127262281a5fffaf625b4ca8854c844d1e54247cdaca841af50df1fb5ff5e1c3be2cf912909b0c150d1a3cf119f6edbee1762c8ec6dc9a378da82142f4dce8e63a40fd712a2c025c8e43ab3d5c662132005d28dc8f5c59412c9391f84e2b320cc70b4a8b58458728d7bc52a8fa3d9e927333b07c976d5f757c75a618fb0be0878360d6a00595b3ed03093e43756f440cfa4eb19f834dc54a8d1c7b9052541a4d053a0d6e5632eb3c220d7c6772359ff76ea8714bb6b965c914897744355c3b05813cb20cceec17838f8313a7aae48b1fe6ca065c5fe7423c51578e7e4a971863e11bf2545c04b5bfb1669563d09c8e371be86e3e7eda03bdbff648b8ce83c0502be3da00adb8c7ec5e5f2688d56e1d74e66e3c95bc156827eb881b2a6f4fd98b4552f8a32fa39c808fab8d9cdf8bbc9988a65baddd15ee304be0e900ae4509aee0794839f1f967604e87255301c166feabd1f1bc89fa0445b387187e32fe8e4d4a2f479cb2beb467d058057242e17f6b66a9465f5a8a3c9dfd6068b6a0a31d0f40fa777cb98783ae34cf6ac595f5097930768db173336925034651bb654899c42222daafd72043b8d86164d8cab10322bd0d8d017d0bbddf7f2c9b2e607ca80c45daf37a52cf458a88c72e8fc19905badf5752833d71aa9dec3736cab2ac7ccacae9839fe1b7fc23fb23852ec"
   }
 ]
