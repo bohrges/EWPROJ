@@ -81,8 +81,8 @@ router.get('/home', async function(req, res, next) {  // Make the function async
                 titulo: "Lista de Generes",
                 page: page,
                 totalPages: response.data.totalPages,
-                nextPageURL: `http://localhost:3001?page=${page+1}`,
-                previousPageURL: `http://localhost:3001?page=${page-1}` 
+                nextPageURL: `http://localhost:3001/home?page=${page+1}`,
+                previousPageURL: `http://localhost:3001/home?page=${page-1}` 
             });
         })
         .catch(error => {

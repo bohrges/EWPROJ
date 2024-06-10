@@ -97,7 +97,13 @@ router.post('/newPost', async (req, res) => {
         res.render('nonExistingInqId');
         return;
       }
-      // If the InqId exists, proceed to create a new post
+      // If the InqId exists, fetch the user's username
+      const token = req.cookies.token;
+      const userResponse = await axios.get(`http://localhost:3000/users?token=${token}`);
+      const user = userResponse.data.dados[0];
+      req.body.UserId = user.username;
+
+      // Proceed to create a new post
       const postResponse = await axios.post('http://localhost:3000/posts/', req.body);
       res.redirect('http://localhost:3001/posts/');
     } catch (error) {
