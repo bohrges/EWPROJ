@@ -248,24 +248,16 @@ html
         div.input_div
         label Highlighted
         input.edit_input(type="text" name="Highlighted" value=genere.Highlighted)
-        div.input_div
-        label Creator
-        input.edit_input(type="text" name="Creator" value=genere.Creator)
-        div.input_div
-        label Created
-        input.edit_input(type="text" name="Created" placeholder="DD/MM/YYYY HH:MM:SS" value=genere.Created) 
+        input.edit_input(type="hidden" name="Creator" value=genere.Creator)
+        input.edit_input(type="hidden" name="Created" placeholder="DD/MM/YYYY HH:MM:SS" value=genere.Created) 
         div.input_div
         label Username
         input.edit_input(type="text" name="Username" value=genere.Username)
-        div.input_div
-        label ProcessInfoDate
-        input.edit_input(type="text" name="ProcessInfoDate" placeholder="DD/MM/YYYY HH:MM:SS" value=genere.ProcessInfoDate)
+        input.edit_input(type="hidden" name="ProcessInfoDate" placeholder="DD/MM/YYYY HH:MM:SS" value=genere.ProcessInfoDate)
         div.input_div
         label OtherDescriptiveData
         input.edit_input(type="text" name="OtherDescriptiveData" value=genere.OtherDescriptiveData)
-        div.input_div
-        label ProcessInfo
-        input.edit_input(type="text" name="ProcessInfo" value=genere.ProcessInfo)
+        input.edit_input(type="hidden" name="ProcessInfo" value=genere.ProcessInfo)
         div.input_div
         label Relationships
         textarea.edit_input(

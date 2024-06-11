@@ -349,3 +349,30 @@ fieldset{
   margin: 0px;
   background-color: #FFEC9E;
 }
+
+/* Login */
+.login_form{
+  padding: 20px;
+  margin: 0px;
+  background-color: #FFEC9E;
+}
+
+.login_div{
+  padding: 10px;
+  margin: 0px;
+}
+
+.login_input{
+  border: 2px solid #000000; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  background-color: #FFBB70; 
+  padding: 4px; 
+}
+
+.login_button_div {
+  background-color: #FFEC9E;
+  padding: 20px;
+  margin: 0px;
+  text-align: center;
+}

@@ -51,7 +51,7 @@ router.post('/register', function(req, res) {
                                   function(err, user) {
                                     if (err) {
                                       console.log(err)
-                                      res.jsonp({error: err, message: "Register error: " + err})
+                                      res.status(500).jsonp({error: err})
                                     }
 
                                     else{

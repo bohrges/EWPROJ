@@ -4,7 +4,27 @@ var axios = require('axios')
 
 var d = new Date().toISOString().substring(0, 16)
 
+function getCurrentFormattedDate() {
+  var d = new Date(); // This always uses the current date and time
+  var formattedDate = ('0' + d.getDate()).slice(-2) + '/' +
+                      ('0' + (d.getMonth() + 1)).slice(-2) + '/' +
+                      d.getFullYear() + ' ' +
+                      ('0' + d.getHours()).slice(-2) + ':' +
+                      ('0' + d.getMinutes()).slice(-2) + ':' +
+                      ('0' + d.getSeconds()).slice(-2);
+  return formattedDate;
+}
 
+function getCurrentFormattedDateV2() {
+  var d = new Date(); // This always uses the current date and time
+  var formattedDate = ('0' + d.getDate()).slice(-2) + '-' +
+                      ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
+                      d.getFullYear() + ' ' +
+                      ('0' + d.getHours()).slice(-2) + ':' +
+                      ('0' + d.getMinutes()).slice(-2) + ':' +
+                      ('0' + d.getSeconds()).slice(-2);
+  return formattedDate;
+}
 
 // GET login 
 router.get('/', function(_, res) {
@@ -20,7 +40,8 @@ router.post('/login', function(req, res){
       res.redirect('/home')
     })
     .catch(err => {
-      res.render('error', {error: err, message: "Erro no login, credênciais inválidas"})
+      console.log("here")
+      res.render('loginError', {message: "Login error, invalid credentials"})
     })
 })
 
@@ -33,11 +54,14 @@ router.get('/register', function(req, res, next) {
 router.post('/register', function(req, res){
   axios.post('http://localhost:3000/users/register', req.body)
     .then(response => {
+      console.log("deu certo?")
+      console.log(response.data)
       res.redirect('/')
     })
     .catch(err => {
+      console.log("entrei aqui?")
       res.render
-      ('error', {error: err, message: "Erro no registo, credênciais inválidas"})
+      ('loginError', {error: err, message: "Error registering user"}) // Erro não está a dar
     })
 })
 
@@ -207,6 +231,15 @@ router.post('/newRecord', async function(req, res, next) {
         relJson.push({'_id': id, 'Relationship': rel})
       }
       req.body['Relationships'] = relJson
+
+      // Getting the current user using the token
+      const token = req.cookies.token;
+      // Fetching the username from the token
+      const response = await axios.get(`http://localhost:3000/users?token=${token}`);
+      const user = response.data.dados[0];
+      req.body.Creator = user.username
+      req.body.Created = getCurrentFormattedDate()
+
       axios.post('http://localhost:3000/', req.body)
         .then(resposta => {
           res.redirect('http://localhost:3001/home')
@@ -252,6 +285,15 @@ router.post('/edit/:id', async function(req, res, next) {
       rel = relationships[i].split(':')[1]
       relJson.push({'_id': id, 'Relationship': rel})
     }
+
+    // Getting the current user using the token
+    const token = req.cookies.token;
+    // Fetching the username from the token
+    const response = await axios.get(`http://localhost:3000/users?token=${token}`);
+    const user = response.data.dados[0];
+    req.body.ProcessInfoDate = getCurrentFormattedDate()
+    req.body.ProcessInfo = "Registo modificado pelo utiiizador " + user.username + ", na data " + getCurrentFormattedDateV2()
+
     req.body['Relationships'] = relJson
       axios.put('http://localhost:3000/' + req.params.id, req.body)
         .then(resposta => {
