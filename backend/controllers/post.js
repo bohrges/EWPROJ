@@ -46,6 +46,16 @@ module.exports.deletePost = id => {
         .exec()
 }
 
+/* Function to delete a comment from a post */
+module.exports.deleteComment = (id, commentId) => {
+    return Post
+        .updateOne(
+            { _id: id },
+            { $pull: { Comments: { _id: commentId } } }
+        )
+        .exec()
+}
+
 /* Function to get the maximum post id */
 module.exports.getMaxId = async () => {
     const max_Id = await Post.find({}, {_id: 1}).sort({_id: -1}).limit(1);

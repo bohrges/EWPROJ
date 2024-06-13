@@ -11,12 +11,13 @@ html
 
   // Buttons
   div.button_div
-    a.button(style="margin-right: 8px;" href="/posts") Check Posts
-    a.button(style="margin-right: 8px;" href="/home") Clear Filters
+    a.button(style="margin-right: 8px;" href="/posts/admin") Check Posts
+    a.button(style="margin-right: 8px;" href="/admin/home") Clear Filters
+    a.button(style="margin-right: 8px;" href="/newRecord") New Record
     a.button(href="/logout") Disconnect
 
   // Search form
-  form.search_form(action="/home/search", method="get") 
+  form.search_form(action="/admin/home/search", method="get") 
     fieldset
       legend.form_legend Search Records
       div.search_div
@@ -33,7 +34,7 @@ html
         button.search_button(type="submit") Search
   
   // Sorting form
-  form.sort_form(action="/home/sort", method="get") 
+  form.sort_form(action="/admin/home/sort", method="get") 
     fieldset
       legend.form_legend Sort Records
       div.sort_div
@@ -65,12 +66,12 @@ html
           th Location
           th County
           th District
-          th Edit
+          th Edit/Delete
       tbody
         each record in generes
           tr
             td
-              a(href=`/${record._id}`) #{record._id}
+              a(href=`/admin/${record._id}`) #{record._id}
             td #{record.Name}
             td #{record.UnitDateFinal}
             td #{record.Lugar}
@@ -79,6 +80,8 @@ html
             td
               div
                 a.genere_edit_button(href=`/edit/${record._id}`) Edit
+                form(method="POST" action=`/delete/${record._id}`)
+                  button.genere_edit_button(type="submit") Delete
 
   // Pagination          
   if totalPages > 1

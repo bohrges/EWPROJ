@@ -24,6 +24,21 @@ router.get('/', auth.verificaAcesso, function(req, res){
   }
 })
 
+router.get('/details', function(req, res) {
+  console.log('Received request for /details');
+  const token = req.headers.authorization.split(' ')[1];
+  console.log('Token extracted from headers:', token);
+  jwt.verify(token, "EngWeb2024", (err, decoded) => {
+    if (err) {
+      console.error('Error while verifying token:', err);
+      return res.status(403).json({ message: 'Failed to authenticate token.' });
+    } else {
+      console.log('Token successfully verified. Decoded information:', decoded);
+      res.json({username: decoded.username, level: decoded.level });
+    }
+  });
+});
+
 router.get('/:id', auth.verificaAcesso, function(req, res){
   User.getUser(req.params.id)
     .then(dados => res.status(200).jsonp({dados: dados}))
@@ -51,7 +66,7 @@ router.post('/register', function(req, res) {
                                   function(err, user) {
                                     if (err) {
                                       console.log(err)
-                                      res.status(500).jsonp({error: err})
+                                      res.status(530).jsonp({error: err})
                                     }
 
                                     else{

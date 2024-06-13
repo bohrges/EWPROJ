@@ -69,4 +69,14 @@ router.delete('/:id', function(req, res, next) {
     }
 );
 
+/* DELETE a single comment on a post */
+router.delete('/:id/delete-comment/:commentId', function(req, res, next) {
+    console.log("deleting comment")
+    Post.deleteComment(req.params.id, req.params.commentId)
+    .then(post => {
+        res.jsonp(post);
+    })
+    }
+);
+
 module.exports = router;
