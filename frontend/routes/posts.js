@@ -208,7 +208,11 @@ router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, 
     // Fetching the username from the token
     const username = await getUsername(req, res);
     req.body.UserId = username
-    
+    // Fetching maximum comment ID to increment it by 1
+    const response = await axios.get('http://localhost:3000/posts/commentId');
+    const commentID = parseInt(response.data);
+    const newId = (commentID + 1).toString();
+    req.body._id = newId
     axios.post(`http://localhost:3000/posts/${req.params.post_id}/add-comment`, req.body)
       .then(response => {
           if (level === 'admin') {
@@ -238,7 +242,11 @@ router.post('/:id/add-comment', async function(req, res, next) {
     // Fetching the username from the token
     const username = await getUsername(req, res);
     req.body.UserId = username
-
+    // Fetching maximum comment ID to increment it by 1
+    const response = await axios.get('http://localhost:3000/posts/commentId');
+    const commentID = parseInt(response.data);
+    const newId = (commentID + 1).toString();
+    req.body._id = newId
     axios.post(`http://localhost:3000/posts/${req.params.id}/add-comment`, req.body)
       .then(response => {
         if (level === 'admin') {

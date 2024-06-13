@@ -32,6 +32,17 @@ router.get('/postID', function(req, res, next) {
     });
   });
 
+// GET automateed ID before adding a new comment
+// This is used to get the next ID to be used when adding a new comment
+router.get('/commentID', function(req, res, next) {
+    Post.getMaxCommentId()
+    .then((data) => {
+      res.jsonp(data)
+    }).catch((erro) => {
+      res.jsonp(erro)
+    });
+  });
+
 
 // GET a single post 
 router.get('/:id', function(req, res, next) {

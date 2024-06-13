@@ -62,6 +62,29 @@ module.exports.getMaxId = async () => {
     return max_Id[0]._id
 }
 
+// Get the maximum comment id
+module.exports.getMaxCommentId = async function getMaxCommentId() {
+    try {
+      const result = await Post.aggregate([
+        { $unwind: '$Comments' }, 
+        { $group: {
+          _id: null,
+          maxCommentId: { $max: '$Comments._id' } 
+        }}
+      ]);
+      if (result.length > 0) {
+        console.log('Max Comment ID:', result[0].maxCommentId);
+        return result[0].maxCommentId;
+      } else {
+        console.log('No comments found');
+        return null;
+      }
+    } catch (err) {
+      console.error('Failed to retrieve maximum comment ID:', err);
+      return null;
+    }
+  }
+  
 // Get all posts related to a specific record 
 module.exports.getPostsByInqId = inqId => { 
     return Post
