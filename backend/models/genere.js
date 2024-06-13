@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define nested schema for 'relationships'
+// Nested schema for 'relationships'
 const relationshipSchema = new Schema({
   _id: String,
   Relationship: String
 });
 
-// Main schema for the inquiry record
+// Main schema
 const genereSchema = new Schema({
   Id: String, // this one is not used but must be here for exporting
   _id: String,

@@ -6,7 +6,7 @@ const commentsSchema = new Schema({
     UserId: String,
     CommentText: String
   });
-
+ 
 // Main schema for a post
 const postSchema = new Schema({
     _id: String,

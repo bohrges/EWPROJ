@@ -3,7 +3,7 @@ var router = express.Router();
 var Post = require("../controllers/post")
 
 
-/* GET all posts */
+// GET all posts 
 router.get('/', function(req, res, next) {
     if (req.query.inqid) {
         Post.getPostsByInqId(req.query.inqid)
@@ -21,8 +21,8 @@ router.get('/', function(req, res, next) {
 );
 
 
-/* GET automated ID before adding a new post */
-/* This is used to get the next ID to be used when adding a new post */
+// GET automated ID before adding a new post 
+// This is used to get the next ID to be used when adding a new post 
 router.get('/postID', function(req, res, next) {
     Post.getMaxId()
     .then((data) => {
@@ -33,7 +33,7 @@ router.get('/postID', function(req, res, next) {
   });
 
 
-/* GET a single post */
+// GET a single post 
 router.get('/:id', function(req, res, next) {
     Post.getPost(req.params.id)
     .then(post => {
@@ -42,7 +42,7 @@ router.get('/:id', function(req, res, next) {
     }
 );
 
-/* POST a single post */
+// POST a single post 
 router.post('/', function(req, res, next) {
     Post.insertPost(req.body)
     .then(post => {
@@ -51,7 +51,7 @@ router.post('/', function(req, res, next) {
     }
 );
 
-/* POST a single comment on a post */
+// POST a single comment on a post 
 router.post('/:id/add-comment/', function(req, res, next) {
     Post.addComment(req.params.id, req.body)
     .then(post => {
@@ -60,7 +60,7 @@ router.post('/:id/add-comment/', function(req, res, next) {
     }
 );
 
-/* DELETE a single post */
+// DELETE a single post 
 router.delete('/:id', function(req, res, next) {
     Post.deletePost(req.params.id)
     .then(post => {
@@ -69,7 +69,7 @@ router.delete('/:id', function(req, res, next) {
     }
 );
 
-/* DELETE a single comment on a post */
+// DELETE a single comment on a post 
 router.delete('/:id/delete-comment/:commentId', function(req, res, next) {
     console.log("deleting comment")
     Post.deleteComment(req.params.id, req.params.commentId)

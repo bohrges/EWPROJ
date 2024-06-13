@@ -16,4 +16,3 @@ module.exports.verificaAcesso = function (req, res, next){
       res.status(401).jsonp({error: "Token inexistente!"})
     }
   }
-

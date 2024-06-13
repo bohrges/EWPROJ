@@ -1,28 +1,28 @@
 const mongoose = require("mongoose");
 const Post = require("../models/post"); 
 
-/* Function to get all posts */
+// Get all posts 
 module.exports.getPosts = () => {
     return Post
         .find()
         .exec()
 }
 
-/* Function to get a single post */
+// Get a single post 
 module.exports.getPost = (id) => {
     return Post
         .findOne({_id: id})
         .exec()
 }
 
-/* Function to insert a post */
+// Insert a post
 module.exports.insertPost = (post) => {
     var newPost = new Post(post)
     return newPost.save()
     
 }
 
-/* Function to add a comment to a post */
+// Add a comment to a post 
 module.exports.addComment = (id, comment) => {
     return Post
         .findOneAndUpdate({_id: id}, {$push: {Comments: comment}})
@@ -39,14 +39,14 @@ module.exports.addComment = (id, comment) => {
         });
 }
 
-/* Function to delete a post */
+// Delete a post 
 module.exports.deletePost = id => {
     return Post
         .deleteOne({_id: id})
         .exec()
 }
 
-/* Function to delete a comment from a post */
+// Delete a comment from a post 
 module.exports.deleteComment = (id, commentId) => {
     return Post
         .updateOne(
@@ -56,19 +56,15 @@ module.exports.deleteComment = (id, commentId) => {
         .exec()
 }
 
-/* Function to get the maximum post id */
+// Get the maximum post id 
 module.exports.getMaxId = async () => {
     const max_Id = await Post.find({}, {_id: 1}).sort({_id: -1}).limit(1);
     return max_Id[0]._id
 }
 
-/* Function to get all posts related to a specific record */
+// Get all posts related to a specific record 
 module.exports.getPostsByInqId = inqId => { 
     return Post
         .find({InqId: inqId})
         .exec()
 }
-
-
-
-

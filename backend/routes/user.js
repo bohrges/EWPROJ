@@ -3,54 +3,22 @@ var router = express.Router();
 var jwt = require('jsonwebtoken')
 var passport = require('passport')
 var userModel = require('../models/user')
-var auth = require('../auth/auth')
 
-var User = require('../controllers/user')
 
-router.get('/', auth.verificaAcesso, function(req, res){
-  if (req.body.token) {
-    jwt.verify(req.body.token, "EngWeb2024", function(e, payload) {
-      if (e) res.status(500).jsonp({error: "Erro na verificação do token: " + e})
-      else{
-        User.list()
-          .then(dados => res.status(200).jsonp({dados: dados}))
-          .catch(e => res.status(500).jsonp({error: e}))
-      }
-    })
-  } else{
-  User.list()
-    .then(dados => res.status(200).jsonp({dados: dados}))
-    .catch(e => res.status(500).jsonp({error: e}))
-  }
-})
-
+// returns current user details (username and level) based on the token
 router.get('/details', function(req, res) {
-  console.log('Received request for /details');
   const token = req.headers.authorization.split(' ')[1];
-  console.log('Token extracted from headers:', token);
   jwt.verify(token, "EngWeb2024", (err, decoded) => {
     if (err) {
-      console.error('Error while verifying token:', err);
       return res.status(403).json({ message: 'Failed to authenticate token.' });
     } else {
-      console.log('Token successfully verified. Decoded information:', decoded);
       res.json({username: decoded.username, level: decoded.level });
     }
   });
 });
 
-router.get('/:id', auth.verificaAcesso, function(req, res){
-  User.getUser(req.params.id)
-    .then(dados => res.status(200).jsonp({dados: dados}))
-    .catch(e => res.status(500).jsonp({error: e}))
-})
 
-router.post('/', auth.verificaAcesso, function(req, res){
-  User.addUser(req.body)
-    .then(dados => res.status(201).jsonp({dados: dados}))
-    .catch(e => res.status(500).jsonp({error: e}))
-})
-
+// registers a user
 router.post('/register', function(req, res) {
   var d = new Date().toISOString().substring(0,19)
   userModel.register(new userModel({ email: req.body.email,
@@ -67,16 +35,14 @@ router.post('/register', function(req, res) {
                                     if (err) {
                                       console.log(err)
                                       res.status(530).jsonp({error: err})
-                                    }
-
-                                    else{
+                                    } else{
                                       passport.authenticate("local")(req,res,function(){
                                         jwt.sign({ username: req.user._id, level: req.user.level, 
                                           sub: 'aula de EngWeb2023'}, 
                                           "EngWeb2024",
                                           {expiresIn: 3600},
                                           function(e, token) {
-                                            if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+                                            if(e) res.status(500).jsonp({error: "Error generating the token: " + e}) 
                                             else res.status(201).jsonp({token: token})
                                           });
                                       })
@@ -85,22 +51,7 @@ router.post('/register', function(req, res) {
 })
 
 
-/*
-router.post('/login', passport.authenticate('local'),  function(req, res){
-  console.log("got to the backend")
-  console.log(req.body)
-  var d = new Date().toISOString().substring(0,19)
-  User.updateUserLastAccess(req.user._id, d)
-  jwt.sign({ username: req.user.username, level: req.user.level, 
-    sub: 'aula de EngWeb2024'}, 
-    "EngWeb2024",
-    {expiresIn: 3600},
-    function(e, token) {
-      if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
-      else res.status(201).jsonp({token: token})
-  });
-})*/
-
+// logs in a user
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
@@ -128,56 +79,5 @@ router.post('/login', function(req, res, next) {
   })(req, res, next);
 });
 
-
-
-router.put('/:id', auth.verificaAcesso, function(req, res) {
-  User.updateUser(req.params.id, req.body)
-    .then(dados => {
-      res.jsonp(dados)
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na alteração do utilizador"})
-    })
-})
-
-router.put('/:id/desativar', auth.verificaAcesso, function(req, res) {
-  User.updateUserStatus(req.params.id, false)
-    .then(dados => {
-      res.jsonp(dados)
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na alteração do utilizador"})
-    })
-})
-
-router.put('/:id/ativar', auth.verificaAcesso, function(req, res) {
-  User.updateUserStatus(req.params.id, true)
-    .then(dados => {
-      res.jsonp(dados)
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na alteração do utilizador"})
-    })
-})
-
-router.put('/:id/password', auth.verificaAcesso, function(req, res) {
-  User.updateUserPassword(req.params.id, req.body)
-    .then(dados => {
-      res.jsonp(dados)
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na alteração do utilizador"})
-    })
-})
-
-router.delete('/:id', auth.verificaAcesso, function(req, res) {
-  User.deleteUser(req.params.id)
-    .then(dados => {
-      res.jsonp(dados)
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na remoção do utilizador"})
-    })
-})
 
 module.exports = router;

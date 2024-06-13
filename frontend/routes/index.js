@@ -2,81 +2,10 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios')
 
+// Aux functions
+const { getCurrentFormattedDate, getCurrentFormattedDateV2, checkLevel, checkLogin, getUsername } = require('../utils/aux');
+
 var d = new Date().toISOString().substring(0, 16)
-
-// aux function to present the date in the dd/mm/yyyy hh:mm:ss format
-function getCurrentFormattedDate() {
-  var d = new Date(); // This always uses the current date and time
-  var formattedDate = ('0' + d.getDate()).slice(-2) + '/' +
-                      ('0' + (d.getMonth() + 1)).slice(-2) + '/' +
-                      d.getFullYear() + ' ' +
-                      ('0' + d.getHours()).slice(-2) + ':' +
-                      ('0' + d.getMinutes()).slice(-2) + ':' +
-                      ('0' + d.getSeconds()).slice(-2);
-  return formattedDate;
-}
-
-// aux function to present the date in the dd-mm-yyyy hh:mm:ss format
-function getCurrentFormattedDateV2() {
-  var d = new Date(); // This always uses the current date and time
-  var formattedDate = ('0' + d.getDate()).slice(-2) + '-' +
-                      ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
-                      d.getFullYear() + ' ' +
-                      ('0' + d.getHours()).slice(-2) + ':' +
-                      ('0' + d.getMinutes()).slice(-2) + ':' +
-                      ('0' + d.getSeconds()).slice(-2);
-  return formattedDate;
-}
-
-
-// aux function to check the user level (admin or 'normal' user)
-async function checkLevel(req, res) {
-  if (req.cookies && req.cookies.token) {
-    const token = req.cookies.token;
-    try {
-      const response = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } });
-      return response.data.level;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-// aux funtion to get the username 
-async function getUsername(req, res) {
-  if (req.cookies && req.cookies.token) {
-    const token = req.cookies.token;
-    try {
-      const response = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } });
-      return response.data.username;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-
-
-
-// aux function to check if user is logged in
-async function checkLogin(req, res) {
-  if (req.cookies && req.cookies.token) {
-    const token = req.cookies.token;
-    try {
-      const response = await axios.get(`http://localhost:3000/users?token=${token}`);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
 
 // GET login 
 router.get('/', function(_, res) {
@@ -133,10 +62,6 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-
-// ---------------------------------
-
-
 // GET home page for ADMIN. (500 records per page) 
 router.get('/admin/home', async function(req, res, next) { 
   const loggedIn = await checkLogin(req, res);  
@@ -158,7 +83,7 @@ router.get('/admin/home', async function(req, res, next) {
         .catch(error => {
             res.render('error', {
                 error: error,
-                message: "Erro ao recuperar as pessoas"
+                message: "Error retrieving the records"
             });
         });
   } else if (level != 'admin') {
@@ -170,7 +95,6 @@ router.get('/admin/home', async function(req, res, next) {
 });
 
 // GET home page for USER. (500 records per page)
-// TODO: change edit button for normal users
 router.get('/home', async function(req, res, next) {  
   const loggedIn = await checkLogin(req, res); 
 
@@ -191,7 +115,7 @@ router.get('/home', async function(req, res, next) {
         .catch(error => {
             res.render('error', {
                 error: error,
-                message: "Erro ao recuperar as pessoas"
+                message: "Error retrieving the records"
             });
         });
   } else {
@@ -199,10 +123,6 @@ router.get('/home', async function(req, res, next) {
     res.render('permissionDenied');
   }
 });
-
-
-
-
 
 // Search motor for ADMIN
 router.get('/admin/home/search', async function(req, res, next) {
@@ -228,7 +148,7 @@ router.get('/admin/home/search', async function(req, res, next) {
         .catch(error => {
             res.render('error', {
                 error: error,
-                message: "Erro ao recuperar as pessoas"
+                message: "Error retrieving the records"
             });
         });
   } else if (level != 'admin') {
@@ -236,7 +156,7 @@ router.get('/admin/home/search', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
@@ -263,20 +183,15 @@ router.get('/home/search', async function(req, res, next) {
         .catch(error => {
             res.render('error', {
                 error: error,
-                message: "Erro ao recuperar as pessoas"
+                message: "Error retrieving the records"
             });
         });
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
-
-
-
-
-
 
 // Sort motor for ADMIN
 router.get('/admin/home/sort', async function(req, res, next) {
@@ -302,7 +217,7 @@ router.get('/admin/home/sort', async function(req, res, next) {
         .catch(error => {
             res.render('error', {
                 error: error,
-                message: "Erro ao recuperar as pessoas"
+                message: "Error retrieving the records"
             });
         });
   } else if (level != 'admin') {
@@ -310,15 +225,14 @@ router.get('/admin/home/sort', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
 // Sort motor for USER
 router.get('/home/sort', async function(req, res, next) {
-  const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
+  const loggedIn = await checkLogin(req, res); 
   if (loggedIn) {
-
     // Fetching the data
     const sortType = req.query.sortBy;
     const page = parseInt(req.query.page) || 0;
@@ -338,16 +252,15 @@ router.get('/home/sort', async function(req, res, next) {
         .catch(error => {
             res.render('error', {
                 error: error,
-                message: "Erro ao recuperar as pessoas"
+                message: "Error retrieving the records"
             });
         });
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
-
 
 // GET view to add a new record (only for admins)
 router.get('/newRecord', async function(req, res, next) {
@@ -361,10 +274,10 @@ router.get('/newRecord', async function(req, res, next) {
         const newId = (id + 1).toString()
         const uselessID = parseInt(resposta.data.maxId[0].ID)
         const newUselessID = (uselessID + 1).toString()
-        res.render('newRecord', {data: d, titulo: "Adicionar novo genere", genereID: newId, uselessID: newUselessID})
+        res.render('newRecord', {data: d, titulo: "Add new record", genereID: newId, uselessID: newUselessID})
       })
       .catch(erro => {
-        res.render('error', {error: erro, message: "Erro ao adicionar o genere"})
+        res.render('error', {error: erro, message: "Error adding new record"})
       })
   }
   else if (level != 'admin') {
@@ -372,7 +285,7 @@ router.get('/newRecord', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   } 
 });
 
@@ -407,15 +320,24 @@ router.post('/newRecord', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
+
+
+
+
+
+
+
+
+
 
 
 // GET view to edit a record 
 // TODO: change this
 router.get('/edit/:id', async function(req, res, next) {
-  const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
+  const loggedIn = await checkLogin(req, res); 
   if (loggedIn) {
     axios.get('http://localhost:3000/' + req.params.id)
       .then(resposta => {
@@ -427,10 +349,9 @@ router.get('/edit/:id', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
-
 
 // POST edited record 
 // TODO: change this
@@ -463,14 +384,24 @@ router.post('/edit/:id', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
+
+
+
+
+
+
+
+
+
+
 // DELETE record (only for admins)
 router.post('/delete/:id', async function(req, res, next) {
-  const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
-  const level = await checkLevel(req, res);  // Await the checkLevel function
+  const loggedIn = await checkLogin(req, res);  
+  const level = await checkLevel(req, res); 
   if (loggedIn && level == 'admin') {
     axios.delete('http://localhost:3000/' + req.params.id)
       .then(resposta => {
@@ -485,7 +416,7 @@ router.post('/delete/:id', async function(req, res, next) {
   }
   else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
@@ -508,22 +439,20 @@ router.get('/admin/:id', async function(req, res, next) {
       }
     res.render('genereAdmin', {genere : combinedData, data: d, titulo: "Genere " + combinedData['UnitTitle']})
     } catch (error) {
-      res.render('error', {error: error, message: "Erro ao recuperar o genere"})
+      res.render('error', {error: error, message: "Error retrieving the genere"})
     }
-  }
-  else if (level != 'admin') {
+  } else if (level != 'admin') {
     res.render('permissionDenied');
-  }
-  else {
+  } else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
 
 // GET a single record by ID 
 router.get('/:id', async function(req, res, next) {
-  const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
+  const loggedIn = await checkLogin(req, res); 
   if (loggedIn) {
     try{
       // Fetch the record by ID
@@ -539,16 +468,13 @@ router.get('/:id', async function(req, res, next) {
       }
     res.render('genere', {genere : combinedData, data: d, titulo: "Genere " + combinedData['UnitTitle']})
     } catch (error) {
-      res.render('error', {error: error, message: "Erro ao recuperar o genere"})
+      res.render('error', {error: error, message: "Error retrieving the genere"})
     }
-  }
-  else {
+  } else {
     console.log("User not logged in or token validation failed.");
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
 
 module.exports = router;
-
-

@@ -2,57 +2,10 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios')
 
+// Aux functions
+const {getCurrentFormattedDate, getCurrentFormattedDateV2, checkLevel, checkLogin, getUsername} = require('../utils/aux.js');
+
 var d = new Date().toISOString().substring(0, 16)
-
-// aux function to check if user is logged in
-async function checkLogin(req, res) {
-  if (req.cookies && req.cookies.token) {
-    const token = req.cookies.token;
-    try {
-      const response = await axios.get(`http://localhost:3000/users?token=${token}`);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-
-// aux function to check the user level (admin or 'normal' user)
-async function checkLevel(req, res) {
-  if (req.cookies && req.cookies.token) {
-    const token = req.cookies.token;
-    try {
-      const response = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } });
-      return response.data.level;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-// aux funtion to get the username 
-async function getUsername(req, res) {
-  if (req.cookies && req.cookies.token) {
-    const token = req.cookies.token;
-    try {
-      const response = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } });
-      return response.data.username;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-
-
-
 
 // GET posts page ADMIN
 router.get('/admin', async function(req, res, next) {
@@ -98,7 +51,7 @@ router.get('/admin', async function(req, res, next) {
 });
 
 
-/* GET posts page */
+// GET posts page 
 router.get('/', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
@@ -139,7 +92,7 @@ router.get('/', async function(req, res, next) {
 });
 
 
-/* GET view to add a new post */
+// GET view to add a new post 
 router.get('/newPost', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
@@ -161,7 +114,7 @@ router.get('/newPost', async function(req, res, next) {
 });
 
 
-/* POST a new post  */
+// POST a new post  
 router.post('/newPost', async (req, res) => {
   const loggedIn = await checkLogin(req, res); 
   const level = await checkLevel(req, res);
@@ -180,7 +133,6 @@ router.post('/newPost', async (req, res) => {
         res.render('nonExistingInqId', {link: returnLink});
         return;
       }
-      
       // Getting the current user using the token
       const token = req.cookies.token;
       // Fetching the username from the token
@@ -211,9 +163,9 @@ router.post('/delete-post/:id', async function(req, res, next) {
   const level = await checkLevel(req, res);
   if (loggedIn && level === 'admin') {
     axios.delete(`http://localhost:3000/posts/${req.params.id}`)
-      .then(response => { // Redirect to current page, if it fails redirect to posts
+      .then( // Redirect to current page, if it fails redirect to posts
         res.redirect(req.headers.referer || 'http://localhost:3001/posts/admin')
-      })
+      )
       .catch(error => {
         res.render('error', {error: error, message: "Erro ao eliminar o post"})
       });
@@ -231,13 +183,13 @@ router.post('/delete-comment/:postId/:commentId', async function(req, res, next)
   const level = await checkLevel(req, res);
   if (loggedIn && level === 'admin') {
     axios.delete(`http://localhost:3000/posts/${req.params.postId}/delete-comment/${req.params.commentId}`)
-    .then(response => { // Redirect to current page, if it fails redirect to posts
-      res.redirect(req.headers.referer || 'http://localhost:3001/posts/admin')
-    })
+      .then( // Redirect to current page, if it fails redirect to posts
+        res.redirect(req.headers.referer || 'http://localhost:3001/posts/admin')
+      )
       .catch(error => {
         res.render('error', {error: error, message: "Erro ao eliminar o comentário"})
       });
-  }else if (level != 'admin') {
+  } else if (level != 'admin') {
     res.render('permissionDenied');
   } else {
     console.log("User not logged in or token validation failed.");
@@ -246,7 +198,7 @@ router.post('/delete-comment/:postId/:commentId', async function(req, res, next)
 });
 
 
-/* POST new comment from the record page*/
+// POST new comment from the record page
 router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res); 
   const level = await checkLevel(req, res);
@@ -276,7 +228,7 @@ router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, 
 });
 
 
-/* POST new comment from the Posts page*/
+// POST new comment from the Posts page
 router.post('/:id/add-comment', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   const level = await checkLevel(req, res);
@@ -305,11 +257,4 @@ router.post('/:id/add-comment', async function(req, res, next) {
   }
 });
 
-
-
-
-
-
 module.exports = router;
-  
-

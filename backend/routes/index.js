@@ -3,7 +3,7 @@ var router = express.Router();
 var Genere = require("../controllers/genere")
 
 
-/* GET paginated list of generes. */
+// GET paginated list of generes. 
 router.get('/', function(req, res, next) {
   const page = parseInt(req.query.page) || 0;
   const limit = 500; // Number of items per page
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-/* GET search by name */
+// GET search by name 
 router.get('/search', function(req, res, next) {
   const limit = 500;
   const page = parseInt(req.query.page) || 0;
@@ -59,7 +59,7 @@ router.get('/search', function(req, res, next) {
 });
 
 
-/* GET sort */
+// GET sort 
 router.get('/sort', function(req, res, next) {
   const limit = 500;
   const page = parseInt(req.query.page) || 0;
@@ -116,8 +116,8 @@ router.get('/sort', function(req, res, next) {
 });   
 
 
-/* GET automated ID before adding a new record */
-/* This is used to get the next ID to be used when adding a new record */
+// GET automated ID before adding a new record 
+// This is used to get the next ID to be used when adding a new record 
 router.get('/genereID', function(req, res, next) {
   Genere.getMaxId()
   .then((data) => {
@@ -128,8 +128,8 @@ router.get('/genereID', function(req, res, next) {
 });
 
 
-/* GET all ids */
-/* This is used on posts creation, to guarantee the post created refers to a valid inquirição */
+// GET all ids 
+// This is used on posts creation, to guarantee the post created refers to a valid inquirição 
 router.get('/allids', function(req, res, next) {
   Genere.getAllIds()
   .then((data) => {
@@ -140,7 +140,7 @@ router.get('/allids', function(req, res, next) {
 });
 
 
-/* GET single record. */
+// GET single record
 router.get('/:id', function(req, res, next) {
   Genere.findById(req.params.id)
   .then((data) => {
@@ -151,7 +151,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 
-/* POST new record */
+// POST new record 
 router.post('/', function(req, res, next) {
   try {
   
@@ -170,7 +170,7 @@ router.post('/', function(req, res, next) {
 });
 
 
-/* DELETE single record */
+// DELETE single record 
 router.delete('/:id', function(req, res, next) {
   Genere.removeById(req.params.id)
   .then((data) => {
@@ -181,7 +181,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 
-/* PUT update record */
+// PUT update record 
 router.put('/:id', function(req, res, next) {
   try {
     Genere.update(req.params.id, req.body)
