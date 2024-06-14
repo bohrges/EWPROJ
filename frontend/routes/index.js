@@ -334,8 +334,29 @@ router.post('/newRecord', async function(req, res, next) {
 
 
 
-// GET view to edit a record 
-// TODO: change this
+// GET view to edit a record ADMIN
+router.get('/admin/edit/:id', async function(req, res, next) {
+  const loggedIn = await checkLogin(req, res); 
+  const level = await checkLevel(req, res);
+  if (loggedIn && level == 'admin') {
+    axios.get('http://localhost:3000/' + req.params.id)
+      .then(resposta => {
+        res.render('editRecordAdmin', {genere : resposta.data, data: d, titulo: "Editar Genere " + resposta.data['UnitTitle']})
+      })
+      .catch(erro => {
+        res.render('error', {error: erro, message: "Erro ao editar o genere"})
+      })
+  } else if (level != 'admin') {
+    res.render('permissionDenied');
+  }
+  else {
+    console.log("User not logged in or token validation failed.");
+    res.redirect('/');
+  }
+});
+
+
+// GET view to edit a record USER
 router.get('/edit/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res); 
   if (loggedIn) {
@@ -353,34 +374,80 @@ router.get('/edit/:id', async function(req, res, next) {
   }
 });
 
-// POST edited record 
-// TODO: change this
+
+
+
+// POST edited record ADMIN
+router.post('/admin/edit/:id', async function(req, res, next) {
+  const loggedIn = await checkLogin(req, res);
+  const level = await checkLevel(req, res);
+  if (loggedIn && level == 'admin') {
+    let relJson = []
+    relationships = req.body['Relationships'].split('\n')
+    if (!(relationships.length == 1 && relationships[0] == ''))
+      for (let i = 0; i < relationships.length; i++) {
+        id = relationships[i].split(':')[0]
+        rel = relationships[i].split(':')[1]
+        relJson.push({'_id': id, 'Relationship': rel})
+      }
+    // Getting the current user using the token
+    const username = await getUsername(req, res);
+    req.body.ProcessInfo = "Registo modificado pelo utilizador " + username + ", na data " + getCurrentFormattedDateV2()
+
+    if (relJson.length > 0){
+      req.body['Relationships'] = relJson
+    } else {
+      // make it an empty list
+      req.body['Relationships'] = []
+    }
+    axios.put('http://localhost:3000/' + req.params.id, req.body)
+      .then(resposta => {
+        res.redirect('http://localhost:3001/admin/home')
+      })
+      .catch(erro => {
+        res.render('error', {error: erro, message: "Erro ao editar o genere"})
+      })
+  }
+  else if (level != 'admin') {
+    res.render('permissionDenied');
+  }
+  else {
+    console.log("User not logged in or token validation failed.");
+    res.redirect('/');
+  }
+});
+
+
+
+// POST edited record USER
 router.post('/edit/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
     let relJson = []
     relationships = req.body['Relationships'].split('\n')
-    for (let i = 0; i < relationships.length; i++) {
-      id = relationships[i].split(':')[0]
-      rel = relationships[i].split(':')[1]
-      relJson.push({'_id': id, 'Relationship': rel})
-    }
-    // Getting the current user using the token ->  WRONG!!!
-    const token = req.cookies.token;
-    // Fetching the username from the token
-    const response = await axios.get(`http://localhost:3000/users?token=${token}`);
-    const user = response.data.dados[0];
-    req.body.ProcessInfoDate = getCurrentFormattedDate()
-    req.body.ProcessInfo = "Registo modificado pelo utiiizador " + user.username + ", na data " + getCurrentFormattedDateV2()
+    if (!(relationships.length == 1 && relationships[0] == ''))
+      for (let i = 0; i < relationships.length; i++) {
+        id = relationships[i].split(':')[0]
+        rel = relationships[i].split(':')[1]
+        relJson.push({'_id': id, 'Relationship': rel})
+      }
+    // Getting the current user using the token
+    const username = await getUsername(req, res);
+    req.body.ProcessInfo = "Registo modificado pelo utilizador " + username + ", na data " + getCurrentFormattedDateV2()
 
-    req.body['Relationships'] = relJson
-      axios.put('http://localhost:3000/' + req.params.id, req.body)
-        .then(resposta => {
-          res.redirect('http://localhost:3001/admin/home')
-        })
-        .catch(erro => {
-          res.render('error', {error: erro, message: "Erro ao editar o genere"})
-        })
+    if (relJson.length > 0){
+      req.body['Relationships'] = relJson
+    } else {
+      // make it an empty list
+      req.body['Relationships'] = []
+    }
+    axios.put('http://localhost:3000/' + req.params.id, req.body)
+      .then(resposta => {
+        res.redirect('http://localhost:3001/home')
+      })
+      .catch(erro => {
+        res.render('error', {error: erro, message: "Erro ao editar o genere"})
+      })
   }
   else {
     console.log("User not logged in or token validation failed.");

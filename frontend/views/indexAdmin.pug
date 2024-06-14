@@ -79,7 +79,7 @@ html
             td #{record.Distrito}
             td
               div
-                a.genere_edit_button(href=`/edit/${record._id}`) Edit
+                a.genere_edit_button(href=`/admin/edit/${record._id}`) Edit
                 form(method="POST" action=`/delete/${record._id}`)
                   button.genere_edit_button(type="submit") Delete
 
