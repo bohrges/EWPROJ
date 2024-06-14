@@ -8,7 +8,7 @@ const relationshipSchema = new Schema({
 });
 
 // Main schema
-const genereSchema = new Schema({
+const suggestionSchema = new Schema({
   Id: String, // this one is not used but must be here for exporting
   _id: String,
   DescriptionLevel: String,
@@ -101,10 +101,10 @@ const genereSchema = new Schema({
   Lugar: String,
   Concelho: String,
   Distrito: String,
-  IdGenere: String,
-  Name: String
+  Name: String,
+  IdGenere: String
 });
 
-const Genere = mongoose.model('genere', genereSchema, 'genere');
+const Suggestion = mongoose.model('suggestions', suggestionSchema, 'suggestions');
 
-module.exports = Genere;
+module.exports = Suggestion;

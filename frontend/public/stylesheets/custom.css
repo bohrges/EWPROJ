@@ -376,3 +376,36 @@ fieldset{
   margin: 0px;
   text-align: center;
 }
+
+.suggestion_info{
+  padding: 20px;
+  margin: 0px;
+  background-color: #FFBB70;
+  margin: 50px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+
+}
+
+
+.suggestion_table {
+  border-collapse: collapse;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button_input{
+  border: 2px solid #000000; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  background-color: #ED9455; 
+  padding: 4px; 
+  cursor: pointer;
+  margin: 5px;
+}
+
+.suggestion_buttons{
+  padding: 20px;
+  text-align: center;
+}

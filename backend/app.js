@@ -26,6 +26,7 @@ passport.deserializeUser(User.deserializeUser());
 var datasetRouter = require('./routes/index');
 var postsRouter = require('./routes/posts');
 var userRouter = require('./routes/user');
+var suggestionsRouter = require('./routes/suggestions');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use(passport.session());
 
 app.use('/posts',postsRouter); 
 app.use('/users', userRouter);
+app.use('/suggestions', suggestionsRouter);
 app.use('/', datasetRouter);
 
 

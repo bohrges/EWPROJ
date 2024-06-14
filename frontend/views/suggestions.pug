@@ -1,0 +1,306 @@
+doctype html
+html
+  head
+    title= titulo
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/custom.css')
+
+  body
+  div.title_div
+    h1.title_div= titulo
+
+  for s in suggestions
+
+    div.suggestion_info
+      table.suggestion_table 
+        tr 
+          td Genere ID 
+          td #{s.IdGenere}
+        tr
+          td Description Level
+          td #{s.DescriptionLevel}
+        tr
+          td Entity Type
+          td #{s.EntityType}
+        tr
+          td Complete Unit ID
+          td #{s.CompleteUnitId}
+        tr
+          td Repository Code
+          td #{s.RepositoryCode}
+        tr
+          td Country Code
+          td #{s.CountryCode}
+        tr
+          td Title Type
+          td #{s.UnitTitleType}
+        tr
+          td Title
+          td #{s.UnitTitle}
+        tr
+          td Alternative Title
+          td #{s.AlternativeTitle}
+        tr 
+          td Normalized Forms Name
+          td #{s.NormalizedFormsName}
+        tr
+          td Other Forms Name
+          td #{s.OtherFormsName}
+        tr
+          td Initial Date
+          td #{s.UnitDateInitial}
+        tr
+          td Final Date
+          td #{s.UnitDateFinal}
+        tr
+          td Initial Date Certainty
+          td #{s.UnitDateInitialCertainty}
+        tr
+          td Final Date Certainty
+          td #{s.UnitDateFinalCertainty}
+        tr
+          td Allow Unit Dates Inference
+          td #{s.AllowUnitDatesInference}
+        tr
+          td Accumulation Dates
+          td #{s.AccumulationDates}
+        tr
+          td Unit Date Bulk
+          td #{s.UnitDateBulk}
+        tr
+          td Unit Date Notes
+          td #{s.UnitDateNotes}
+        tr
+          td Dimensions
+          td #{s.Dimensions}
+        tr
+          td Allow Extents Inference
+          td #{s.AllowExtentsInference}
+        tr
+          td Repository
+          td #{s.Repository}
+        tr
+          td Producer
+          td #{s.Producer}
+        tr
+          td Author
+          td #{s.Author}
+        tr
+          td Material Author
+          td #{s.MaterialAuthor}
+        tr
+          td Contributor
+          td #{s.Contributor}
+        tr
+          td Recipient
+          td #{s.Recipient}
+        tr 
+          td Biographical History
+          td #{s.BiogHist} 
+        tr  
+          td Legal Status
+          td #{s.LegalStatus}      
+        tr
+          td Functions
+          td #{s.Functions}
+        tr 
+          td Authorities
+          td #{s.Authorities}
+        tr  
+          td Internal Structure
+          td #{s.InternalStructure}
+        tr  
+          td General Context
+          td #{s.GeneralContext}
+        tr
+          td Custodial History
+          td #{s.CustodHist}
+        tr
+          td Acquisition Information
+          td #{s.AcqInfo}
+        tr  
+          td Classifier
+          td #{s.Classifier}
+        tr
+          td Scope and Content
+          td #{s.ScopeContent}
+        tr
+          td Terms
+          td #{s.Terms}
+        tr
+          td Documental Tradition
+          td #{s.DocumentalTradition}
+        tr
+          td Documental Typology
+          td #{s.DocumentalTypology} 
+        tr
+          td Marks
+          td #{s.Marks}
+        tr
+          td Monograms
+          td #{s.Monograms}
+        tr
+          td Stamps
+          td #{s.Stamps}
+        tr
+          td Inscriptions
+          td #{s.Inscriptions}
+        tr
+          td Signatures
+          td #{s.Signatures}
+        tr
+          td Appraisal
+          td #{s.Appraisal}
+        tr
+          td Appraisal Elimination
+          td #{s.AppraisalElimination} 
+        tr
+          td Appraisal Elimination Date
+          td #{s.AppraisalEliminationDate}
+        tr
+          td Accruals
+          td #{s.Accruals}
+        tr
+          td Arrangement
+          td #{s.Arrangement}
+        tr
+          td Access Restrictions
+          td #{s.AccessRestrict}
+        tr
+          td Use Restrictions
+          td #{s.UseRestrict}  
+        tr
+          td Physical Location
+          td #{s.PhysLoc}
+        tr
+          td Original Numbering
+          td #{s.OriginalNumbering}
+        tr
+          td Previous Location
+          td #{s.PreviousLoc}
+        tr 
+          td Language of Material
+          td #{s.LangMaterial}
+        tr
+          td Physical Technical
+          td #{s.PhysTech}
+        tr
+          td Other Finding Aid
+          td #{s.OtherFindAid}
+        tr
+          td Container Type Term
+          td #{s.ContainerTypeTerm}
+        tr  
+          td Originals Location
+          td #{s.OriginalsLoc}
+        tr  
+          td Alternative Form Available
+          td #{s.AltFormAvail}
+        tr  
+          td Related Material
+          td #{s.RelatedMaterial}
+        tr  
+          td Note
+          td #{s.Note}
+        tr  
+          td Allow Textual Content Inference
+          td #{s.AllowTextualContentInference}
+        tr
+          td Textual Content
+          td #{s.TextualContent}
+        tr
+          td Retention Disposal Document State
+          td #{s.RetentionDisposalDocumentState}
+        tr
+          td Apply Selection Table
+          td #{s.ApplySelectionTable}
+        tr
+          td Retention Disposal Policy
+          td #{s.RetentionDisposalPolicy}
+        tr
+          td Retention Disposal Reference
+          td #{s.RetentionDisposalReference}
+        tr
+          td Retention Disposal Classification
+          td #{s.RetentionDisposalClassification}
+        tr
+          td Retention Disposal Period
+          td #{s.RetentionDisposalPeriod}
+        tr  
+          td Retention Disposal Apply Date
+          td #{s.RetentionDisposalApplyDate}
+        tr  
+          td Retention Disposal Final Destination
+          td #{s.RetentionDisposalFinalDestination}
+        tr
+          td Retention Disposal Observations
+          td #{s.RetentionDisposalObservations}
+        tr  
+          td Description Rules
+          td #{s.DescRules}
+        tr
+          td Revised
+          td #{s.Revised}
+        tr
+          td Published
+          td #{s.Published}
+        tr
+          td Available
+          td #{s.Available}
+        tr
+          td Highlighted
+          td #{s.Highlighted}
+        tr
+          td Creator
+          td #{s.Creator}
+        tr
+          td Created
+          td #{s.Created}
+        tr  
+          td Username
+          td #{s.Username}
+        tr
+          td Process Information Date
+          td #{s.ProcessInfoDate}
+        tr
+          td Other Descriptive Data
+          td #{s.OtherDescriptiveData}
+        tr
+          td Process Information
+          td #{s.ProcessInfo}
+        tr  
+          td Father
+          td #{s.Father}
+        tr
+          td Mother
+          td #{s.Mother}
+        tr  
+          td Name
+          td #{s.Name}
+        tr
+          td Location
+          td #{s.Lugar}
+        tr
+          td County
+          td #{s.Concelho}
+        tr
+          td District
+          td #{s.Distrito}
+      
+      div.suggestion_buttons
+        form(action="/admin/acceptSuggestion/" + s._id, method="post")
+          input(type="hidden", name="suggestionId", value=s)
+          input.button_input(type="submit", value="Accept")
+        form(action="/admin/refuseSuggestion/" + s._id, method="post")
+          input(type="hidden", name="suggestionId", value=s)
+          input.button_input(type="submit", value="Refuse")
+
+
+          
+  div.return_div
+    a.return_button(href="/admin/home") Return to Main Page
+  footer
+    address Generated by Grupo12::EngWeb2024 on #{data}
+
+
+

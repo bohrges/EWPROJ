@@ -441,7 +441,21 @@ router.post('/edit/:id', async function(req, res, next) {
       // make it an empty list
       req.body['Relationships'] = []
     }
-    axios.put('http://localhost:3000/' + req.params.id, req.body)
+
+    console.log("REQ BODY")
+    console.log(req.body)
+
+    // change fields
+    req.body['IdGenere'] = req.body['_id']
+    // Get suggestion id from the api
+    const suggId = await axios.get('http://localhost:3000/suggestions/suggestionID')
+
+    const suggIdInt = parseInt(suggId.data)
+    const newSuggId = (suggIdInt + 1).toString()
+    req.body['_id'] = newSuggId
+
+
+    axios.post('http://localhost:3000/suggestions/', req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/home')
       })
@@ -486,6 +500,84 @@ router.post('/delete/:id', async function(req, res, next) {
     res.redirect('/');
   }
 });
+
+
+
+// GET admin suggestions page
+router.get('/admin/suggestions', async function(req, res, next) {
+  const loggedIn = await checkLogin(req, res); 
+  const level = await checkLevel(req, res);
+  if (loggedIn && level == 'admin') {
+    axios.get('http://localhost:3000/suggestions')
+      .then(resposta => {
+        res.render('suggestions', {suggestions : resposta.data, data: d, titulo: "Suggestions"})
+      })
+      .catch(erro => {
+        res.render('error', {error: erro, message: "Error retrieving the suggestions"})
+      })
+  } else if (level != 'admin') {
+    res.render('permissionDenied');
+  }
+  else {
+    console.log("User not logged in or token validation failed.");
+    res.redirect('/');
+  }
+})
+
+
+
+
+router.post('/admin/acceptSuggestion/:id', async function(req, res, next) {
+  const loggedIn = await checkLogin(req, res); 
+  const level = await checkLevel(req, res);
+  if (loggedIn && level == 'admin') {
+    console.log(req.params.id);
+
+    try {
+      const response = await axios.get('http://localhost:3000/suggestions/' + req.params.id);
+      const suggestion = response.data;
+
+      suggestion['_id'] = suggestion['IdGenere'];
+      delete suggestion['IdGenere'];
+
+      await axios.put('http://localhost:3000/' + suggestion['_id'], suggestion);
+      
+      // Deleting the suggestion
+      await axios.delete('http://localhost:3000/suggestions/' + req.params.id);
+      res.redirect('http://localhost:3001/admin/suggestions');
+    } catch (error) {
+      console.error('Failed operation:', error);
+      res.render('error', {error, message: "Failed operation during suggestion processing"});
+    }
+  } else if (level !== 'admin') {
+    res.render('permissionDenied');
+  } else {
+    console.log("User not logged in or token validation failed.");
+    res.redirect('/');
+  }
+});
+
+
+// POST refuse suggestion
+router.post('/admin/refuseSuggestion/:id', async function(req, res, next) {
+  const loggedIn = await checkLogin(req, res); 
+  const level = await checkLevel(req, res);
+  if (loggedIn && level == 'admin') {
+    try {
+      await axios.delete('http://localhost:3000/suggestions/' + req.params.id);
+      res.redirect('http://localhost:3001/admin/suggestions');
+    } catch (error) {
+      console.error('Failed operation:', error);
+      res.render('error', {error, message: "Failed operation during suggestion processing"});
+    }
+  } else if (level !== 'admin') {
+    res.render('permissionDenied');
+  } else {
+    console.log("User not logged in or token validation failed.");
+    res.redirect('/');
+  }
+})
+
 
 // GET a single record by ID ADMIN
 router.get('/admin/:id', async function(req, res, next) {
