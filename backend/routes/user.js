@@ -4,19 +4,14 @@ var jwt = require('jsonwebtoken')
 var passport = require('passport')
 var userModel = require('../models/user')
 
-
 // returns current user details (username and level) based on the token
 router.get('/details', function(req, res) {
   const token = req.headers.authorization.split(' ')[1];
   jwt.verify(token, "EngWeb2024", (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Failed to authenticate token.' });
-    } else {
-      res.json({username: decoded.username, level: decoded.level });
-    }
+    if (err) { return res.status(403).json({ message: 'Failed to authenticate token.' });}
+    else {res.json({username: decoded.username, level: decoded.level });}
   });
 });
-
 
 // registers a user
 router.post('/register', function(req, res) {
@@ -38,7 +33,7 @@ router.post('/register', function(req, res) {
                                     } else{
                                       passport.authenticate("local")(req,res,function(){
                                         jwt.sign({ username: req.user._id, level: req.user.level, 
-                                          sub: 'aula de EngWeb2023'}, 
+                                          sub: 'aula de EngWeb2023'}, // might not be necessary
                                           "EngWeb2024",
                                           {expiresIn: 3600},
                                           function(e, token) {
@@ -50,29 +45,16 @@ router.post('/register', function(req, res) {
   })
 })
 
-
 // logs in a user
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-    if (!user) {
-      console.log(info); // Log the info message from passport if user authentication fails
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
+    if (err) {return res.status(500).json({ error: 'Internal Server Error' });}
+    if (!user) {return res.status(401).json({ error: 'Invalid credentials' });}
     req.logIn(user, function(err) {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Could not log in user' });
-      }
+      if (err) {return res.status(500).json({ error: 'Could not log in user' });}
       jwt.sign({ username: user.username, level: user.level, sub: 'aula de EngWeb2024' }, 
                'EngWeb2024', { expiresIn: 3600 }, function(e, token) {
-        if (e) {
-          console.error(e);
-          return res.status(500).json({ error: "Erro na geração do token: " + e });
-        }
+        if (e) {return res.status(500).json({ error: "Erro na geração do token: " + e });}
         res.status(201).json({ token: token });
       });
     });

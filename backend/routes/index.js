@@ -3,24 +3,18 @@ var router = express.Router();
 var Genere = require("../controllers/genere")
 
 
-// GET paginated list of generes. 
+// GET paginated list of records. 
 router.get('/', function(req, res, next) {
   const page = parseInt(req.query.page) || 0;
   const limit = 500; // Number of items per page
   Genere.getGeneresPaginated(page, limit)
-      .then((data) => {
-          const totalPages = Math.ceil(data.totalCount / limit); // Calculate the total number of pages
-          res.jsonp({
-              generes: data.generes,
-              totalPages: totalPages
-          });
-      })
-      .catch(error => {
-          console.error("Failed to fetch generes:", error);
-          res.status(500).render('error', { message: "Error retrieving data", error: error });
-      });
+    .then((data) => {
+        const totalPages = Math.ceil(data.totalCount / limit); // Calculate the total number of pages
+        res.jsonp({
+            generes: data.generes,
+            totalPages: totalPages});})
+    .catch(error => { res.status(500).render('error', { message: "Error retrieving data", error: error }); });
 });
-
 
 // GET search by name 
 router.get('/search', function(req, res, next) {
@@ -50,14 +44,9 @@ router.get('/search', function(req, res, next) {
       res.jsonp({
           generes: data.generes,
           totalPages: totalPages
-      });
-  })
-  .catch(error => {
-      console.error("Failed to fetch generes:", error);
-      res.status(500).render('error', { message: "Error retrieving data", error: error });
-  });
+      });})
+    .catch(error => {res.status(500).render('error', { message: "Error retrieving data", error: error });});
 });
-
 
 // GET sort 
 router.get('/sort', function(req, res, next) {
@@ -107,96 +96,56 @@ router.get('/sort', function(req, res, next) {
       res.jsonp({
           generes: data.generes,
           totalPages: totalPages
-      });
-  })
-  .catch(error => {
-      console.error("Failed to fetch generes:", error);
-      res.status(500).render('error', { message: "Error retrieving data", error: error });
-  });
+      });})
+  .catch(error => {res.status(500).render('error', { message: "Error retrieving data", error: error });});
 });   
 
-
 // GET automated ID before adding a new record 
-// This is used to get the next ID to be used when adding a new record 
+// This is used to get the max ID to be used when adding a new record 
 router.get('/genereID', function(req, res, next) {
   Genere.getMaxId()
-  .then((data) => {
-    res.jsonp(data)
-  }).catch((erro) => {
-    res.jsonp(erro)
-  });
+  .then((data) => {res.jsonp(data)})
+  .catch((erro) => {res.jsonp(erro)});
 });
 
-
-// GET all ids 
-// This is used on posts creation, to guarantee the post created refers to a valid inquirição 
+// GET all record IDs
+// This is used on posts creation, to guarantee the post created refers to a valid record 
 router.get('/allids', function(req, res, next) {
   Genere.getAllIds()
-  .then((data) => {
-    res.jsonp(data)
-  }).catch((erro) => {
-    res.jsonp(erro)
-  });
+  .then((data) => {res.jsonp(data)})
+  .catch((erro) => {res.jsonp(erro)});
 });
-
 
 // GET single record
 router.get('/:id', function(req, res, next) {
   Genere.findById(req.params.id)
-  .then((data) => {
-    res.jsonp(data)
-  }).catch((erro) => {
-    res.jsonp(erro)
-  });
+  .then((data) => {res.jsonp(data)})
+  .catch((erro) => {res.jsonp(erro)});
 });
-
 
 // POST new record 
 router.post('/', function(req, res, next) {
   try {
-  
     Genere.insert(req.body)
-      .then((data) => {
-        res.json(data); 
-      })
-      .catch((error) => {
-        console.error('Database insertion error:', error);
-        res.status(400).json({ error: 'Database insertion failed', details: error });
-      });
-  } catch (error) {
-    console.error('Error processing request:', error);
-    res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });
-  }
+      .then((data) => {res.json(data); })
+      .catch((error) => {res.status(400).json({ error: 'Database insertion failed', details: error });});
+  } catch (error) {res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });}
 });
-
 
 // DELETE single record 
 router.delete('/:id', function(req, res, next) {
   Genere.removeById(req.params.id)
-  .then((data) => {
-    res.jsonp(data)
-  }).catch((erro) => {
-    res.jsonp(erro)
-  });
+    .then((data) => {res.jsonp(data)})
+    .catch((erro) => {res.jsonp(erro)});
 });
-
 
 // PUT update record 
 router.put('/:id', function(req, res, next) {
   try {
     Genere.update(req.params.id, req.body)
-      .then((data) => {
-        res.json(data); 
-      })
-      .catch((error) => {
-        console.error('Database update error:', error);
-        res.status(400).json({ error: 'Database update failed', details: error });
-      });
-  } catch (error) {
-    console.error('Error processing request:', error);
-    res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });
-  }
+      .then((data) => {res.json(data); })
+      .catch((error) => {res.status(400).json({ error: 'Database update failed', details: error });});
+  } catch (error) {res.status(400).json({ error: 'Failed to parse Relationships or other input errors', details: error.message });}
 });
-
 
 module.exports = router;
