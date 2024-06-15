@@ -281,8 +281,7 @@ router.post('/admin/edit/:id', async function(req, res, next) {
 // POST edited record USER
 router.post('/edit/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);
-  const level = await checkLevel(req, res);
-  if (loggedIn && level == 'admin') {
+  if (loggedIn) {
     // Handling the relationships
     let relJson = []
     relationships = req.body['Relationships'].split('\n')
