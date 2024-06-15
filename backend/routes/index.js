@@ -116,6 +116,15 @@ router.get('/allids', function(req, res, next) {
   .catch((erro) => {res.jsonp(erro)});
 });
 
+
+// GET download
+router.get('/download', function(req, res, next) {
+  Genere.download()
+  .then((data) => {res.jsonp(data)})
+  .catch((erro) => {res.jsonp(erro)});
+});
+
+
 // GET single record
 router.get('/:id', function(req, res, next) {
   Genere.findById(req.params.id)

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios')
+const { parse, transforms: { unwind, flatten } } = require('json2csv');
 
 // Aux functions
 const { getCurrentFormattedDate, getCurrentFormattedDateV2, checkLevel, checkLogin, getUsername } = require('../utils/aux');
@@ -374,6 +375,30 @@ router.post('/admin/refuseSuggestion/:id', async function(req, res, next) {
   else if (level !== 'admin') {res.render('permissionDenied');} 
   else {res.redirect('/');}
 })
+
+// Aux function to remove unnecessary fields from the data
+const removeFields = (data) => {
+  delete data.Id;
+  delete data.__v;
+  return data;
+};
+
+router.get('/download', async function(req, res, next) {
+  const loggedIn = await checkLogin(req, res);
+  if (loggedIn) {
+    axios.get('http://localhost:3000/download')
+      .then(response => {
+        // Removes unnecessary fields from the data
+        const transformOpts = { objectMode: true, transforms: [removeFields] };
+        // Converts data from JSON to CSV
+        const csv = parse(response.data, transformOpts);
+        res.setHeader('Content-disposition', 'attachment; filename=records.csv');
+        res.setHeader('Content-type', 'text/csv');
+        res.write(csv);
+        res.end();})
+      .catch(error => {res.render('error', { error: error, message: "Error downloading the records" });});} 
+  else {res.redirect('/');}
+});
 
 // GET a single record by ID ADMIN
 router.get('/admin/:id', async function(req, res, next) {

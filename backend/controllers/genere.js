@@ -359,3 +359,11 @@ module.exports.getAllIds = async () => {
     const docs = await Genere.find({}, '_id').exec();
     return docs.map(doc => doc._id.toString());
 }
+
+// download all records 
+module.exports.download = () => {
+    return Genere
+        .find()
+        .exec();
+}
+
