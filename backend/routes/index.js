@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
         res.jsonp({
             generes: data.generes,
             totalPages: totalPages});})
-    .catch(error => { res.status(500).render('error', { message: "Error retrieving data", error: error }); });
+    .catch(error => { res.status(500); });
 });
 
 // GET search by name 
@@ -45,7 +45,7 @@ router.get('/search', function(req, res, next) {
           generes: data.generes,
           totalPages: totalPages
       });})
-    .catch(error => {res.status(500).render('error', { message: "Error retrieving data", error: error });});
+    .catch(error => {res.status(500);});
 });
 
 // GET sort 
@@ -97,7 +97,7 @@ router.get('/sort', function(req, res, next) {
           generes: data.generes,
           totalPages: totalPages
       });})
-  .catch(error => {res.status(500).render('error', { message: "Error retrieving data", error: error });});
+  .catch(error => {res.status(500);});
 });   
 
 // GET automated ID before adding a new record 

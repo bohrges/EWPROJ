@@ -3,6 +3,9 @@ var router = express.Router();
 var axios = require('axios')
 const { parse, transforms: { unwind, flatten } } = require('json2csv');
 
+const api = 'http://backend:3000';
+
+
 // Aux functions
 const { getCurrentFormattedDate, getCurrentFormattedDateV2, checkLevel, checkLogin, getUsername } = require('../utils/aux');
 var d = new Date().toISOString().substring(0, 16)
@@ -15,12 +18,12 @@ router.get('/', function(_, res) {
 
 // POST login 
 router.post('/login', function(req, res){
-  axios.post('http://localhost:3000/users/login', req.body)
+  axios.post(api + '/users/login', req.body)
     .then(async response => {
       res.cookie('token', response.data.token) // Saving the token in the cookie
       const token = response.data.token; // Getting the token
       // Fetching the level
-      let details = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } })
+      let details = await axios.get(api + '/users/details', { headers: { Authorization: `Bearer ${token}` } })
       let level = details.data.level
       if (level == 'admin') { res.redirect('http://localhost:3001/admin/home') }
       else { res.redirect('http://localhost:3001/home') }
@@ -37,7 +40,7 @@ router.get('/register', function(req, res, next) {
 
 // POST register 
 router.post('/register', function(req, res){
-  axios.post('http://localhost:3000/users/register', req.body)
+  axios.post(api + '/users/register', req.body)
     .then(response => { res.redirect('/'); })
     .catch(err => {
       if (err.response.status == 530) { // Username already exists
@@ -59,7 +62,7 @@ router.get('/admin/home', async function(req, res, next) {
   if (loggedIn && level == 'admin') {
     const token = req.cookies.token; 
     const page = parseInt(req.query.page) || 0;
-    axios.get(`http://localhost:3000?page=${page}&token=${token}`)
+    axios.get(api + `?page=${page}&token=${token}`)
       .then(response => {
           res.render('indexAdmin', {
             generes: response.data.generes, 
@@ -79,7 +82,7 @@ router.get('/home', async function(req, res, next) {
   if (loggedIn) {
     const token = req.cookies.token; 
     const page = parseInt(req.query.page) || 0;
-    axios.get(`http://localhost:3000?page=${page}&token=${token}`)
+    axios.get(api + `?page=${page}&token=${token}`)
       .then(response => {
           res.render('index', {
             generes: response.data.generes,
@@ -100,7 +103,7 @@ router.get('/admin/home/search', async function(req, res, next) {
     const searchType = req.query.searchType;
     const searchValue = req.query.searchValue;
     const page = parseInt(req.query.page) || 0;
-    const url = `http://localhost:3000/search?searchType=${searchType}&searchValue=${searchValue}&page=${page}`;
+    const url = api + `/search?searchType=${searchType}&searchValue=${searchValue}&page=${page}`;
     axios.get(url)
       .then(response => {
         res.render('indexAdmin', {
@@ -123,7 +126,7 @@ router.get('/home/search', async function(req, res, next) {
     const searchType = req.query.searchType;
     const searchValue = req.query.searchValue;
     const page = parseInt(req.query.page) || 0;
-    const url = `http://localhost:3000/search?searchType=${searchType}&searchValue=${searchValue}&page=${page}`;
+    const url = api + `/search?searchType=${searchType}&searchValue=${searchValue}&page=${page}`;
     axios.get(url)
       .then(response => {
         res.render('index', {
@@ -145,7 +148,7 @@ router.get('/admin/home/sort', async function(req, res, next) {
   if (loggedIn && level == 'admin') {
     const sortType = req.query.sortBy;
     const page = parseInt(req.query.page) || 0;
-    const url = `http://localhost:3000/sort?sortType=${sortType}&page=${page}`;
+    const url = api + `/sort?sortType=${sortType}&page=${page}`;
     axios.get(url)
       .then(response => {
         res.render('indexAdmin', {
@@ -167,7 +170,7 @@ router.get('/home/sort', async function(req, res, next) {
   if (loggedIn) {
     const sortType = req.query.sortBy;
     const page = parseInt(req.query.page) || 0;
-    const url = `http://localhost:3000/sort?sortType=${sortType}&page=${page}`;
+    const url = api + `/sort?sortType=${sortType}&page=${page}`;
     axios.get(url)
       .then(response => {
         res.render('index', {
@@ -188,7 +191,7 @@ router.get('/newRecord', async function(req, res, next) {
   const level = await checkLevel(req, res);
   if (loggedIn && level == 'admin') {
     // Fetching max current IDs, then adding 1 to them to guarantee a unique ID
-    axios.get('http://localhost:3000/genereID')
+    axios.get(api + '/genereID')
       .then(resposta => {
         const id = parseInt(resposta.data.max_Id[0]._id)
         const newId = (id + 1).toString()
@@ -220,7 +223,7 @@ router.post('/newRecord', async function(req, res, next) {
     const username = await getUsername(req, res); // Getting the current user using the token
     req.body.Creator = username // Adding the creator to the record
     req.body.Created = getCurrentFormattedDate() // Adding the creation date to the record
-    axios.post('http://localhost:3000/', req.body)
+    axios.post(api + '/', req.body)
       .then(resposta => {res.redirect('http://localhost:3001/admin/home')})
       .catch(erro => {res.render('error', {error: erro, message: "Error adding new record"})})}
   else if (level != 'admin') {res.render('permissionDenied');}
@@ -232,7 +235,7 @@ router.get('/admin/edit/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res); 
   const level = await checkLevel(req, res);
   if (loggedIn && level == 'admin') {
-    axios.get('http://localhost:3000/' + req.params.id)
+    axios.get(api + '/' + req.params.id)
       .then(resposta => {
         res.render('editRecordAdmin', {genere : resposta.data, data: d, titulo: "Editar Genere " + resposta.data['UnitTitle']})})
       .catch(erro => {res.render('error', {error: erro, message: "Error editing the record"})})} 
@@ -244,7 +247,7 @@ router.get('/admin/edit/:id', async function(req, res, next) {
 router.get('/edit/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res); 
   if (loggedIn) {
-    axios.get('http://localhost:3000/' + req.params.id)
+    axios.get(api + '/' + req.params.id)
       .then(resposta => {
         res.render('editRecord', {genere : resposta.data, data: d, titulo: "Editar Genere " + resposta.data['UnitTitle']})})
       .catch(erro => {res.render('error', {error: erro, message: "Error editing the record"})})}
@@ -270,7 +273,7 @@ router.post('/admin/edit/:id', async function(req, res, next) {
     } 
     const username = await getUsername(req, res);
     req.body.ProcessInfo = "Registo modificado pelo utilizador " + username + ", na data " + getCurrentFormattedDateV2()
-    axios.put('http://localhost:3000/' + req.params.id, req.body)
+    axios.put(api + '/' + req.params.id, req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/admin/home')})
       .catch(erro => {res.render('error', {error: erro, message: "Error editing the record"})})}
@@ -299,12 +302,12 @@ router.post('/edit/:id', async function(req, res, next) {
     // Change fields to make it into a suggestion
     req.body['IdGenere'] = req.body['_id']
     // Get max suggestion id from the api, increment it by 1 to guarantee a unique id
-    const suggId = await axios.get('http://localhost:3000/suggestions/suggestionID')
+    const suggId = await axios.get(api + '/suggestions/suggestionID')
     const suggIdInt = parseInt(suggId.data)
     const newSuggId = (suggIdInt + 1).toString()
     req.body['_id'] = newSuggId
     // Post in the suggestions collection
-    axios.post('http://localhost:3000/suggestions/', req.body)
+    axios.post(api + '/suggestions/', req.body)
       .then(resposta => {
         res.redirect('http://localhost:3001/home')})
       .catch(erro => {res.render('error', {error: erro, message: "Error editing the record"})})}
@@ -316,7 +319,7 @@ router.post('/delete/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  
   const level = await checkLevel(req, res); 
   if (loggedIn && level == 'admin') {
-    axios.delete('http://localhost:3000/' + req.params.id)
+    axios.delete(api + '/' + req.params.id)
       .then(resposta => {res.redirect('http://localhost:3001/admin/home')})
       .catch(erro => {res.render('error', {error: erro, message: "Error deleting the record"})})}
   else if (level != 'admin') {res.render('permissionDenied');}
@@ -328,7 +331,7 @@ router.get('/admin/suggestions', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res); 
   const level = await checkLevel(req, res);
   if (loggedIn && level == 'admin') {
-    axios.get('http://localhost:3000/suggestions')
+    axios.get(api + '/suggestions')
       .then(resposta => {
         res.render('suggestions', {suggestions : resposta.data, data: d, titulo: "Suggestions"})})
       .catch(erro => {res.render('error', {error: erro, message: "Error retrieving the suggestions"})})} 
@@ -344,15 +347,15 @@ router.post('/admin/acceptSuggestion/:id', async function(req, res, next) {
     console.log(req.params.id);
     try {
       // Fetching the suggestion
-      const response = await axios.get('http://localhost:3000/suggestions/' + req.params.id);
+      const response = await axios.get(api + '/suggestions/' + req.params.id);
       const suggestion = response.data;
       // Changing the fields to make it into a record
       suggestion['_id'] = suggestion['IdGenere'];
       delete suggestion['IdGenere'];
       // PUT record
-      await axios.put('http://localhost:3000/' + suggestion['_id'], suggestion);
+      await axios.put(api + '/' + suggestion['_id'], suggestion);
       // Deleting the suggestion
-      await axios.delete('http://localhost:3000/suggestions/' + req.params.id);
+      await axios.delete(api + '/suggestions/' + req.params.id);
       // Redirecting to the suggestions page
       res.redirect('http://localhost:3001/admin/suggestions');
     } catch (error) {res.render('error', {error, message: "Failed operation during suggestion processing"});}} 
@@ -367,7 +370,7 @@ router.post('/admin/refuseSuggestion/:id', async function(req, res, next) {
   if (loggedIn && level == 'admin') {
     try {
       // Deleting the suggestion
-      await axios.delete('http://localhost:3000/suggestions/' + req.params.id);
+      await axios.delete(api + '/suggestions/' + req.params.id);
       // Redirecting to the suggestions page
       res.redirect('http://localhost:3001/admin/suggestions');
     } catch (error) {res.render('error', {error, message: "Failed operation during suggestion processing"});}} 
@@ -385,7 +388,7 @@ const removeFields = (data) => {
 router.get('/download', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);
   if (loggedIn) {
-    axios.get('http://localhost:3000/download')
+    axios.get(api + '/download')
       .then(response => {
         // Removes unnecessary fields from the data
         const transformOpts = { objectMode: true, transforms: [removeFields] };
@@ -406,10 +409,10 @@ router.get('/admin/:id', async function(req, res, next) {
   if (loggedIn && level == 'admin') {
     try{
       // Fetch the record by ID
-      let recordResponse = await axios.get('http://localhost:3000/' + req.params.id)
+      let recordResponse = await axios.get(api + '/' + req.params.id)
       let record = recordResponse.data
       // Fetch all the posts made about the record
-      let recordPostsResponse = await axios.get('http://localhost:3000/posts?inqid=' + req.params.id) 
+      let recordPostsResponse = await axios.get(api + '/posts?inqid=' + req.params.id) 
       let recordPosts = recordPostsResponse.data
       // Combine the data
       let combinedData = {
@@ -428,10 +431,10 @@ router.get('/:id', async function(req, res, next) {
   if (loggedIn) {
     try{
       // Fetch the record by ID
-      let recordResponse = await axios.get('http://localhost:3000/' + req.params.id)
+      let recordResponse = await axios.get(api + '/' + req.params.id)
       let record = recordResponse.data
       // Fetch all the posts made about the record
-      let recordPostsResponse = await axios.get('http://localhost:3000/posts?inqid=' + req.params.id) 
+      let recordPostsResponse = await axios.get(api + '/posts?inqid=' + req.params.id) 
       let recordPosts = recordPostsResponse.data
       // Combine the data
       let combinedData = {

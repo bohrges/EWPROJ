@@ -6,7 +6,8 @@ var logger = require('morgan');
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 
-var mongoDB = 'mongodb://127.0.0.1/genere';
+//var mongoDB = 'mongodb://127.0.0.1/genere';
+var mongoDB = 'mongodb://mongodb/genere';
 
 mongoose.connect(mongoDB, {useNewUrlParser : true, useUnifiedTopology: true})
 

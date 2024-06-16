@@ -1,12 +1,12 @@
 FROM node:22.1.0-alpine
 
-WORKDIR /app
+WORKDIR /EWPROJ/frontend
 
-COPY ./interface/package.json ./interface/package-lock.json* ./
+COPY package.json .package-lock.json* ./
 
 RUN npm install
 
-COPY ./interface .
+COPY . .
 
 EXPOSE 3001
 

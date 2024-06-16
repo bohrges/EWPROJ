@@ -6,6 +6,8 @@ var axios = require('axios')
 const {checkLevel, checkLogin, getUsername} = require('../utils/aux.js');
 var d = new Date().toISOString().substring(0, 16)
 
+const api = 'http://backend:3000/posts';
+
 // GET posts page ADMIN
 router.get('/admin', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);
@@ -13,10 +15,10 @@ router.get('/admin', async function(req, res, next) {
   if (loggedIn && level === 'admin') {
     try {
       // Fetch all posts
-      let postResponse = await axios.get('http://localhost:3000/posts');
+      let postResponse = await axios.get(api);
       let posts = postResponse.data;
       // For each post, fetch info about the corresponding record 
-      let detailsPromises = posts.map(post => {return axios.get(`http://localhost:3000/${post.InqId}`);});
+      let detailsPromises = posts.map(post => {return axios.get(api + `/${post.InqId}`);});
       let detailsResponses = await Promise.all(detailsPromises);
       // Combine the data
       let combinedPosts = posts.map((post, index) => {
@@ -44,11 +46,11 @@ router.get('/', async function(req, res, next) {
   if (loggedIn) {
     try {
       // Fetch all posts
-      let postResponse = await axios.get('http://localhost:3000/posts');
+      let postResponse = await axios.get(api);
       let posts = postResponse.data;
       // For each post, fetch info about the corresponding record 
       let detailsPromises = posts.map(post => {
-        return axios.get(`http://localhost:3000/${post.InqId}`);
+        return axios.get(api + `/${post.InqId}`);
       });
       let detailsResponses = await Promise.all(detailsPromises);
       // Combine the data
@@ -75,7 +77,7 @@ router.get('/newPost', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
     // Fetching automated ID, which is the max current _id. Then, incrementing it by 1 to guarantee an unique_id
-    axios.get('http://localhost:3000/posts/postId')
+    axios.get(api + '/postId')
       .then(resposta => {
         const id = parseInt(resposta.data)
         const newId = (id + 1).toString()
@@ -92,7 +94,7 @@ router.post('/newPost', async (req, res) => {
   if (loggedIn) {
     try {
       // Fetch the list of all InqIds
-      const response = await axios.get('http://localhost:3000/allids');
+      const response = await axios.get(api + '/allids');
       const ids = response.data;
       const id = req.body.InqId;
       // Check if the submitted InqId exists
@@ -105,7 +107,7 @@ router.post('/newPost', async (req, res) => {
       const username = await getUsername(req, res);
       req.body.UserId = username // Add the username of the creator to the post
       // Proceed to create a new post
-      const postResponse = await axios.post('http://localhost:3000/posts/', req.body);
+      const postResponse = await axios.post(api, req.body);
       if (level === 'admin') { res.redirect('http://localhost:3001/posts/admin');}
       else {res.redirect('http://localhost:3001/posts/');}
     } catch (error) {res.render('error', {error: error, message: "Erro ao processar o pedido"});}}
@@ -117,7 +119,7 @@ router.post('/delete-post/:id', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);
   const level = await checkLevel(req, res);
   if (loggedIn && level === 'admin') {
-    axios.delete(`http://localhost:3000/posts/${req.params.id}`)
+    axios.delete(api + `/${req.params.id}`)
       .then( // Redirect to current page, if it fails redirect to posts
         res.redirect(req.headers.referer || 'http://localhost:3001/posts/admin'))
       .catch(error => {res.render('error', {error: error, message: "Erro ao eliminar o post"})});} 
@@ -130,7 +132,7 @@ router.post('/delete-comment/:postId/:commentId', async function(req, res, next)
   const loggedIn = await checkLogin(req, res);  
   const level = await checkLevel(req, res);
   if (loggedIn && level === 'admin') {
-    axios.delete(`http://localhost:3000/posts/${req.params.postId}/delete-comment/${req.params.commentId}`)
+    axios.delete(api + `${req.params.postId}/delete-comment/${req.params.commentId}`)
       .then( // Redirect to current page, if it fails redirect to posts
         res.redirect(req.headers.referer || 'http://localhost:3001/posts/admin'))
       .catch(error => {res.render('error', {error: error, message: "Erro ao eliminar o comentário"})});} 
@@ -149,11 +151,11 @@ router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, 
     const username = await getUsername(req, res);
     req.body.UserId = username
     // Fetching maximum comment ID to increment it by 1
-    const response = await axios.get('http://localhost:3000/posts/commentId');
+    const response = await axios.get(api + '/commentId');
     const commentID = parseInt(response.data);
     const newId = (commentID + 1).toString();
     req.body._id = newId
-    axios.post(`http://localhost:3000/posts/${req.params.post_id}/add-comment`, req.body)
+    axios.post(api + `/${req.params.post_id}/add-comment`, req.body)
       .then(response => {
           if (level === 'admin') {res.redirect(`http://localhost:3001/admin/${req.params.record_id}`)} 
           else {res.redirect(`http://localhost:3001/${req.params.record_id}`)}})
@@ -173,11 +175,11 @@ router.post('/:id/add-comment', async function(req, res, next) {
     const username = await getUsername(req, res);
     req.body.UserId = username
     // Fetching maximum comment ID to increment it by 1
-    const response = await axios.get('http://localhost:3000/posts/commentId');
+    const response = await axios.get(api + '/posts/commentId');
     const commentID = parseInt(response.data);
     const newId = (commentID + 1).toString();
     req.body._id = newId
-    axios.post(`http://localhost:3000/posts/${req.params.id}/add-comment`, req.body)
+    axios.post(api + `/${req.params.id}/add-comment`, req.body)
       .then(response => {
         if (level === 'admin') {res.redirect('http://localhost:3001/posts/admin')} 
         else { res.redirect('http://localhost:3001/posts')}})

@@ -7,7 +7,7 @@ var Suggestion = require("../controllers/suggestion")
 router.get('/', function(req, res, next) {
   Suggestion.getSuggestions()
       .then((data) => {res.jsonp(data);})
-      .catch(error => {res.status(500).render('error', { message: "Error retrieving data", error: error });});
+      .catch(error => {res.status(500);});
 });
 
 // GET automated ID before adding a new suggestion 

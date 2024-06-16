@@ -1,12 +1,12 @@
 FROM node:22.1.0-alpine
 
-WORKDIR /app
+WORKDIR /EWPROJ/backend
 
-COPY ./api/package.json ./api/package-lock.json* ./
+COPY package.json package-lock.json* ./
 
 RUN npm install
 
-COPY ./api .
+COPY . .
 
 EXPOSE 3000
 
