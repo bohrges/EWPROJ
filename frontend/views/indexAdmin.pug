@@ -17,6 +17,12 @@ html
     a.button(style="margin-right: 8px;" href="/admin/suggestions") Suggestions
     a.button(style="margin-right: 8px;" href="/download") Download CSV
     a.button(href="/logout") Disconnect
+    
+    // Adding a new button for JSON file upload
+    form(action="/upload-json", method="post", enctype="multipart/form-data")
+      input(type="file", name="jsonFile", accept=".json")
+      button(type="submit") Upload JSON
+
 
   // Search form
   form.search_form(action="/admin/home/search", method="get") 

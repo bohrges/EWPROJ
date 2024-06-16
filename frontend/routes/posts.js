@@ -7,6 +7,7 @@ const {checkLevel, checkLogin, getUsername} = require('../utils/aux.js');
 var d = new Date().toISOString().substring(0, 16)
 
 const api = 'http://backend:3000/posts';
+const recordsapi = 'http://backend:3000';
 
 // GET posts page ADMIN
 router.get('/admin', async function(req, res, next) {
@@ -18,7 +19,7 @@ router.get('/admin', async function(req, res, next) {
       let postResponse = await axios.get(api);
       let posts = postResponse.data;
       // For each post, fetch info about the corresponding record 
-      let detailsPromises = posts.map(post => {return axios.get(api + `/${post.InqId}`);});
+      let detailsPromises = posts.map(post => {return axios.get(recordsapi + `/${post.InqId}`);});
       let detailsResponses = await Promise.all(detailsPromises);
       // Combine the data
       let combinedPosts = posts.map((post, index) => {
@@ -50,7 +51,7 @@ router.get('/', async function(req, res, next) {
       let posts = postResponse.data;
       // For each post, fetch info about the corresponding record 
       let detailsPromises = posts.map(post => {
-        return axios.get(api + `/${post.InqId}`);
+        return axios.get(recordsapi + `/${post.InqId}`);
       });
       let detailsResponses = await Promise.all(detailsPromises);
       // Combine the data

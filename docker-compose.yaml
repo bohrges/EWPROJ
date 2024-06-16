@@ -30,8 +30,8 @@ services:
       - ./dbs/suggestions.json:/suggestions.json
     command: >
       sh -c '
-        mongoimport --host mongodb -d genere -c genere --type json --file dbs/db.json --jsonArray &&
-        mongoimport --host mongodb -d genere -c users --type json --file dbs/users.json --jsonArray &&
-        mongoimport --host mongodb -d genere -c posts --type json --file dbs/posts.json --jsonArray &&
-        mongoimport --host mongodb -d genere -c suggestions --type json --file dbs/suggestions.json --jsonArray
+        mongoimport --host mongodb -d genere -c genere --type json --file /db.json --jsonArray &&
+        mongoimport --host mongodb -d genere -c users --type json --file /users.json --jsonArray &&
+        mongoimport --host mongodb -d genere -c posts --type json --file /posts.json --jsonArray &&
+        mongoimport --host mongodb -d genere -c suggestions --type json --file /suggestions.json --jsonArray
       '

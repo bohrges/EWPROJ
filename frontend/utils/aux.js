@@ -1,5 +1,7 @@
 const axios = require('axios');
 
+const api = 'http://backend:3000/users';
+
 // aux function to present the date in the dd/mm/yyyy hh:mm:ss format
 function getCurrentFormattedDate() {
     var d = new Date(); 
@@ -29,7 +31,7 @@ async function checkLevel(req, res) {
   if (req.cookies && req.cookies.token) {
     const token = req.cookies.token;
     try {
-      const response = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.get(api + '/details', { headers: { Authorization: `Bearer ${token}` } });
       return response.data.level;
     } 
     catch (error) {return false;}} 
@@ -41,7 +43,7 @@ async function getUsername(req, res) {
   if (req.cookies && req.cookies.token) {
     const token = req.cookies.token;
     try {
-      const response = await axios.get('http://localhost:3000/users/details', { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.get(api + '/details', { headers: { Authorization: `Bearer ${token}` } });
       return response.data.username;
     } 
     catch (error) { return false; }} 
@@ -53,7 +55,7 @@ async function checkLogin(req, res) {
   if (req.cookies && req.cookies.token) {
     const token = req.cookies.token;
     try {
-      const response = await axios.get(`http://localhost:3000/users?token=${token}`);
+      const response = await axios.get(api + `?token=${token}`);
       return true;
     } 
     catch (error) { return false;}} 
