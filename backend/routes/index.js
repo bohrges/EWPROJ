@@ -175,7 +175,7 @@ function storeInMongoDB(jsonData, res) {
 //   console.log("reached here");
 //   if (!req.file) {
 //     console.log("No file uploaded");
-//     return res.status(400).send('No file uploaded.');
+//     return res.status(400).send('No file uploaded1.');
 //   }
 //   // Read the JSON file
 //   const filePath = '../uploads/' + req.file.filename; // Path where the file is stored
@@ -198,26 +198,26 @@ function storeInMongoDB(jsonData, res) {
 //   });
 // });
 
-// Route to handle JSON file upload
-router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
+// // Route to handle JSON file upload
+// router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).send('No file uploaded.');
+//   }
 
-  const formData = new FormData();
-  formData.append('jsonFile', fs.createReadStream(req.file.path));
+//   const formData = new FormData();
+//   formData.append('jsonFile', fs.createReadStream(req.file.path));
 
-  axios.post(`http://backend:3000/upload-json`, formData, {
-    headers: {
-      ...formData.getHeaders(),
-    },
-  })
-    .then(response => {
-      res.send(response.data);
-    })
-    .catch(error => {
-      res.status(500).send(error.message || 'File upload failed.');
-    });
-});
+//   axios.post(`http://backend:3000/upload-json`, formData, {
+//     headers: {
+//       ...formData.getHeaders(),
+//     },
+//   })
+//     .then(response => {
+//       res.send(response.data);
+//     })
+//     .catch(error => {
+//       res.status(500).send(error.message || 'File upload failed.');
+//     });
+// });
 
 module.exports = router;

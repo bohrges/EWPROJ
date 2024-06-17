@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios')
+var fs = require('fs');
+const path = require('path'); // Require the path module
+
 var multer = require('multer')
 var upload = multer({dest: 'uploads'})
 
@@ -533,32 +536,93 @@ router.get('/:id', async function (req, res, next) {
   //     res.status(500).send(error.message || 'File upload failed.');
   //   });
   // });
+
+//   /* File submission */
+// router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
+//   console.log('cdir: ' + __dirname)
+//   let oldPath = __dirname + '/../' + req.file.path
+//   console.log('old: ' + oldPath)
+//   let newPath = __dirname + '/../public/fileStore/' + req.file.originalname 
+//   console.log('new: ' + newPath)
+
+//   fs.rename(oldPath, newPath, error => {
+//     if(error) throw error
+//   })
+// })
+
+// Set up multer for file uploads
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     const uploadPath = path.join(__dirname, '/../uploads/');
+//     cb(null, uploadPath);
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+//   }
+// });
+
+//const upload = multer({ storage: storage });
+
+// // File submission route
+// router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
+//   console.log('cdir: ' + __dirname);
   
-  const uploadJsonFile = (file) => {
-    const formData = new FormData();
-    formData.append('jsonFile', file);
+//   if (!req.file) {
+//     console.error('No file uploaded.');
+//     return res.status(400).send('No file uploaded.');
+//   }
+
+//   let oldPath = path.join(__dirname, '/../uploads/', req.file.filename);
+//   console.log('old: ' + oldPath);
   
-    axios.post(api + '/upload-json', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then(response => {
-      console.log('File uploaded successfully:', response.data);
-    })
-    .catch(error => {
-      console.error('Error uploading file:', error);
+//   let newPath = path.join(__dirname, '/../public/fileStore/', req.file.originalname);
+//   console.log('new: ' + newPath);
+
+//   fs.rename(oldPath, newPath, (error) => {
+//     if (error) {
+//       console.error('File rename error: ', error);
+//       return res.status(500).send('Error moving file.');
+//     }
+//     console.log('File uploaded and moved successfully.');
+//     res.status(200).send('File uploaded and moved successfully.');
+//   });
+// });
+
+// File submission route
+router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
+  console.log('cdir: ' + __dirname);
+  
+  if (!req.file) {
+    console.error('No file uploaded.');
+    return res.status(400).send('No file uploaded.');
+  }
+
+  const oldPath = path.join(__dirname, '/../uploads/', req.file.filename);
+  console.log('old: ' + oldPath);
+  
+  const newPath = path.join(__dirname, '/../public/fileStore/', req.file.originalname);
+  console.log('new: ' + newPath);
+
+  fs.copyFile(oldPath, newPath, (error) => {
+    if (error) {
+      console.error('File copy error: ', error);
+      return res.status(500).send('Error copying file.');
+    }
+    fs.chmod(newPath, 0o644, (chmodError) => { // Set the file permissions to 644 (owner: read/write, group: read, others: read)
+      if (chmodError) {
+        console.error('File permission change error: ', chmodError);
+        return res.status(500).send('Error setting file permissions.');
+      }
+      fs.unlink(oldPath, (unlinkError) => {
+        if (unlinkError) {
+          console.error('File deletion error: ', unlinkError);
+          return res.status(500).send('Error deleting original file.');
+        }
+        console.log('File uploaded, moved, and permissions set successfully.');
+        res.status(200).send('File uploaded, moved, and permissions set successfully.');
+      });
     });
-  };
-  
-  // Example usage:
-  // Assuming you have a file input element and this function is called on file selection
-  const fileInput = document.querySelector('input[type="file"]');
-  fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    uploadJsonFile(file);
   });
-
-
+});
 
 module.exports = router;

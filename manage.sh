@@ -11,7 +11,7 @@ function rebuild() {
 
 function start() {
     echo "Starting containers..."
-    docker-compose up -d
+    docker-compose up -d --build
 }
 
 function remove() {
