@@ -215,12 +215,18 @@ router.get('/newRecord', async function (req, res, next) {
   const level = await checkLevel(req, res);
   if (loggedIn && level == 'admin') {
     // Fetching max current IDs, then adding 1 to them to guarantee a unique ID
+    let newId = 0
+    let newUselessID = 0
     axios.get(api + '/genereID')
       .then(resposta => {
-        const id = parseInt(resposta.data.max_Id[0]._id)
-        const newId = (id + 1).toString()
+        if (Object.keys(resposta.data).length === 0) { newId = 1; }
+        else {
+          const id = parseInt(resposta.data.max_Id[0]._id)
+          newId = (id + 1).toString()
+        }
         const uselessID = parseInt(resposta.data.maxId[0].ID) // This is being done just to comply with the format
-        const newUselessID = (uselessID + 1).toString()
+        if (uselessID == "NaN") {newUselessID = 1}
+        else {newUselessID = (uselessID + 1).toString()}
         res.render('newRecord', { data: d, titulo: "Add new record", genereID: newId, uselessID: newUselessID })
       })
       .catch(erro => { res.render('error', { error: erro, message: "Error adding new record" }) })
@@ -250,6 +256,7 @@ router.post('/newRecord', async function (req, res, next) {
     const username = await getUsername(req, res); // Getting the current user using the token
     req.body.Creator = username // Adding the creator to the record
     req.body.Created = getCurrentFormattedDate() // Adding the creation date to the record
+    
     axios.post(api + '/', req.body)
       .then(resposta => { res.redirect('http://localhost:3001/admin/home') })
       .catch(erro => { res.render('error', { error: erro, message: "Error adding new record" }) })
@@ -339,8 +346,12 @@ router.post('/edit/:id', async function (req, res, next) {
     req.body['IdGenere'] = req.body['_id']
     // Get max suggestion id from the api, increment it by 1 to guarantee a unique id
     const suggId = await axios.get(api + '/suggestions/suggestionID')
-    const suggIdInt = parseInt(suggId.data)
-    const newSuggId = (suggIdInt + 1).toString()
+    let newSuggId = 0
+    if (Object.keys(suggId.data).length === 0) { newId = 1; }
+    else { 
+      const suggIdInt = parseInt(suggId.data)
+      newSuggId = (suggIdInt + 1).toString()
+    }
     req.body['_id'] = newSuggId
     // Post in the suggestions collection
     axios.post(api + '/suggestions/', req.body)

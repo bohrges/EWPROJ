@@ -5,6 +5,7 @@ var mongoose = require("mongoose")
 var logger = require('morgan');
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
+var cors = require('cors'); // Make sure to require the cors module
 
 //var mongoDB = 'mongodb://127.0.0.1/genere';
 var mongoDB = 'mongodb://mongodb/genere';
@@ -31,6 +32,13 @@ var suggestionsRouter = require('./routes/suggestions');
 
 var app = express();
 
+app.use(cors({
+  origin: 'http://localhost:3001', // Adjust this to your frontend URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+}));
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -51,7 +59,54 @@ app.use('/users', userRouter);
 app.use('/suggestions', suggestionsRouter);
 app.use('/', datasetRouter);
 
+// File upload route
+const multer = require('multer');
+const fs = require('fs');
+const Genere = require('./controllers/genere'); // Adjust the path to your controller
+const upload = multer({ dest: 'uploads/' });
 
+app.post('/upload-json', upload.single('jsonFile'), (req, res) => {
+  console.log('Received a file upload request');
+  if (!req.file) {
+    console.log('No file uploaded');
+    return res.status(400).send('No file uploaded.');
+  }
+
+  const oldPath = path.join(__dirname, 'uploads', req.file.filename);
+
+  // Read the uploaded JSON file
+  fs.readFile(oldPath, 'utf8', (readError, data) => {
+    if (readError) {
+      console.log('Error reading file:', readError);
+      return res.status(500).send('Error reading file.');
+    }
+
+    // Parse the JSON data
+    let jsonData;
+    try {
+      jsonData = JSON.parse(data);
+    } catch (parseError) {
+      console.log('Invalid JSON file:', parseError);
+      return res.status(400).send('Invalid JSON file.');
+    }
+
+    // Store the JSON data in MongoDB using the Genere controller
+    Genere.insert(jsonData)
+      .then(result => {
+        res.send("Data successfully uploaded and inserted into MongoDB.");
+        // Optionally, delete the uploaded file after successful insertion
+        fs.unlink(oldPath, (unlinkError) => {
+          if (unlinkError) {
+            console.error('Error deleting original file:', unlinkError);
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error inserting data into MongoDB", error);
+        res.status(500).send("Failed to insert data into database");
+      });
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,6 +123,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.jsonp(JSON.stringify(err));
 });
-
 
 module.exports = app;

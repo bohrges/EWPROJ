@@ -16,13 +16,14 @@ html
     a.button(style="margin-right: 8px;" href="/newRecord") New Record
     a.button(style="margin-right: 8px;" href="/admin/suggestions") Suggestions
     a.button(style="margin-right: 8px;" href="/download") Download CSV
-    a.button(href="/logout") Disconnect
     
     // Adding a new button for JSON file upload
-    form(action="/upload-json", method="post", enctype="multipart/form-data", style="display:inline; margin-right: 8px;")
+    form#uploadForm(action="/upload-json", method="post", enctype="multipart/form-data", style="display:inline; margin-right: 8px;")
       input.search_input(type="file", name="jsonFile", accept=".json")
       button.button(type="submit", class="button") Upload JSON
+    script(src="/javascripts/upload.js")
 
+    a.button(href="/logout") Disconnect
 
   // Search form
   form.search_form(action="/admin/home/search", method="get") 

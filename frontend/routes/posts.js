@@ -78,10 +78,16 @@ router.get('/newPost', async function(req, res, next) {
   const loggedIn = await checkLogin(req, res);  // Await the checkLogin function
   if (loggedIn) {
     // Fetching automated ID, which is the max current _id. Then, incrementing it by 1 to guarantee an unique_id
+    let newId = 0
     axios.get(api + '/postId')
       .then(resposta => {
-        const id = parseInt(resposta.data)
-        const newId = (id + 1).toString()
+        console.log("Respostsa data:")
+        console.log(resposta.data)
+        if (Object.keys(resposta.data).length === 0) { newId = 1; }
+        else{
+          id = parseInt(resposta.data)
+          newId = (id + 1).toString()
+        }
         res.render('newPost', {data: d, titulo: "Adicionar novo Post", postID: newId})
       })
       .catch(erro => {res.render('error', {error: erro, message: "Erro ao adicionar o post"})})}
@@ -153,8 +159,12 @@ router.post('/:post_id/add-comment-genere/:record_id', async function(req, res, 
     req.body.UserId = username
     // Fetching maximum comment ID to increment it by 1
     const response = await axios.get(api + '/commentId');
-    const commentID = parseInt(response.data);
-    const newId = (commentID + 1).toString();
+    let newId = 0
+    if (response.data == null) { newId = 1; }
+    else{
+      const commentID = parseInt(response.data);
+      newId = (commentID + 1).toString();
+    }
     req.body._id = newId
     axios.post(api + `/${req.params.post_id}/add-comment`, req.body)
       .then(response => {
@@ -177,8 +187,12 @@ router.post('/:id/add-comment', async function(req, res, next) {
     req.body.UserId = username
     // Fetching maximum comment ID to increment it by 1
     const response = await axios.get(api + '/commentId');
-    const commentID = parseInt(response.data);
-    const newId = (commentID + 1).toString();
+    let newId = 0
+    if (response.data == null) { newId = 1; }
+    else{
+      const commentID = parseInt(response.data);
+      newId = (commentID + 1).toString();
+    }
     req.body._id = newId
     axios.post(api + `/${req.params.id}/add-comment`, req.body)
       .then(response => {

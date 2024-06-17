@@ -15,9 +15,6 @@ services:
       - "3001:3001"
     depends_on:
       - backend
-    volumes:
-      - ./frontend/uploads:/EWPROJ/frontend/uploads
-      - ./frontend/public/fileStore:/EWPROJ/frontend/public/fileStore
   mongodb:
     image: mongo:latest
     ports:

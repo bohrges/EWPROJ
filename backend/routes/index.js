@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Genere = require("../controllers/genere")
-var multer = require('multer')
-var upload = multer({dest: 'uploads'})
-const fs = require('fs');
 
 // GET paginated list of records. 
 router.get('/', function(req, res, next) {
@@ -170,6 +167,5 @@ function storeInMongoDB(jsonData, res) {
           res.status(500).send("Failed to insert data into database");
       });
 }
-
 
 module.exports = router;
