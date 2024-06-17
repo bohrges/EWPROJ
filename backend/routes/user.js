@@ -4,6 +4,16 @@ var jwt = require('jsonwebtoken')
 var passport = require('passport')
 var userModel = require('../models/user')
 
+// verifies the user is logged in
+router.get('/', function(req, res) {
+  const token = req.query.token;
+  if (!token) {return res.status(401).json({ message: 'No token provided.' });}
+  jwt.verify(token, "EngWeb2024", (err, decoded) => {
+    if (err) {return res.status(403).json({ message: 'Failed to authenticate token.' });}
+    else {res.json({ message: 'Token is valid.' });}
+  });
+});
+
 // returns current user details (username and level) based on the token
 router.get('/details', function(req, res) {
   const token = req.headers.authorization.split(' ')[1];

@@ -51,6 +51,14 @@ router.post('/:id/add-comment/', function(req, res, next) {
     .catch(error => {res.jsonp(error);});
 });
 
+// DELETE a single comment on a post 
+router.delete('/:id/delete-comment/:commentId', function(req, res, next) {
+  Post.deleteComment(req.params.id, req.params.commentId)
+  .then(post => {res.jsonp(post);})
+  .catch(error => {res.jsonp(error);});
+});
+
+
 // DELETE a single post 
 router.delete('/:id', function(req, res, next) {
   Post.deletePost(req.params.id)
@@ -58,11 +66,5 @@ router.delete('/:id', function(req, res, next) {
     .catch(error => {res.jsonp(error);});
 });
 
-// DELETE a single comment on a post 
-router.delete('/:id/delete-comment/:commentId', function(req, res, next) {
-    Post.deleteComment(req.params.id, req.params.commentId)
-    .then(post => {res.jsonp(post);})
-    .catch(error => {res.jsonp(error);});
-});
 
 module.exports = router;

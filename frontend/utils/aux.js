@@ -56,6 +56,7 @@ async function checkLogin(req, res) {
     const token = req.cookies.token;
     try {
       const response = await axios.get(api + `?token=${token}`);
+      if (response.data == null ) { return false; }
       return true;
     } 
     catch (error) { return false;}} 

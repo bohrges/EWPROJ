@@ -104,7 +104,7 @@ router.get('/home', async function (req, res, next) {
       })
       .catch(error => { res.render('error', { error: error, message: "Error retrieving the records" }); });
   }
-  else { res.render('permissionDenied'); }
+  else { res.redirect('/'); }
 });
 
 // Search motor for ADMIN
@@ -385,7 +385,6 @@ router.post('/admin/acceptSuggestion/:id', async function (req, res, next) {
   const loggedIn = await checkLogin(req, res);
   const level = await checkLevel(req, res);
   if (loggedIn && level == 'admin') {
-    console.log(req.params.id);
     try {
       // Fetching the suggestion
       const response = await axios.get(api + '/suggestions/' + req.params.id);
@@ -618,8 +617,7 @@ router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
           console.error('File deletion error: ', unlinkError);
           return res.status(500).send('Error deleting original file.');
         }
-        console.log('File uploaded, moved, and permissions set successfully.');
-        res.status(200).send('File uploaded, moved, and permissions set successfully.');
+        res.render('uploadSuccess');
       });
     });
   });

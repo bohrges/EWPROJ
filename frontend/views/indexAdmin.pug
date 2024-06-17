@@ -20,8 +20,8 @@ html
     
     // Adding a new button for JSON file upload
     form(action="/upload-json", method="post", enctype="multipart/form-data", style="display:inline; margin-right: 8px;")
-      input(type="file", name="jsonFile", accept=".json", style="display:inline;")
-      button(type="submit", class="button") Upload JSON
+      input.search_input(type="file", name="jsonFile", accept=".json")
+      button.button(type="submit", class="button") Upload JSON
 
 
   // Search form

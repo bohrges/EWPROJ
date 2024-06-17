@@ -3,18 +3,18 @@
       "_id": "1",
       "UserId": "1",
       "InqId": "00001",
-      "PostTitle": "Inquirição de génere insana!!!!",
-      "PostText": "Malta esta inquirição de génere é brilhante!",
+      "PostTitle": "Inquirição de génere do meu primo!",
+      "PostText": "Inquirição de génere do meu primo, de 1680",
       "Comments": [
         {
           "_id": "1",
-          "UserId": "2",
-          "CommentText": "Concordo plenamente!"
+          "UserId": "user1",
+          "CommentText": "WOW!"
         },
         {
           "_id": "2",
-          "UserId": "3",
-          "CommentText": "frfr ongod!"
+          "UserId": "user2",
+          "CommentText": "Excelente!"
         }
       ]
     }

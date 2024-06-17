@@ -95,7 +95,7 @@ router.post('/newPost', async (req, res) => {
   if (loggedIn) {
     try {
       // Fetch the list of all InqIds
-      const response = await axios.get(api + '/allids');
+      const response = await axios.get(recordsapi + '/allids');
       const ids = response.data;
       const id = req.body.InqId;
       // Check if the submitted InqId exists
@@ -133,7 +133,7 @@ router.post('/delete-comment/:postId/:commentId', async function(req, res, next)
   const loggedIn = await checkLogin(req, res);  
   const level = await checkLevel(req, res);
   if (loggedIn && level === 'admin') {
-    axios.delete(api + `${req.params.postId}/delete-comment/${req.params.commentId}`)
+    axios.delete(api + `/${req.params.postId}/delete-comment/${req.params.commentId}`)
       .then( // Redirect to current page, if it fails redirect to posts
         res.redirect(req.headers.referer || 'http://localhost:3001/posts/admin'))
       .catch(error => {res.render('error', {error: error, message: "Erro ao eliminar o comentário"})});} 
@@ -176,7 +176,7 @@ router.post('/:id/add-comment', async function(req, res, next) {
     const username = await getUsername(req, res);
     req.body.UserId = username
     // Fetching maximum comment ID to increment it by 1
-    const response = await axios.get(api + '/posts/commentId');
+    const response = await axios.get(api + '/commentId');
     const commentID = parseInt(response.data);
     const newId = (commentID + 1).toString();
     req.body._id = newId
