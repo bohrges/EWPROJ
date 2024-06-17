@@ -492,135 +492,37 @@ router.get('/:id', async function (req, res, next) {
   else { res.redirect('/'); }
 });
 
-// // Route to handle JSON file upload
-// router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
-//   if (!req.file) {
-//     return res.status(400).send('No file uploaded.');
-//   }
-//   // upload the file to the backend route
-//   axios.post(api + '/upload-json', req.file)
-//     .then(response => { 
-//       res.send(response.data); 
-//       // File is uploaded at this point, and you can process it further
-//       res.send('File uploaded successfully!');
-//     })
-//     .catch(error => {
-//       res.send(error)
-//     });
-//   });
-
-  // // Route to handle JSON file upload
-  // router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
-  //   if (!req.file) {
-  //     console.error("No file uploaded.");
-  //     return res.status(400).send('No file uploaded.');
-  //   }
-  
-  //   const formData = new FormData();
-  //   formData.append('jsonFile', fs.createReadStream(req.file.path), req.file.originalname);
-  
-  //   console.log("Headers being sent:", formData.getHeaders());
-  
-  //   axios.post(`${api}/upload-json`, formData, {
-  //     headers: {
-  //       ...formData.getHeaders(),
-  //     },
-  //   })
-  //   .then(response => {
-  //     res.send(response.data);
-  //     console.log("File uploaded successfully");
-  //   })
-  //   .catch(error => {
-  //     console.error("Axios error:", error.message);
-  //     res.status(500).send(error.message || 'File upload failed.');
-  //   });
-  // });
-
-//   /* File submission */
-// router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
-//   console.log('cdir: ' + __dirname)
-//   let oldPath = __dirname + '/../' + req.file.path
-//   console.log('old: ' + oldPath)
-//   let newPath = __dirname + '/../public/fileStore/' + req.file.originalname 
-//   console.log('new: ' + newPath)
-
-//   fs.rename(oldPath, newPath, error => {
-//     if(error) throw error
-//   })
-// })
-
-// Set up multer for file uploads
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     const uploadPath = path.join(__dirname, '/../uploads/');
-//     cb(null, uploadPath);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//   }
-// });
-
-//const upload = multer({ storage: storage });
-
-// // File submission route
-// router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
-//   console.log('cdir: ' + __dirname);
-  
-//   if (!req.file) {
-//     console.error('No file uploaded.');
-//     return res.status(400).send('No file uploaded.');
-//   }
-
-//   let oldPath = path.join(__dirname, '/../uploads/', req.file.filename);
-//   console.log('old: ' + oldPath);
-  
-//   let newPath = path.join(__dirname, '/../public/fileStore/', req.file.originalname);
-//   console.log('new: ' + newPath);
-
-//   fs.rename(oldPath, newPath, (error) => {
-//     if (error) {
-//       console.error('File rename error: ', error);
-//       return res.status(500).send('Error moving file.');
-//     }
-//     console.log('File uploaded and moved successfully.');
-//     res.status(200).send('File uploaded and moved successfully.');
-//   });
-// });
 
 // File submission route
 router.post('/upload-json', upload.single('jsonFile'), (req, res) => {
-  console.log('cdir: ' + __dirname);
-  
-  if (!req.file) {
-    console.error('No file uploaded.');
-    return res.status(400).send('No file uploaded.');
-  }
-
-  const oldPath = path.join(__dirname, '/../uploads/', req.file.filename);
-  console.log('old: ' + oldPath);
-  
-  const newPath = path.join(__dirname, '/../public/fileStore/', req.file.originalname);
-  console.log('new: ' + newPath);
-
-  fs.copyFile(oldPath, newPath, (error) => {
-    if (error) {
-      console.error('File copy error: ', error);
-      return res.status(500).send('Error copying file.');
+  const loggedIn = checkLogin(req, res);
+  if (loggedIn) {
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
     }
-    fs.chmod(newPath, 0o644, (chmodError) => { // Set the file permissions to 644 (owner: read/write, group: read, others: read)
-      if (chmodError) {
-        console.error('File permission change error: ', chmodError);
-        return res.status(500).send('Error setting file permissions.');
+    const oldPath = path.join(__dirname, '/../uploads/', req.file.filename);
+    const newPath = path.join(__dirname, '/../public/fileStore/', req.file.originalname);
+
+    fs.copyFile(oldPath, newPath, (error) => {
+      if (error) {
+        return res.status(500).send('Error copying file.');
       }
-      fs.unlink(oldPath, (unlinkError) => {
-        if (unlinkError) {
-          console.error('File deletion error: ', unlinkError);
-          return res.status(500).send('Error deleting original file.');
+      fs.chmod(newPath, 0o644, (chmodError) => { // Set the file permissions to 644 (owner: read/write, group: read, others: read)
+        if (chmodError) {
+          return res.status(500).send('Error setting file permissions.');
         }
-        res.render('uploadSuccess');
+        fs.unlink(oldPath, (unlinkError) => {
+          if (unlinkError) {
+            return res.status(500).send('Error deleting original file.');
+          }
+          res.render('uploadSuccess');
+        });
       });
     });
-  });
+  }
+  else{
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
